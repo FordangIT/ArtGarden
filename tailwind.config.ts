@@ -15,6 +15,7 @@ const config: Config = {
       },
       colors: {
         "main-pink": "#D73D55",
+        "main-yellow": "#FFF200",
       },
     },
   },
