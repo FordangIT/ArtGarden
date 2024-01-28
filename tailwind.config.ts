@@ -16,6 +16,9 @@ const config: Config = {
       colors: {
         "main-pink": "#D73D55",
         "main-yellow": "#FFF200",
+        "light-terracotta": "#DB8C5C",
+        "deep-orange": "#E64A19",
+        "lightcoral-pink": "#FF8289",
       },
     },
   },
