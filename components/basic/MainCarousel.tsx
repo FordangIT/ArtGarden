@@ -2,6 +2,8 @@ import React from "react";
 import Carousel from "react-material-ui-carousel";
 import { Paper, Button } from "@mui/material";
 import Image from "next/image";
+import { FaArrowRight } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
 
 interface CarouselItem {
   info: string;
@@ -26,7 +28,7 @@ interface ItemProps {
 const Item: React.FC<ItemProps> = ({ item }) => {
   return (
     <Paper>
-      <div className="h-[27rem]">
+      <div className="h-[28rem]">
         <div className={item.style}>
           <div className="w-2/3 relative">
             <div className={item.titleStyle}>{item.title}</div>
@@ -35,6 +37,7 @@ const Item: React.FC<ItemProps> = ({ item }) => {
             <Button className={item.buttonStyle}>
               모든 {item.info} 보러 가기
             </Button>
+
             <Image
               src={item.image}
               width={item.width}
@@ -55,7 +58,7 @@ const MainCarousel: React.FC = () => {
       info: "공연",
       title: "UPDATE",
       titleStyle:
-        "flex justify-center items-center bg-[#21FE02] rounded-md w-28 h-9 text-lg font-semibold text-white absolute top-24",
+        "flex justify-center items-center bg-[#21FE02] rounded-md w-28 h-9 text-lg font-semibold text-white absolute top-20",
       name: "당신의 하루가 즐거웠으면 하는 간절한 마음으로🙏",
       nameStyle: "text-white w-96 text-4xl absolute top-40 font-extrabold",
       description: "다양하게 찾아보는 공연 정보!",
@@ -70,24 +73,34 @@ const MainCarousel: React.FC = () => {
     {
       info: "전시회",
       title: "#데이트",
-      name: "애인이랑 어디갈까",
-      description: "내 여자친구가 좋아하는 전시회 여기 다 있다!",
-      style: "bg-[#AFAFAF] h-full flex justify-center",
-      image: "/post.gif",
-      width: 300,
-      height: 300,
-      position: "absolute top-0",
+      titleStyle:
+        "flex justify-center items-center bg-[#F76B0D] rounded-md w-28 h-9 text-lg font-semibold text-white absolute top-20",
+      name: "데이트하기 딱! 좋은 장소 손쉽게 구하기 📷",
+      nameStyle: "text-black w-96 text-4xl absolute top-40 font-extrabold",
+      description: "데이트 하기 딱 좋은 전시회!",
+      descriptionStyle: "text-black w-96 text-2xl absolute top-72 font-bold",
+      style: "bg-[#F3EAD6] h-full flex justify-center",
+      image: "/hotstuff.gif",
+      width: 420,
+      height: 420,
+      position: "absolute top-8 right-8",
+      buttonStyle: "CheckButton text-[#F76B0D] absolute bottom-2 left-60",
     },
     {
       info: "팝업스토어",
       title: "#HOT Place",
-      name: "HOT 트렌드는 팝업스토어라며?",
-      description: "뒤쳐지지 않는 방법 ArtGarden",
+      titleStyle:
+        "flex justify-center items-center bg-main-pink rounded-md w-28 h-9 text-lg font-semibold text-white absolute top-20",
+      name: "요즘 HOT 트렌드 총집합 POPUP STORE 🎉",
+      nameStyle: "text-black w-96 text-4xl absolute top-40 font-extrabold",
+      description: "오감을 자극하는 팝업스토어!",
+      descriptionStyle: "text-black w-96 text-2xl absolute top-72 font-bold",
       style: "bg-[#F0EFF3] h-full flex justify-center",
       image: "/insta.gif",
-      width: 300,
-      height: 300,
-      position: "absolute top-0",
+      width: 380,
+      height: 380,
+      position: "absolute top-8 right-8",
+      buttonStyle: "CheckButton text-main-pink absolute bottom-2 left-60",
     },
   ];
 
@@ -106,14 +119,14 @@ const MainCarousel: React.FC = () => {
       navButtonsWrapperProps={{
         // Move the buttons to the bottom. Unsetting top here to override default style.
         style: {
-          marginTop: "50px",
+          marginTop: "30px",
           textAlign: "right",
           bottom: "0",
           top: "unset",
         },
       }}
-      NextIcon=">" // Change the "inside" of the next button to "next"
-      PrevIcon="<"
+      NextIcon={<FaArrowRight />}
+      PrevIcon={<FaArrowLeft />}
     >
       {items.map((item, i) => (
         <Item key={i} item={item} />
