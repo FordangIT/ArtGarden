@@ -6,7 +6,7 @@ export default function NewProducts() {
     {
       id: 1,
       name: "제목입니당",
-      img: "https://i.namu.wiki/i/rjqCCzRZoHd45Pb_laKUJq2Ar-KQJ0wCPOvhMPB5oT5vXDpouTjGbgDLPfyQbEIJL0nChjeXDNItb1suFhsJiILFHuJqWVjcGQqKSxFGE5E-Vf1kb0IiePs30V_u8kl9v02Y1Fm_8U6oSmkCfbEUnQ.webp",
+      img: "https://picsum.photos/420/300",
       end: "2023년 12월 3일",
       price: "37,000",
       place: "",
@@ -16,7 +16,7 @@ export default function NewProducts() {
     {
       id: 2,
       name: "이름입니당",
-      img: "https://i.namu.wiki/i/rjqCCzRZoHd45Pb_laKUJq2Ar-KQJ0wCPOvhMPB5oT5vXDpouTjGbgDLPfyQbEIJL0nChjeXDNItb1suFhsJiILFHuJqWVjcGQqKSxFGE5E-Vf1kb0IiePs30V_u8kl9v02Y1Fm_8U6oSmkCfbEUnQ.webp",
+      img: "https://picsum.photos/420/300",
       end: "2023년 12월 3일",
       price: "",
       place: "",
@@ -26,7 +26,7 @@ export default function NewProducts() {
     {
       id: 3,
       name: "이름입니당",
-      img: "https://i.namu.wiki/i/rjqCCzRZoHd45Pb_laKUJq2Ar-KQJ0wCPOvhMPB5oT5vXDpouTjGbgDLPfyQbEIJL0nChjeXDNItb1suFhsJiILFHuJqWVjcGQqKSxFGE5E-Vf1kb0IiePs30V_u8kl9v02Y1Fm_8U6oSmkCfbEUnQ.webp",
+      img: "https://picsum.photos/420/300",
       end: "2023년 12월 3일",
       price: "",
       place: "",
@@ -36,7 +36,7 @@ export default function NewProducts() {
     {
       id: 4,
       name: "이름입니당",
-      img: "https://i.namu.wiki/i/rjqCCzRZoHd45Pb_laKUJq2Ar-KQJ0wCPOvhMPB5oT5vXDpouTjGbgDLPfyQbEIJL0nChjeXDNItb1suFhsJiILFHuJqWVjcGQqKSxFGE5E-Vf1kb0IiePs30V_u8kl9v02Y1Fm_8U6oSmkCfbEUnQ.webp",
+      img: "https://picsum.photos/420/300",
       end: "2023년 12월 3일",
       price: "",
       place: "",
@@ -46,7 +46,7 @@ export default function NewProducts() {
     {
       id: 5,
       name: "이름입니당",
-      img: "https://i.namu.wiki/i/rjqCCzRZoHd45Pb_laKUJq2Ar-KQJ0wCPOvhMPB5oT5vXDpouTjGbgDLPfyQbEIJL0nChjeXDNItb1suFhsJiILFHuJqWVjcGQqKSxFGE5E-Vf1kb0IiePs30V_u8kl9v02Y1Fm_8U6oSmkCfbEUnQ.webp",
+      img: "https://picsum.photos/420/300",
       end: "2023년 12월 3일",
       price: "",
       place: "",
@@ -56,7 +56,7 @@ export default function NewProducts() {
     {
       id: 6,
       name: "이름입니당",
-      img: "https://i.namu.wiki/i/rjqCCzRZoHd45Pb_laKUJq2Ar-KQJ0wCPOvhMPB5oT5vXDpouTjGbgDLPfyQbEIJL0nChjeXDNItb1suFhsJiILFHuJqWVjcGQqKSxFGE5E-Vf1kb0IiePs30V_u8kl9v02Y1Fm_8U6oSmkCfbEUnQ.webp",
+      img: "https://picsum.photos/420/300",
       end: "2023년 12월 3일",
       price: "",
       place: "",
@@ -66,7 +66,7 @@ export default function NewProducts() {
     {
       id: 7,
       name: "이름입니당",
-      img: "https://i.namu.wiki/i/rjqCCzRZoHd45Pb_laKUJq2Ar-KQJ0wCPOvhMPB5oT5vXDpouTjGbgDLPfyQbEIJL0nChjeXDNItb1suFhsJiILFHuJqWVjcGQqKSxFGE5E-Vf1kb0IiePs30V_u8kl9v02Y1Fm_8U6oSmkCfbEUnQ.webp",
+      img: "https://picsum.photos/420/300",
       end: "2023년 12월 3일",
       price: "",
       place: "",
@@ -76,7 +76,7 @@ export default function NewProducts() {
     {
       id: 8,
       name: "이름입니당",
-      img: "https://i.namu.wiki/i/rjqCCzRZoHd45Pb_laKUJq2Ar-KQJ0wCPOvhMPB5oT5vXDpouTjGbgDLPfyQbEIJL0nChjeXDNItb1suFhsJiILFHuJqWVjcGQqKSxFGE5E-Vf1kb0IiePs30V_u8kl9v02Y1Fm_8U6oSmkCfbEUnQ.webp",
+      img: "https://picsum.photos/420/300",
       end: "2023년 12월 3일",
       price: "",
       place: "",
@@ -93,6 +93,40 @@ export default function NewProducts() {
     speed: 3000,
     autoplaySpeed: 2000,
     cssEase: "linear",
+    responsive: [
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          autoplaySpeed: 5000,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          autoplaySpeed: 4000,
+        },
+      },
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          autoplaySpeed: 3500,
+        },
+      },
+      {
+        breakpoint: 1300,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 1,
+          autoplaySpeed: 3000,
+        },
+      },
+    ],
   };
   return (
     <div className="bg-black">
