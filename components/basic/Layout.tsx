@@ -11,7 +11,7 @@ export default function Layout({ children }: LayoutProps): JSX.Element {
       <Navbar />
       <MainCarousel />
       <div className="flex justify-center items-center">
-        <main className=" w-2/3 min-h bg-black">{children}</main>
+        <main className=" w-full min-h">{children}</main>
       </div>
       <Footer />
     </>
