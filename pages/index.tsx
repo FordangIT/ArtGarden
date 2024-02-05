@@ -23,7 +23,7 @@ export default function Home() {
         <div className="flex justify-center items-center">
           <BestProducts />
         </div>
-        <div className="flex my-20">
+        <div className="flex mt-20">
           <div className="text-white text-5xl pt-10 pl-20 font-extrabold w-80">
             NEW
           </div>
@@ -34,7 +34,7 @@ export default function Home() {
           </div>
         </div>
       </main>
-      <div className="bg-black pb-20 z-20">
+      <div className="bg-black py-20 z-20">
         <NewProducts />
       </div>
       <div className="bg-main-pink py-20 z-20 flex-col justify-center">
