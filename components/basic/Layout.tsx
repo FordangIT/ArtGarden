@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import MainCarousel from "./MainCarousel";
+import MainCarousel from "../main/MainCarousel";
 interface LayoutProps {
   children: ReactNode;
 }
