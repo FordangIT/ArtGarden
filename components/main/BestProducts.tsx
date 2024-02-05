@@ -1,87 +1,23 @@
 import Image from "next/image";
+import { useState, useEffect } from "react";
 const BestProducts = () => {
-  const data = [
-    {
-      id: 1,
-      name: "제목입니당",
-      img: "https://picsum.photos/420/300",
-      end: "2023년 12월 3일",
-      price: "37,000",
-      place: "",
-      genre: "",
-      rank: "",
-    },
-    {
-      id: 2,
-      name: "이름입니당",
-      img: "https://picsum.photos/420/300",
-      end: "2023년 12월 3일",
-      price: "",
-      place: "",
-      genre: "",
-      rank: "",
-    },
-    {
-      id: 3,
-      name: "이름입니당",
-      img: "https://picsum.photos/420/300",
-      end: "2023년 12월 3일",
-      price: "",
-      place: "",
-      genre: "",
-      rank: "",
-    },
-    {
-      id: 4,
-      name: "이름입니당",
-      img: "https://picsum.photos/420/300",
-      end: "2023년 12월 3일",
-      price: "",
-      place: "",
-      genre: "",
-      rank: "",
-    },
-    {
-      id: 5,
-      name: "이름입니당",
-      img: "https://picsum.photos/420/300",
-      end: "2023년 12월 3일",
-      price: "",
-      place: "",
-      genre: "",
-      rank: "",
-    },
-    {
-      id: 6,
-      name: "이름입니당",
-      img: "https://picsum.photos/420/300",
-      end: "2023년 12월 3일",
-      price: "",
-      place: "",
-      genre: "",
-      rank: "",
-    },
-    {
-      id: 7,
-      name: "이름입니당",
-      img: "https://picsum.photos/420/300",
-      end: "2023년 12월 3일",
-      price: "",
-      place: "",
-      genre: "",
-      rank: "",
-    },
-    {
-      id: 8,
-      name: "이름입니당",
-      img: "https://picsum.photos/420/300",
-      end: "2023년 12월 3일",
-      price: "",
-      place: "",
-      genre: "",
-      rank: "",
-    },
-  ];
+  const [data, setData] = useState<Array<any>>([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/performances");
+        if (!response.ok) {
+          throw new Error("failed to fetch data");
+        }
+        const result = await response.json();
+        setData(result);
+      } catch (error) {
+        console.error("error fetching datat", error);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
       {data &&
