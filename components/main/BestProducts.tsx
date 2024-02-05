@@ -4,7 +4,7 @@ const BestProducts = () => {
     {
       id: 1,
       name: "제목입니당",
-      img: "https://i.namu.wiki/i/rjqCCzRZoHd45Pb_laKUJq2Ar-KQJ0wCPOvhMPB5oT5vXDpouTjGbgDLPfyQbEIJL0nChjeXDNItb1suFhsJiILFHuJqWVjcGQqKSxFGE5E-Vf1kb0IiePs30V_u8kl9v02Y1Fm_8U6oSmkCfbEUnQ.webp",
+      img: "https://picsum.photos/420/300",
       end: "2023년 12월 3일",
       price: "37,000",
       place: "",
@@ -14,7 +14,7 @@ const BestProducts = () => {
     {
       id: 2,
       name: "이름입니당",
-      img: "https://i.namu.wiki/i/rjqCCzRZoHd45Pb_laKUJq2Ar-KQJ0wCPOvhMPB5oT5vXDpouTjGbgDLPfyQbEIJL0nChjeXDNItb1suFhsJiILFHuJqWVjcGQqKSxFGE5E-Vf1kb0IiePs30V_u8kl9v02Y1Fm_8U6oSmkCfbEUnQ.webp",
+      img: "https://picsum.photos/420/300",
       end: "2023년 12월 3일",
       price: "",
       place: "",
@@ -24,7 +24,7 @@ const BestProducts = () => {
     {
       id: 3,
       name: "이름입니당",
-      img: "https://i.namu.wiki/i/rjqCCzRZoHd45Pb_laKUJq2Ar-KQJ0wCPOvhMPB5oT5vXDpouTjGbgDLPfyQbEIJL0nChjeXDNItb1suFhsJiILFHuJqWVjcGQqKSxFGE5E-Vf1kb0IiePs30V_u8kl9v02Y1Fm_8U6oSmkCfbEUnQ.webp",
+      img: "https://picsum.photos/420/300",
       end: "2023년 12월 3일",
       price: "",
       place: "",
@@ -34,7 +34,7 @@ const BestProducts = () => {
     {
       id: 4,
       name: "이름입니당",
-      img: "https://i.namu.wiki/i/rjqCCzRZoHd45Pb_laKUJq2Ar-KQJ0wCPOvhMPB5oT5vXDpouTjGbgDLPfyQbEIJL0nChjeXDNItb1suFhsJiILFHuJqWVjcGQqKSxFGE5E-Vf1kb0IiePs30V_u8kl9v02Y1Fm_8U6oSmkCfbEUnQ.webp",
+      img: "https://picsum.photos/420/300",
       end: "2023년 12월 3일",
       price: "",
       place: "",
@@ -44,7 +44,7 @@ const BestProducts = () => {
     {
       id: 5,
       name: "이름입니당",
-      img: "https://i.namu.wiki/i/rjqCCzRZoHd45Pb_laKUJq2Ar-KQJ0wCPOvhMPB5oT5vXDpouTjGbgDLPfyQbEIJL0nChjeXDNItb1suFhsJiILFHuJqWVjcGQqKSxFGE5E-Vf1kb0IiePs30V_u8kl9v02Y1Fm_8U6oSmkCfbEUnQ.webp",
+      img: "https://picsum.photos/420/300",
       end: "2023년 12월 3일",
       price: "",
       place: "",
@@ -54,7 +54,7 @@ const BestProducts = () => {
     {
       id: 6,
       name: "이름입니당",
-      img: "https://i.namu.wiki/i/rjqCCzRZoHd45Pb_laKUJq2Ar-KQJ0wCPOvhMPB5oT5vXDpouTjGbgDLPfyQbEIJL0nChjeXDNItb1suFhsJiILFHuJqWVjcGQqKSxFGE5E-Vf1kb0IiePs30V_u8kl9v02Y1Fm_8U6oSmkCfbEUnQ.webp",
+      img: "https://picsum.photos/420/300",
       end: "2023년 12월 3일",
       price: "",
       place: "",
@@ -64,7 +64,7 @@ const BestProducts = () => {
     {
       id: 7,
       name: "이름입니당",
-      img: "https://i.namu.wiki/i/rjqCCzRZoHd45Pb_laKUJq2Ar-KQJ0wCPOvhMPB5oT5vXDpouTjGbgDLPfyQbEIJL0nChjeXDNItb1suFhsJiILFHuJqWVjcGQqKSxFGE5E-Vf1kb0IiePs30V_u8kl9v02Y1Fm_8U6oSmkCfbEUnQ.webp",
+      img: "https://picsum.photos/420/300",
       end: "2023년 12월 3일",
       price: "",
       place: "",
@@ -74,7 +74,7 @@ const BestProducts = () => {
     {
       id: 8,
       name: "이름입니당",
-      img: "https://i.namu.wiki/i/rjqCCzRZoHd45Pb_laKUJq2Ar-KQJ0wCPOvhMPB5oT5vXDpouTjGbgDLPfyQbEIJL0nChjeXDNItb1suFhsJiILFHuJqWVjcGQqKSxFGE5E-Vf1kb0IiePs30V_u8kl9v02Y1Fm_8U6oSmkCfbEUnQ.webp",
+      img: "https://picsum.photos/420/300",
       end: "2023년 12월 3일",
       price: "",
       place: "",
