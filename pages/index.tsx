@@ -11,8 +11,8 @@ export default function Home() {
         className={`flex min-h-screen flex-col items-center bg-black pt-20 z-10 ${inter.className}`}
       >
         <div className="flex">
-          <div className="text-white text-5xl py-10 pl-20 font-extrabold w-80">
-            RANK8
+          <div className="text-main-pink text-5xl py-10 pl-20 font-extrabold w-80">
+            RANKING
           </div>
           <div className="flex text-white text-3xl py-12 px-16 font-bold grid-rows-3 gap-4">
             <div className="hover:text-main-pink w-20">공연</div>
