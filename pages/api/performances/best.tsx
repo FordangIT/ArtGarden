@@ -29,7 +29,9 @@ export default async function handler(
       if (!jsonData) {
         return res.status(500).json({ error: "data format error" });
       }
-      return res.status(200).json(jsonData);
+
+      const paginatedData = jsonData.slice(0, 8);
+      return res.status(200).json(paginatedData);
     });
   } catch (error) {
     console.log("error");

@@ -1,5 +1,7 @@
 import Image from "next/image";
+import { useQuery } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
+
 const BestProducts = () => {
   const truncateText = (text: string, maxLength: number) => {
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
@@ -22,7 +24,7 @@ const BestProducts = () => {
   }, []);
 
   return (
-    <>
+    <div className="flex-col">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
         {data &&
           data.map((el) => (
@@ -49,8 +51,12 @@ const BestProducts = () => {
             </div>
           ))}
       </div>
-      <div>더 보기</div>
-    </>
+      <div className="flex justify-end mt-8">
+        <div className="text-white font-bold text-2xl hover:text-main-pink">
+          더 많은 BEST 공연 보러 가기
+        </div>
+      </div>
+    </div>
   );
 };
 export default BestProducts;
