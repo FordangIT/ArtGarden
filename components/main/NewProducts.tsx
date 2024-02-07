@@ -1,89 +1,28 @@
 import React from "react";
 import Slider from "react-slick";
+import { useState, useEffect } from "react";
+import Image from "next/image";
 
 export default function NewProducts() {
-  const data = [
-    {
-      id: 1,
-      name: "제목입니당",
-      img: "https://picsum.photos/420/300",
-      end: "2023년 12월 3일",
-      price: "37,000",
-      place: "",
-      genre: "",
-      rank: "",
-    },
-    {
-      id: 2,
-      name: "이름입니당",
-      img: "https://picsum.photos/420/300",
-      end: "2023년 12월 3일",
-      price: "",
-      place: "",
-      genre: "",
-      rank: "",
-    },
-    {
-      id: 3,
-      name: "이름입니당",
-      img: "https://picsum.photos/420/300",
-      end: "2023년 12월 3일",
-      price: "",
-      place: "",
-      genre: "",
-      rank: "",
-    },
-    {
-      id: 4,
-      name: "이름입니당",
-      img: "https://picsum.photos/420/300",
-      end: "2023년 12월 3일",
-      price: "",
-      place: "",
-      genre: "",
-      rank: "",
-    },
-    {
-      id: 5,
-      name: "이름입니당",
-      img: "https://picsum.photos/420/300",
-      end: "2023년 12월 3일",
-      price: "",
-      place: "",
-      genre: "",
-      rank: "",
-    },
-    {
-      id: 6,
-      name: "이름입니당",
-      img: "https://picsum.photos/420/300",
-      end: "2023년 12월 3일",
-      price: "",
-      place: "",
-      genre: "",
-      rank: "",
-    },
-    {
-      id: 7,
-      name: "이름입니당",
-      img: "https://picsum.photos/420/300",
-      end: "2023년 12월 3일",
-      price: "",
-      place: "",
-      genre: "",
-      rank: "",
-    },
-    {
-      id: 8,
-      name: "이름입니당",
-      img: "https://picsum.photos/420/300",
-      end: "2023년 12월 3일",
-      price: "",
-      place: "",
-      genre: "",
-      rank: "",
-    },
-  ];
+  const truncateText = (text: string, maxLength: number) => {
+    return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+  };
+  const [data, setData] = useState<Array<any>>([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/performances/new");
+        if (!response.ok) {
+          throw new Error("failed to fetch data");
+        }
+        const result = await response.json();
+        setData(result);
+      } catch (error) {
+        console.error("error fetching datat", error);
+      }
+    };
+    fetchData();
+  }, []);
   const settings = {
     dots: true,
     infinite: true,
@@ -129,18 +68,18 @@ export default function NewProducts() {
     ],
   };
   return (
-    <div className="bg-black">
+    <div className="bg-black flex-col">
       <Slider {...settings}>
         {data &&
           data.map((el) => (
             <div key={el.id} className="card h-[29rem] bg-white rounded-3xl">
-              <figure className="border-2 border-white ">
-                <img src={el.img} alt="Shoes" />
+              <figure className="border-2 border-white w-80 h-[18rem]">
+                <Image src={el.img} alt="new image" width={400} height={100} />
               </figure>
               <div className="card-body border-x-2 border-black">
                 <h2 className="card-title">
-                  {el.name}
-                  <div className="badge badge-secondary bg-main-yellow border-none text-black">
+                  {truncateText(el.name, 10)}
+                  <div className="badge badge-secondary bg-main-yellow border-none text-black ">
                     NEW
                   </div>
                 </h2>
@@ -153,6 +92,11 @@ export default function NewProducts() {
             </div>
           ))}
       </Slider>
+      <div className="flex justify-end mt-12 mr-6">
+        <div className="text-white font-bold text-2xl hover:text-main-pink">
+          더 많은 NEW 공연 보러 가기
+        </div>
+      </div>
     </div>
   );
 }
