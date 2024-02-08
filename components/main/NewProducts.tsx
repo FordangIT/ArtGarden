@@ -73,8 +73,8 @@ export default function NewProducts() {
         {data &&
           data.map((el) => (
             <div key={el.id} className="card h-[29rem] bg-white rounded-3xl">
-              <figure className="border-2 border-white w-80 h-[18rem]">
-                <Image src={el.img} alt="new image" width={400} height={100} />
+              <figure className="border-2 border-white h-[16rem]">
+                <Image src={el.img} alt="new image" width={380} height={200} />
               </figure>
               <div className="card-body border-x-2 border-black">
                 <h2 className="card-title">
@@ -83,9 +83,10 @@ export default function NewProducts() {
                     NEW
                   </div>
                 </h2>
-                가격: {el.price}원 <p>장소: {el.place}</p>
-                <div className="card-actions justify-end">
-                  {el.end} <div className="badge badge-outline">{el.genre}</div>
+                <p>장소: {el.place}</p>
+                공연 기간: {el.start}~{el.end}
+                <div className="card-actions justify-end m-5">
+                  <div className="badge badge-outline">{el.genre}</div>
                   <div className="badge badge-outline">{el.rank}</div>
                 </div>
               </div>
