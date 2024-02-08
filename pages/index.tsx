@@ -2,11 +2,13 @@ import { Inter } from "next/font/google";
 import BestProducts from "@/components/main/BestProducts";
 import NewProducts from "@/components/main/NewProducts";
 import Reviews from "@/components/main/Reviews";
+import MainCarousel from "@/components/main/MainCarousel";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   return (
     <>
+      <MainCarousel />
       <main
         className={`flex min-h-screen flex-col items-center bg-black pt-20 z-10 ${inter.className}`}
       >
