@@ -21,14 +21,21 @@ export default async function handler(
           return;
         }
         const parsedData = result.dbs.db.map((item) => ({
-          id: item.mt20id[0],
-          name: item.prfnm[0],
-          img: item.poster[0],
-          start: item.prfpdfrom[0],
-          end: item.prfpdto[0],
-          place: item.fcltynm[0],
-          genre: item.genrenm[0],
-          state: item.prfstate[0],
+          id: item.mt20id?.[0],
+          name: item.prfnm?.[0],
+          img: item.poster?.[0],
+          start: item.prfpdfrom?.[0],
+          end: item.prfpdto?.[0],
+          place: item.fcltynm?.[0],
+          genre: item.genrenm?.[0],
+          state: item.prfstate?.[0],
+          cast: item.fcltynm?.[0],
+          crew: item.pcfcrew?.[0],
+          runtime: item.prfruntime?.[0],
+          age: item.prfage?.[0],
+          price: item.pcseguidance?.[0],
+          story: item.sty?.[0],
+          styurls: item.styurls?.[0].styurl,
         }));
         resolve(parsedData);
       });
