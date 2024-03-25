@@ -1,9 +1,10 @@
 import Image from "next/image";
 import { useInfiniteQuery } from "react-query";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import axios from "axios";
 import { useObserver } from "@/customHook/useObserver";
+import useLocalStorage from "use-local-storage";
 
 interface Performance {
   id: string;
@@ -22,7 +23,14 @@ interface QueryData {
 }
 
 const AllPerformances: React.FC = () => {
+  const [scrollY, setScrollY] = useLocalStorage("performance_scroll", 0);
   const bottom = useRef(null);
+  const truncateText = (text: string, maxLength: number) => {
+    return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+  };
+  useEffect(() => {
+    if (scrollY !== 0) window.scrollTo(0, Number(scrollY));
+  }, []);
 
   const getPerformanceWithPageInfo = async ({ pageParam = 1 }) => {
     try {
@@ -58,7 +66,7 @@ const AllPerformances: React.FC = () => {
 
   return (
     <>
-      <div className="flex-col">
+      <div className="flex items-center justify-center">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
           {status === "loading" && <p>불러오는 중</p>}
           {status === "error" && <p>불러오기 실패</p>}
@@ -68,7 +76,11 @@ const AllPerformances: React.FC = () => {
                 const performanceList = page.data.data;
                 return performanceList.map((el: Performance) => {
                   return (
-                    <Link href={`/performances/${el.id}`} key={el.id}>
+                    <Link
+                      href={`/performances/${el.id}`}
+                      key={el.id}
+                      onClick={() => setScrollY(window.scrollY)}
+                    >
                       <div className="card w-[26rem] h-[30rem] bg-white shadow-xl rounded-none border-2 border-white  transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 duration-100">
                         <figure>
                           <Image
@@ -80,19 +92,19 @@ const AllPerformances: React.FC = () => {
                         </figure>
                         <div className="card-body">
                           <h2 className="card-title">
-                            {el.name}
+                            {truncateText(el.name, 16)}
                             <div className="badge bg-main-pink text-white">
                               BEST
                             </div>
                           </h2>
                           공연기간: {el.startDate}~ {el.endDate}{" "}
-                          <p>지역: {el.place}</p>
+                          <p>지역: {truncateText(el.place, 16)}</p>
                           <div className="card-actions justify-end">
                             <div className="badge badge-outline">
                               장르/ 공연상태
                             </div>
                             <div className="badge badge-outline">
-                              {el.price}
+                              {truncateText(el.price, 10)}
                             </div>
                           </div>
                         </div>
