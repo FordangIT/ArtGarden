@@ -1,7 +1,7 @@
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 import { parseString } from "xml2js";
-
+//new 공연 순서대로 가져오는 정보
 interface PerformanceData {
   id: string;
   name: string;
@@ -46,8 +46,8 @@ export default async function handler(
       const sortedData = jsonData.sort(
         (a, b) => new Date(b.start).getTime() - new Date(a.start).getTime()
       );
-      const paginatedData = sortedData.slice(0, 8);
-      return res.status(200).json(paginatedData);
+      // const paginatedData = sortedData.slice(0, 24);
+      return res.status(200).json(sortedData);
     });
   } catch (error) {
     console.log("error");

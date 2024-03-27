@@ -20,6 +20,15 @@ const config: Config = {
         "deep-orange": "#E64A19",
         "lightcoral-pink": "#FF8289",
       },
+      keyframes: {
+        slideFlow: {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(100%)" },
+        },
+      },
+      animation: {
+        "slide-flow": "slideFlow 5s linear infinite",
+      },
     },
   },
   plugins: [require("daisyui")],
