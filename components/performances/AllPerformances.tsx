@@ -7,6 +7,7 @@ import { useObserver } from "@/customHook/useObserver";
 import useLocalStorage from "use-local-storage";
 import { BiSearch } from "react-icons/bi";
 import Hangul from "hangul-js";
+import Loading from "../basic/Loading";
 interface Performance {
   id: string;
   name: string;
@@ -88,7 +89,7 @@ const AllPerformances: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
-          {status === "loading" && <p>불러오는 중</p>}
+          {status === "loading" && <Loading />}
           {status === "error" && <p>불러오기 실패</p>}
           {status === "success" && data && (
             <>
