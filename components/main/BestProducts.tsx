@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useQuery } from "@tanstack/react-query";
+import Loading from "../basic/Loading";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 const BestProducts = () => {
@@ -7,6 +7,8 @@ const BestProducts = () => {
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
   };
   const [data, setData] = useState<Array<any>>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -16,6 +18,7 @@ const BestProducts = () => {
         }
         const result = await response.json();
         setData(result);
+        setLoading(false);
       } catch (error) {
         console.error("error fetching datat", error);
       }
@@ -26,10 +29,12 @@ const BestProducts = () => {
   return (
     <div className="flex-col">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
-        {data &&
+        {loading ? (
+          <Loading />
+        ) : (
           data.map((el) => (
             <Link href={`/performances/${el.id}`} key={el.id}>
-              <div className="card w-[26rem] h-[30rem] bg-white shadow-xl rounded-none border-2 border-white">
+              <div className="card w-[26rem] h-[30rem] bg-white shadow-xl rounded-none border-2 border-white  transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 duration-100">
                 <figure>
                   <Image src={el.img} alt="공연사진" width={420} height={380} />
                 </figure>
@@ -48,12 +53,15 @@ const BestProducts = () => {
                 </div>
               </div>
             </Link>
-          ))}
+          ))
+        )}
       </div>
       <div className="flex justify-end mt-8">
-        <div className="text-white font-bold text-2xl hover:text-main-pink">
-          더 많은 BEST 공연 보러 가기
-        </div>
+        <Link href={`/performances`}>
+          <div className="text-white font-bold text-2xl hover:text-main-pink">
+            더 많은 BEST 공연 보러 가기
+          </div>
+        </Link>
       </div>
     </div>
   );
