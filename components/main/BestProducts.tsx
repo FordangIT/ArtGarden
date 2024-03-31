@@ -1,7 +1,7 @@
 import Image from "next/image";
-import Loading from "../basic/Loading";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import SkeletonCard from "../basic/SkeletonCard";
 const BestProducts = () => {
   const truncateText = (text: string, maxLength: number) => {
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
@@ -12,6 +12,7 @@ const BestProducts = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log(loading, "로딩상태");
         const response = await fetch("/api/performances/best");
         if (!response.ok) {
           throw new Error("failed to fetch data");
@@ -19,6 +20,7 @@ const BestProducts = () => {
         const result = await response.json();
         setData(result);
         setLoading(false);
+        console.log(loading, "로딩상태");
       } catch (error) {
         console.error("error fetching datat", error);
       }
@@ -30,7 +32,7 @@ const BestProducts = () => {
     <div className="flex-col">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
         {loading ? (
-          <Loading />
+          <SkeletonCard cards={8} />
         ) : (
           data.map((el) => (
             <Link href={`/performances/${el.id}`} key={el.id}>
