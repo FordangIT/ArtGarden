@@ -7,7 +7,7 @@ import { useObserver } from "@/customHook/useObserver";
 import useLocalStorage from "use-local-storage";
 import { BiSearch } from "react-icons/bi";
 import Hangul from "hangul-js";
-import Loading from "../basic/Loading";
+
 interface Performance {
   id: string;
   name: string;
@@ -29,6 +29,14 @@ const AllPerformances: React.FC = () => {
   const bottom = useRef(null);
   const [searchTerm, setSearchTerm] = useState("");
 
+  const onIntersect = ([entry]: IntersectionObserverEntry[]) =>
+    entry.isIntersecting && fetchNextPage();
+
+  useObserver({
+    target: bottom,
+    onIntersect,
+  });
+
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event?.target.value);
   };
@@ -42,7 +50,7 @@ const AllPerformances: React.FC = () => {
   const getPerformanceWithPageInfo = async ({ pageParam = 1 }) => {
     try {
       const res = await axios.get(
-        `http://54.180.145.33:8080/performances?status=all&days=30&page=${pageParam}&size=12`
+        `http://3.34.188.24:8080/performances?status=all&days=30&page=${pageParam}&size=12`
       );
       return res;
     } catch (error) {
@@ -63,14 +71,6 @@ const AllPerformances: React.FC = () => {
     }
   );
 
-  const onIntersect = ([entry]: IntersectionObserverEntry[]) =>
-    entry.isIntersecting && fetchNextPage();
-
-  useObserver({
-    target: bottom,
-    onIntersect,
-  });
-
   const getInitials = (text: string, text2: string) => {
     let searcher = new Hangul.Searcher(text);
     return searcher.search(text2);
@@ -89,7 +89,7 @@ const AllPerformances: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
-          {status === "loading" && <Loading />}
+          {status === "loading" && <div>로딩중</div>}
           {status === "error" && <p>불러오기 실패</p>}
           {status === "success" && data && (
             <>
