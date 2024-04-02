@@ -14,7 +14,7 @@ interface Performance {
   state: string;
 }
 interface PageData {
-  data: Performance[];
+  results: Performance[];
   pageParam: number;
   pages: number[];
   page: number;
@@ -42,7 +42,7 @@ export default async function handler(
           reject(err);
           return;
         }
-        const parsedData = result.dbs.db.map((item) => ({
+        const parsedData = result.dbs.db.map((item: any) => ({
           id: item.mt20id[0],
           name: item.prfnm[0],
           img: item.poster[0],
@@ -53,13 +53,13 @@ export default async function handler(
           state: item.prfstate[0],
         }));
         resolve({
-          data: parsedData,
+          results: parsedData,
           page: Number(cpage),
           total_pages: 22,
           pageParam: Number(cpage),
           pages: [Number(cpage)],
           pageParams: [Number(cpage)],
-          total_results: result.dbs.db.length, //여기에 api/performances/all 전체 데이터의 개수가 사실 들어가야함
+          total_results: 264, //여기에 api/performances/all 전체 데이터의 개수가 사실 들어가야함
         });
       });
     });
@@ -69,13 +69,3 @@ export default async function handler(
     res.status(500).json({ error: "internal server error" });
   }
 }
-
-// resolve({
-//   data: parsedData,
-//   pageParam: Number(cpage),
-//   pages: [Number(cpage)],
-//   page: Number(cpage),
-//   pageParams: [Number(cpage)],
-//   total_pages: 22,
-//   total_results: result.dbs.db.length, //여기에 api/performances/all 전체 데이터의 개수가 사실 들어가야함
-// });

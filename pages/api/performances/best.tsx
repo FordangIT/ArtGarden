@@ -1,7 +1,7 @@
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 import { parseString } from "xml2js";
-
+//best 공연 순서대로 가져오는 정보
 interface BestProducts {
   id?: string;
   name?: string;
@@ -19,7 +19,7 @@ export default async function handler(
   const kopis_key = process.env.KOPIS_KEY;
   try {
     const response = await axios.get<string>(
-      `http://kopis.or.kr/openApi/restful/boxoffice?service=${kopis_key}&ststype=week&date=20240121`
+      `http://kopis.or.kr/openApi/restful/boxoffice?service=${kopis_key}&ststype=week&date=20240322`
     );
     const xmlData = response.data;
     parseString(xmlData, (err, result) => {

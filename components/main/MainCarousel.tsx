@@ -4,7 +4,7 @@ import { Paper, Button } from "@mui/material";
 import Image from "next/image";
 import { FaArrowRight } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa";
-
+import Link from "next/link";
 interface CarouselItem {
   info: string;
   title: string;
@@ -34,9 +34,11 @@ const Item: React.FC<ItemProps> = ({ item }) => {
             <div className={item.titleStyle}>{item.title}</div>
             <div className={item.nameStyle}>{item.name}</div>
             <div className={item.descriptionStyle}>{item.description}</div>
-            <Button className={item.buttonStyle}>
-              모든 {item.info} 보러 가기
-            </Button>
+            <Link href={`/performances`}>
+              <Button className={item.buttonStyle}>
+                모든 {item.info} 보러 가기
+              </Button>
+            </Link>
 
             <Image
               src={item.image}

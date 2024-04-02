@@ -16,7 +16,7 @@ const Reviews = () => {
     "reviewData",
     async () => {
       const res: AxiosResponse<Review_Data[]> = await axios.get(
-        "http://54.180.145.33:8080/reviews"
+        "http://3.34.188.24/reviews"
       );
       return res.data;
     }
@@ -37,7 +37,12 @@ const Reviews = () => {
               className="card w-80 h-96 bg-white shadow-xl rounded-xl border-2 border-white"
             >
               <figure>
-                <img src={el.perform_id} alt="review-image" />
+                {/* <Image
+                  src={el.perform_id}
+                  alt="review-image"
+                  width={420}
+                  height={380}
+                /> */}
               </figure>
               <div className="card-body">
                 <h2 className="card-title">{el.perform_id}</h2>
