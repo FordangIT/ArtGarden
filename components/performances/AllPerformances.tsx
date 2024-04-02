@@ -50,7 +50,7 @@ const AllPerformances: React.FC = () => {
   const getPerformanceWithPageInfo = async ({ pageParam = 1 }) => {
     try {
       const res = await axios.get(
-        `http://3.34.188.24:8080/performances?status=all&days=30&page=${pageParam}&size=12`
+        `http://3.35.120.39:8080/performances?status=all&days=30&page=${pageParam}&size=12`
       );
       return res;
     } catch (error) {

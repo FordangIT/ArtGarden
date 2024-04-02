@@ -16,7 +16,7 @@ const Reviews = () => {
     "reviewData",
     async () => {
       const res: AxiosResponse<Review_Data[]> = await axios.get(
-        "http://3.34.188.24/reviews"
+        "http://3.35.120.39:8080//reviews"
       );
       return res.data;
     }
