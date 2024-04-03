@@ -1,6 +1,21 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { Swiper, SwiperSlide } from "swiper/react";
+import {
+  Navigation,
+  Scrollbar,
+  Autoplay,
+  Virtual,
+  Pagination,
+} from "swiper/modules";
+import SwiperCore from "swiper";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+import "swiper/css/effect-fade";
+
 interface Performance {
   id: number;
   img: string;
@@ -13,6 +28,7 @@ interface Performance {
 }
 
 export default function NewProducts(): JSX.Element {
+  SwiperCore.use([Virtual, Navigation, Pagination, Autoplay, Scrollbar]);
   const truncateText = (text: string, maxLength: number) => {
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
   };
@@ -37,13 +53,19 @@ export default function NewProducts(): JSX.Element {
 
   return (
     <div className="bg-black flex-col ">
-      <div className="slider-wrapper flex">
+      <Swiper
+        className="slider-wrapper flex"
+        spaceBetween={40}
+        slidesPerView={5}
+        navigation
+        pagination={{ clickable: true }}
+        virtual
+        loop // 무한 루프 활성화
+        autoplay={{ delay: 2000 }} // 자동 재생 설정
+      >
         {data.map((el: Performance) => (
           <Link href={`/performances/${el.id}`} key={el.id}>
-            <div
-              key={el.id}
-              className={`card h-[29rem] w-[22rem] bg-white rounded-3xl transform transition-transform ease-in-out duration-1000 ml-8 animate-slide-flow`}
-            >
+            <SwiperSlide virtualIndex={el.id} key={el.id}>
               <figure className="h-[15rem]">
                 <Image src={el.img} alt="new image" width={350} height={200} />
               </figure>
@@ -61,10 +83,10 @@ export default function NewProducts(): JSX.Element {
                   <div className="badge badge-outline">{el.rank}</div>
                 </div>
               </div>
-            </div>
+            </SwiperSlide>
           </Link>
         ))}
-      </div>
+      </Swiper>
 
       <div className="flex justify-end mt-12 mr-6">
         <Link href={`/performances`}>
