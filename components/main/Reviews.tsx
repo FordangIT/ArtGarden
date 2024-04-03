@@ -16,7 +16,7 @@ const Reviews = () => {
     "reviewData",
     async () => {
       const res: AxiosResponse<Review_Data[]> = await axios.get(
-        "http://3.35.120.39:8080//reviews"
+        `${process.env.BACKEND_URL}/reviews`
       );
       return res.data;
     }
