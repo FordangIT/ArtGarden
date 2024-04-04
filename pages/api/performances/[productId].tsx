@@ -20,7 +20,7 @@ interface Item {
   styurls: string[] | string;
 }
 
-//상세 공연 정보 데이터 가져오는 것
+//상세 공연 정보 데이터 가져오는 것공연 이름을 검색하세요
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse

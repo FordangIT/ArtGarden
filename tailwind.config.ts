@@ -19,6 +19,7 @@ const config: Config = {
         "light-terracotta": "#DB8C5C",
         "deep-orange": "#E64A19",
         "lightcoral-pink": "#FF8289",
+        "deep-blue": "#090E24",
       },
       keyframes: {
         slideFlow: {
