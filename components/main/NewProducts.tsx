@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide, ArrowDirection } from "swiper/react";
 import {
   Navigation,
   Scrollbar,
@@ -57,8 +57,11 @@ export default function NewProducts(): JSX.Element {
         className="slider-wrapper flex"
         spaceBetween={40}
         slidesPerView={5}
-        navigation
-        pagination={{ clickable: true }}
+        navigation={{
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        }}
+        pagination={{ clickable: false }}
         virtual
         loop // 무한 루프 활성화
         autoplay={{ delay: 2000 }} // 자동 재생 설정
@@ -66,35 +69,42 @@ export default function NewProducts(): JSX.Element {
         {data.map((el: Performance) => (
           <Link href={`/performances/${el.id}`} key={el.id}>
             <SwiperSlide virtualIndex={el.id} key={el.id}>
-              <figure className="h-[15rem]">
-                <Image src={el.img} alt="new image" width={350} height={200} />
-              </figure>
-              <div className="card-body">
-                <h2 className="card-title">
-                  {truncateText(el.name, 10)}
-                  <div className="badge badge-secondary bg-main-yellow border-none text-black ">
-                    NEW
+              <div className="card">
+                <figure className="h-80">
+                  <Image
+                    src={el.img}
+                    alt="new image"
+                    width={330}
+                    height={100}
+                    className="rounded-t-3xl"
+                  />
+                </figure>
+                <div className="card-body text-white rounded-3xl border-b-2 pb-2">
+                  <h2 className="card-title">
+                    {truncateText(el.name, 10)}
+                    <div className="badge badge-secondary bg-main-yellow border-none text-black ">
+                      NEW
+                    </div>
+                  </h2>
+                  <p>장소: {truncateText(el.place, 16)}</p>
+                  공연 기간: {el.start}~{el.end}
+                  <div className="card-actions justify-end m-5">
+                    <div className="badge badge-outline">{el.genre}</div>
+                    <div className="badge badge-outline">{el.rank}</div>
                   </div>
-                </h2>
-                <p>장소: {el.place}</p>
-                공연 기간: {el.start}~{el.end}
-                <div className="card-actions justify-end m-5">
-                  <div className="badge badge-outline">{el.genre}</div>
-                  <div className="badge badge-outline">{el.rank}</div>
                 </div>
               </div>
             </SwiperSlide>
           </Link>
         ))}
+        <div className="flex justify-end mt-12 mr-6">
+          <Link href={`/performances`}>
+            <div className="text-white font-bold text-2xl hover:text-main-pink">
+              더 많은 NEW 공연 보러 가기
+            </div>
+          </Link>
+        </div>
       </Swiper>
-
-      <div className="flex justify-end mt-12 mr-6">
-        <Link href={`/performances`}>
-          <div className="text-white font-bold text-2xl hover:text-main-pink">
-            더 많은 NEW 공연 보러 가기
-          </div>
-        </Link>
-      </div>
     </div>
   );
 }

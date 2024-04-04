@@ -46,8 +46,8 @@ export default async function handler(
       const sortedData = jsonData.sort(
         (a, b) => new Date(b.start).getTime() - new Date(a.start).getTime()
       );
-      // const paginatedData = sortedData.slice(0, 24);
-      return res.status(200).json(sortedData);
+      const paginatedData = sortedData.slice(0, 25);
+      return res.status(200).json(paginatedData);
     });
   } catch (error) {
     console.log("error");
