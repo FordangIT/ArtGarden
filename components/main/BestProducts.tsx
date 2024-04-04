@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import SkeletonCard from "../basic/SkeletonCard";
+import SkeletonBest from "../basic/SkeletonBest";
 const BestProducts = () => {
   const truncateText = (text: string, maxLength: number) => {
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
@@ -32,7 +32,7 @@ const BestProducts = () => {
     <div className="flex-col">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
         {loading ? (
-          <SkeletonCard cards={8} />
+          <SkeletonBest cards={8} />
         ) : (
           data.map((el) => (
             <Link href={`/performances/${el.id}`} key={el.id}>
