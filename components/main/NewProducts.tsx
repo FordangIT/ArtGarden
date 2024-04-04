@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Swiper, SwiperSlide, ArrowDirection } from "swiper/react";
+import { Swiper, SwiperSlide } from "swiper/react";
 import {
   Navigation,
   Scrollbar,
@@ -67,8 +67,8 @@ export default function NewProducts(): JSX.Element {
         autoplay={{ delay: 2000 }} // 자동 재생 설정
       >
         {data.map((el: Performance) => (
-          <Link href={`/performances/${el.id}`} key={el.id}>
-            <SwiperSlide virtualIndex={el.id} key={el.id}>
+          <SwiperSlide virtualIndex={el.id} key={el.id}>
+            <Link href={`/performances/${el.id}`} key={el.id}>
               <div className="card">
                 <figure className="h-80">
                   <Image
@@ -94,8 +94,8 @@ export default function NewProducts(): JSX.Element {
                   </div>
                 </div>
               </div>
-            </SwiperSlide>
-          </Link>
+            </Link>
+          </SwiperSlide>
         ))}
         <div className="flex justify-end mt-12 mr-6">
           <Link href={`/performances`}>
