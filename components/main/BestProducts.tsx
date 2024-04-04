@@ -36,7 +36,7 @@ const BestProducts = () => {
         ) : (
           data.map((el) => (
             <Link href={`/performances/${el.id}`} key={el.id}>
-              <div className="card w-[26rem] h-[30rem] bg-white shadow-xl rounded-none border-2 border-white  transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 duration-100">
+              <div className="card w-[26rem] h-[30rem] bg-white shadow-xl rounded-none border-2 border-white  transition ease-in-out delay-10 hover:-translate-y-1 hover:scale-105 duration-100">
                 <figure>
                   <Image src={el.img} alt="공연사진" width={420} height={380} />
                 </figure>
