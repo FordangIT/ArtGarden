@@ -2,7 +2,13 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["www.kopis.or.kr"],
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "www.kopis.or.kr",
+        pathname: "**",
+      },
+    ],
   },
   env: {
     KOPIS_URL: process.env.KOPIS_URL,

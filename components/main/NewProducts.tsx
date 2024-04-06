@@ -16,7 +16,9 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "swiper/css/effect-fade";
-
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import ReadyNew from "../basic/ReadyNew";
 interface Performance {
   id: number;
   img: string;
@@ -33,9 +35,15 @@ export default function NewProducts(): JSX.Element {
   const truncateText = (text: string, maxLength: number) => {
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
   };
-
+  const selectedNew = useSelector(
+    (state: RootState) => state.selected.new || ""
+  );
+  useEffect(() => {
+    console.log(selectedNew);
+  }, [selectedNew]);
   const [data, setData] = useState<Performance[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [ready, setReady] = useState<boolean>(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -44,19 +52,48 @@ export default function NewProducts(): JSX.Element {
           throw new Error("failed to fetch data");
         }
         const result = await response.json();
+        setReady(false);
         setData(result);
         setLoading(false);
       } catch (error) {
         console.error("error fetching data", error);
       }
     };
-    fetchData();
-  }, []);
+    const fetchDataExhibition = async () => {
+      try {
+        setReady(true);
+        setLoading(false);
+      } catch (error) {
+        console.error("error fetching datat", error);
+      }
+    };
+    const fetchDataPopupStore = async () => {
+      try {
+        setReady(true);
+        setLoading(false);
+        console.log("팝업스토어 데이터 호출");
+      } catch (error) {
+        console.error("error fetching datat", error);
+      }
+    };
+    if (selectedNew === "New공연") {
+      setLoading(true);
+      fetchData();
+    } else if (selectedNew === "New전시") {
+      setLoading(true);
+      fetchDataExhibition();
+    } else {
+      setLoading(true);
+      fetchDataPopupStore();
+    }
+  }, [selectedNew]);
 
   return (
     <div className="bg-black flex-col ">
       {loading ? (
         <SkeletonNew cards={5} />
+      ) : ready ? (
+        <ReadyNew cards={5} />
       ) : (
         <Swiper
           className="slider-wrapper flex "
