@@ -5,7 +5,9 @@ function ReadyNew({ cards }: any) {
         .fill(0)
         .map((_, idx) => (
           <div className="flex-col w-[20rem] h-[32rem] items-center" key={idx}>
-            <div className="skeleton h-80 w-full"></div>
+            <div className="skeleton h-80 w-full flex justify-center items-center">
+              현재는 공연정보만 제공합니다.
+            </div>
             <div className="flex flex-col gap-4 mt-6 w-full">
               <div className="skeleton h-4 w-full"></div>
               <div className="skeleton h-4 w-full"></div>

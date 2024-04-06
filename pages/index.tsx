@@ -17,8 +17,22 @@ export default function Home() {
   const selectedBest = useSelector(
     (state: RootState) => state.selected.best || ""
   );
-  const handleSelect = (text: string) => {
+  const selectedNew = useSelector(
+    (state: RootState) => state.selected.new || ""
+  );
+  const selectedReview = useSelector(
+    (state: RootState) => state.selected.review || ""
+  );
+  const handleSelectBest = (text: string) => {
     dispatch(updateBest(text));
+    console.log(text, "선택한 text");
+  };
+  const handleSelectNew = (text: string) => {
+    dispatch(updateNew(text));
+    console.log(text, "선택한 text");
+  };
+  const handleSelectReview = (text: string) => {
+    dispatch(updateReview(text));
     console.log(text, "선택한 text");
   };
   return (
@@ -36,7 +50,7 @@ export default function Home() {
               className={
                 selectedBest === "Best공연" ? "text-main-pink" : "text-white"
               }
-              onClick={() => handleSelect("Best공연")}
+              onClick={() => handleSelectBest("Best공연")}
             >
               공연
             </div>
@@ -44,7 +58,7 @@ export default function Home() {
               className={
                 selectedBest === "Best전시" ? "text-main-pink" : "text-white "
               }
-              onClick={() => handleSelect("Best전시")}
+              onClick={() => handleSelectBest("Best전시")}
             >
               전시
             </div>
@@ -54,7 +68,7 @@ export default function Home() {
                   ? "text-main-pink "
                   : "text-white "
               }
-              onClick={() => handleSelect("Best팝업스토어")}
+              onClick={() => handleSelectBest("Best팝업스토어")}
             >
               팝업스토어
             </div>
@@ -68,9 +82,32 @@ export default function Home() {
             NEW
           </div>
           <div className="flex text-white text-3xl pt-12 px-16 font-bold grid-rows-3 gap-4">
-            <div className="hover:text-main-pink w-20">공연</div>
-            <div className="hover:text-main-pink w-20">전시</div>
-            <div className="hover:text-main-pink w-36">팝업스토어</div>
+            <div
+              className={
+                selectedNew === "New공연" ? "text-main-pink" : "text-white"
+              }
+              onClick={() => handleSelectNew("New공연")}
+            >
+              공연
+            </div>
+            <div
+              className={
+                selectedNew === "New전시" ? "text-main-pink " : "text-white"
+              }
+              onClick={() => handleSelectNew("New전시")}
+            >
+              전시
+            </div>
+            <div
+              className={
+                selectedNew === "New팝업스토어"
+                  ? "text-main-pink"
+                  : "text-white"
+              }
+              onClick={() => handleSelectNew("New팝업스토어")}
+            >
+              팝업스토어
+            </div>
           </div>
         </div>
       </main>
