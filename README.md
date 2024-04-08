@@ -144,6 +144,7 @@ artgarden
 ```
 
 ## git convention
+```
 Feat : 새로운 기능을 추가하는 경우
 Fix : 버그를 고친경우
 Docs : 문서를 수정한 경우
@@ -155,4 +156,4 @@ Design : CSS 등 사용자가 UI 디자인을 변경했을 때
 Rename : 파일명(or 폴더명) 을 수정한 경우
 Remove : 코드(파일) 의 삭제가 있을 때. "Clean", "Eliminate" 를 사용하기도 함
 Replace: 파일의 장소를 변경함
-
+```
