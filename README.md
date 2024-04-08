@@ -46,12 +46,20 @@ npm install
 
 
 ## 화면 구성 
-![Screenshot from 2024-04-07 21-22-43](https://github.com/FordangIT/Artgarden/assets/93567754/3084abc2-194e-4ab4-8c38-792072d11581)
-![Screenshot from 2024-04-07 21-22-56](https://github.com/FordangIT/Artgarden/assets/93567754/89c3c76a-b835-4bb9-b3a3-004b2c567ecf)
-![Screenshot from 2024-04-07 23-21-44](https://github.com/FordangIT/Artgarden/assets/93567754/dace54d4-712e-42e4-b9dc-a6a9e7841e34)
-![Screenshot from 2024-04-07 23-22-31](https://github.com/FordangIT/Artgarden/assets/93567754/f91d1444-4fe3-41bb-9669-d3bd1e420e88)
-![Screenshot from 2024-04-07 23-22-58](https://github.com/FordangIT/Artgarden/assets/93567754/0524c87c-ecb0-4032-8711-f317a026a32c)
-![Screenshot from 2024-04-07 23-26-09](https://github.com/FordangIT/Artgarden/assets/93567754/cdb43b5f-b9cc-4185-adc5-bb6f64ec93c5)
+|                               메인페이지                           |                               메인페이지               
+|:-----------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|
+|                                      navbar 및 메인캐러셀                                  |                                     Best 공연정보                          |                              
+|  ![Screenshot from 2024-04-07 21-22-43](https://github.com/FordangIT/Artgarden/assets/93567754/3084abc2-194e-4ab4-8c38-792072d11581)  |  ![Screenshot from 2024-04-07 21-22-56](https://github.com/FordangIT/Artgarden/assets/93567754/89c3c76a-b835-4bb9-b3a3-004b2c567ecf)
+
+|                               메인페이지                           |                               메인페이지               
+|:-----------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|
+|                                      navbar 및 메인캐러셀                                  |                                     Best 공연정보                          |                              
+| ![Screenshot from 2024-04-07 23-21-44](https://github.com/FordangIT/Artgarden/assets/93567754/dace54d4-712e-42e4-b9dc-a6a9e7841e34) |  ![Screenshot from 2024-04-07 23-22-31](https://github.com/FordangIT/Artgarden/assets/93567754/f91d1444-4fe3-41bb-9669-d3bd1e420e88)
+
+|                               메인페이지                           |                               메인페이지               
+|:-----------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|
+|                                      navbar 및 메인캐러셀                                  |                                     Best 공연정보                          |                              
+| ![Screenshot from 2024-04-07 23-22-58](https://github.com/FordangIT/Artgarden/assets/93567754/0524c87c-ecb0-4032-8711-f317a026a32c) |  ![Screenshot from 2024-04-07 23-26-09](https://github.com/FordangIT/Artgarden/assets/93567754/cdb43b5f-b9cc-4185-adc5-bb6f64ec93c5)
 
 
 
@@ -63,7 +71,72 @@ npm install
 
 ## 아키텍처 
 ### 디렉터리 구조 
-
+artgarden
+├─ components
+│  ├─ basic
+│  │  ├─ Footer.tsx
+│  │  ├─ Layout.tsx
+│  │  ├─ Navbar.tsx
+│  │  ├─ ReadyBest.tsx
+│  │  ├─ ReadyNew.tsx
+│  │  ├─ SkeletonBest.tsx
+│  │  └─ SkeletonNew.tsx
+│  ├─ exhibitions
+│  ├─ main
+│  │  ├─ BestProducts.tsx
+│  │  ├─ MainCarousel.tsx
+│  │  ├─ NewProducts.tsx
+│  │  └─ Reviews.tsx
+│  ├─ performances
+│  │  ├─ AllPerformances.tsx
+│  │  ├─ CreateReview.tsx
+│  │  └─ SearchCondition.tsx
+│  └─ popupstores
+├─ customHook
+│  └─ useObserver.tsx
+├─ data
+│  └─ dummy-backend.json
+├─ next.config.mjs
+├─ package-lock.json
+├─ package.json
+├─ pages
+│  ├─ _app.tsx
+│  ├─ _document.tsx
+│  ├─ api
+│  │  ├─ exhibitions
+│  │  │  ├─ best.tsx
+│  │  │  └─ new.tsx
+│  │  ├─ hello.ts
+│  │  └─ performances
+│  │     ├─ [productId].tsx
+│  │     ├─ all
+│  │     │  └─ [cpage].tsx
+│  │     ├─ best.tsx
+│  │     ├─ every.tsx
+│  │     └─ new.tsx
+│  ├─ exhibitions
+│  │  └─ index.tsx
+│  ├─ index.tsx
+│  ├─ performances
+│  │  ├─ [id].tsx
+│  │  └─ index.tsx
+│  └─ popupstores
+│     └─ index.tsx
+├─ postcss.config.js
+├─ public
+│  ├─ artgarden.png
+│  ├─ hotstuff.gif
+│  ├─ insta.gif
+│  ├─ logo.png
+│  └─ updates.gif
+├─ redux
+│  ├─ slices
+│  │  └─ selectSlice.tsx
+│  └─ store.tsx
+├─ styles
+│  └─ globals.css
+├─ tailwind.config.ts
+└─ tsconfig.json
 
 ## git convention
 Feat : 새로운 기능을 추가하는 경우
