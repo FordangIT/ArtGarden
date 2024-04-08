@@ -1,4 +1,4 @@
-# Artgarden
+# 👋 Artgarden
 <p align='center'>
   <img src='https://github.com/FordangIT/Artgarden/assets/93567754/403980c0-0a52-4f8d-a6cc-412256910b67'/>
 </p>
