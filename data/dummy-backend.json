@@ -1,13 +1,3 @@
 {
-  "reviews": [
-    {
-      "id": "",
-      "membermid": "",
-      "content": "",
-      "performid": "",
-      "regdt": "",
-      "rate": "",
-      "genre": ""
-    }
-  ]
+  "reviews": [{ "id": "p1", "title": "review 1" }]
 }
