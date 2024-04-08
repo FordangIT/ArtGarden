@@ -17,15 +17,16 @@
 ![image](https://github.com/FordangIT/Artgarden/assets/93567754/0b28ff0e-ff95-40c3-b461-27efd48bcad8)
 
 ## 목차 
-  - [시작 가이드](#시작가이드)
+  - [시작 가이드](#시작-가이드)
   - [Stacks](#Stacks)
-  - [주요 기능](#주요기능)
+  - [화면 구성](#화면-구성)
+  - [주요 기능](#주요-기능)
   - [아키텍처](#아키텍처)
-  - [GIT CONVENTION](#GIT)
-## 시작가이드
+  - [GIT CONVENTION](#git-convention)
+## 시작 가이드
 ### Requirements
-- Node.js 14.19.3
-- Npm 9.2.0
+- Node.js 
+- Npm 
 ### Installation
 Use the package manager [npm](https://www.npmjs.com/) to install Artgarden.
 ```bash
@@ -33,26 +34,40 @@ npm install
 ```
 
 ## Stacks
+- Next.js
+- TypeScript
+- TailwindCSS
+- React-query
+- ReduxToolkit
+- AWS
+- Github-Actions
+- Jira
+
+
 
 ## 화면 구성 
+![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/2af80d24-5e09-44bf-a579-a5d5106e9d9c/2263cd60-fa7c-4347-b496-f290ebdddc9d/Untitled.png)
 
-Pull requests are welcome. For major changes, please open an issue first
-to discuss what you would like to change.
+![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/2af80d24-5e09-44bf-a579-a5d5106e9d9c/6ab1f7c1-820d-4ab5-9e90-348319b87f87/Untitled.png)
 
-Please make sure to update tests as appropriate.
+![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/2af80d24-5e09-44bf-a579-a5d5106e9d9c/c6c25468-a8fb-4cc2-b223-f5b7cbd8e6f2/Untitled.png)
 
-## 주요기능 
+![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/2af80d24-5e09-44bf-a579-a5d5106e9d9c/4d02f0ba-d484-4cb7-bd9e-c484d8de18ce/Untitled.png)
+
+![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/2af80d24-5e09-44bf-a579-a5d5106e9d9c/1ddc00a7-8a9c-450e-8456-b79c1460ffca/Untitled.png)
+![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/2af80d24-5e09-44bf-a579-a5d5106e9d9c/753ed825-6ff5-48cb-a688-e380987e6d65/Untitled.png)
+
+
+## 주요 기능 
 | 기능                | 설명                                                            |
 |---------------------|-----------------------------------------------------------------|
-| 주차장 위치 안내    | Turu-Parking은 사용자가 현재 위치 또는 특정 지역에서 가장 가까운 주차장을 찾을 수 있는 기능을 제공합니다. 지도를 통해 주차장의 위치를 시각적으로 확인할 수 있습니다.   |
-| 상세 정보 제공      | 각 주차장에는 주차 요금, 운영 시간 등의 상세 정보가 제공됩니다. 이를 통해 사용자는 필요한 정보를 사전에 파악할 수 있습니다.        |
-| 입차 출차 기록 / 이용 내역 및 가격 확인      | 사용자는 Turu-Parking을 통해 주차장 입출차 기록을 쉽게 기록할 수 있습니다. 이를 통해 이용한 주차장에 대한 입차와 출차의 시간을 확인하고, 주차 요금 등을 정확히 파악할 수 있습니다.              |
-| 인기도순 주차장 확인 | Turu-Parking은 사용자들의 주변 주차장 검색 기반으로 주차장의 인기도를 확인할 수 있는 기능을 제공합니다. 많은 이용자들이 선택한 주차장이나 자주 이용하는 주차장을 높은 순위로 표시하여 편리하게 선택할 수 있습니다.     |
-| 주차장 즐겨찾기      | 사용자는 자주 이용하는 주차장을 즐겨찾기 목록에 추가할 수 있습니다. 이를 통해 향후 더 빠르게 자주 이용하는 주차장을 찾고 예약할 수 있습니다.                  |
+| 공연 정보 제공 1. | Next.js api 활용한 공연 정보를 메인페이지에서 제공하고 있습니다.   |
+| 공연 정보 제공 2. | 전체 공연 정보를 무한스크롤 기능과 검색기능을 통해 사용자는 손쉽게 데이터에 접근할 수 있습니다.  |
+
 ## 아키텍처 
 ### 디렉터리 구조 
 
-## GIT
+## git convention
 Feat : 새로운 기능을 추가하는 경우
 Fix : 버그를 고친경우
 Docs : 문서를 수정한 경우
