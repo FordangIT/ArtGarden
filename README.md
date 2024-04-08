@@ -7,7 +7,7 @@
 사용자에게 트렌디한 공연/전시/팝업스토어 정보를 제공함으로써 사용자가 손쉽게 정보에 접근하도록 했습니다. 
 ### 배포 주소 
 ### 팀원 소개 
-|                               [이유정FE](https://github.com/FordangIT)                                |                                [이창훈BE](https://github.com/ChangHoon97)                               
+|                               [이유정 FE](https://github.com/FordangIT)                                |                                [이창훈 BE](https://github.com/ChangHoon97)                               
 |:-----------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|
 |                                       fordang0819@gmail.com                                        |                                      hyo040441@gmail.com                                   |                              
 |  ![이유정](https://avatars.githubusercontent.com/u/93567754?v=4)  |  ![이창훈](https://avatars.githubusercontent.com/u/118735836?v=4)
@@ -17,11 +17,11 @@
 ![image](https://github.com/FordangIT/Artgarden/assets/93567754/0b28ff0e-ff95-40c3-b461-27efd48bcad8)
 
 ## 목차 
-  - [시작 가이드](#시작 가이드)
+  - [시작 가이드](#시작가이드)
   - [Stacks](#Stacks)
-  - [주요 기능](#주요 기능)
+  - [주요 기능](#주요기능)
   - [아키텍처](#아키텍처)
-  - [GIT CONVENTION](#GIT CONVENTION)
+  - [GIT CONVENTION](#GITCONVENTION)
 ## 시작 가이드
 ### Requirements
 - Node.js 14.19.3
