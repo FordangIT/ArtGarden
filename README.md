@@ -46,16 +46,13 @@ npm install
 
 
 ## 화면 구성 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/2af80d24-5e09-44bf-a579-a5d5106e9d9c/2263cd60-fa7c-4347-b496-f290ebdddc9d/Untitled.png)
+![Screenshot from 2024-04-07 21-22-43](https://github.com/FordangIT/Artgarden/assets/93567754/3084abc2-194e-4ab4-8c38-792072d11581)
+![Screenshot from 2024-04-07 21-22-56](https://github.com/FordangIT/Artgarden/assets/93567754/89c3c76a-b835-4bb9-b3a3-004b2c567ecf)
+![Screenshot from 2024-04-07 23-21-44](https://github.com/FordangIT/Artgarden/assets/93567754/dace54d4-712e-42e4-b9dc-a6a9e7841e34)
+![Screenshot from 2024-04-07 23-22-31](https://github.com/FordangIT/Artgarden/assets/93567754/f91d1444-4fe3-41bb-9669-d3bd1e420e88)
+![Screenshot from 2024-04-07 23-22-58](https://github.com/FordangIT/Artgarden/assets/93567754/0524c87c-ecb0-4032-8711-f317a026a32c)
+![Screenshot from 2024-04-07 23-26-09](https://github.com/FordangIT/Artgarden/assets/93567754/cdb43b5f-b9cc-4185-adc5-bb6f64ec93c5)
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/2af80d24-5e09-44bf-a579-a5d5106e9d9c/6ab1f7c1-820d-4ab5-9e90-348319b87f87/Untitled.png)
-
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/2af80d24-5e09-44bf-a579-a5d5106e9d9c/c6c25468-a8fb-4cc2-b223-f5b7cbd8e6f2/Untitled.png)
-
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/2af80d24-5e09-44bf-a579-a5d5106e9d9c/4d02f0ba-d484-4cb7-bd9e-c484d8de18ce/Untitled.png)
-
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/2af80d24-5e09-44bf-a579-a5d5106e9d9c/1ddc00a7-8a9c-450e-8456-b79c1460ffca/Untitled.png)
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/2af80d24-5e09-44bf-a579-a5d5106e9d9c/753ed825-6ff5-48cb-a688-e380987e6d65/Untitled.png)
 
 
 ## 주요 기능 
@@ -66,6 +63,7 @@ npm install
 
 ## 아키텍처 
 ### 디렉터리 구조 
+
 
 ## git convention
 Feat : 새로운 기능을 추가하는 경우
