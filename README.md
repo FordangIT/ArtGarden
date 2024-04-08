@@ -46,8 +46,8 @@
 
 ### Requirements
 
-- Node.js
-- Npm
+- node.js 21.7.2 (punycode 모듈화 삭제된 버전) 
+- npm
 
 ### Installation
 
