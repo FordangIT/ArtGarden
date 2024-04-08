@@ -25,12 +25,12 @@
 ![image](https://github.com/FordangIT/Artgarden/assets/93567754/0b28ff0e-ff95-40c3-b461-27efd48bcad8)
 
 ## 🙉 목차 
-  - [시작 가이드](#시작-가이드)
-  - [Stacks](#Stacks)
-  - [화면 구성](#화면-구성)
-  - [주요 기능](#주요-기능)
-  - [아키텍처](#아키텍처)
-  - [GIT CONVENTION](#git-convention)
+  - [시작 가이드](#🙉-시작-가이드)
+  - [Stacks](#🙉-stacks)
+  - [화면 구성](#🙉-화면-구성)
+  - [주요 기능](#🙉-주요-기능)
+  - [아키텍처](#🙉-아키텍처)
+  - [GIT CONVENTION](#🙉-git-convention)
 ## 🙉 시작 가이드
 ### Requirements
 - Node.js 
@@ -41,7 +41,7 @@ Use the package manager [npm](https://www.npmjs.com/) to install Artgarden.
 npm install
 ```
 
-## 🙉 Stacks
+## 🙉 stacks
 - Next.js
 - TypeScript
 - TailwindCSS
