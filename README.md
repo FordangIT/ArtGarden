@@ -21,8 +21,8 @@
   - [Stacks](#Stacks)
   - [주요 기능](#주요기능)
   - [아키텍처](#아키텍처)
-  - [GIT CONVENTION](#GITCONVENTION)
-## 시작 가이드
+  - [GIT CONVENTION](#GIT)
+## 시작가이드
 ### Requirements
 - Node.js 14.19.3
 - Npm 9.2.0
@@ -41,7 +41,7 @@ to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
 
-## 주요 기능 
+## 주요기능 
 | 기능                | 설명                                                            |
 |---------------------|-----------------------------------------------------------------|
 | 주차장 위치 안내    | Turu-Parking은 사용자가 현재 위치 또는 특정 지역에서 가장 가까운 주차장을 찾을 수 있는 기능을 제공합니다. 지도를 통해 주차장의 위치를 시각적으로 확인할 수 있습니다.   |
@@ -52,7 +52,7 @@ Please make sure to update tests as appropriate.
 ## 아키텍처 
 ### 디렉터리 구조 
 
-## GIT CONVENTION 
+## GIT
 Feat : 새로운 기능을 추가하는 경우
 Fix : 버그를 고친경우
 Docs : 문서를 수정한 경우
