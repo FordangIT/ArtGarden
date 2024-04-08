@@ -20,7 +20,8 @@ export default async function handler(
   const kopis_key = process.env.KOPIS_KEY;
   try {
     const response = await axios.get<string>(
-      `http://www.kopis.or.kr/openApi/restful/pblprfr?service=${kopis_key}&stdate=20160101&eddate=20240327&cpage=1&rows=100&prfstate=02&newsql=Y`
+      `http://www.kopis.or.kr/openApi/restful/pblprfr?service=${kopis_key}&stdate=20160101&eddate=20240327&cpage=1&rows=100&prfstate=02&newsql=Y`,
+      { timeout: 5000 }
     );
     const xmlData = response.data;
 
@@ -50,7 +51,7 @@ export default async function handler(
       return res.status(200).json(paginatedData);
     });
   } catch (error) {
-    console.log("error");
+    console.log("error:", error);
     res.status(500).json({ error: "internal server error" });
   }
 }
