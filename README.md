@@ -1,55 +1,44 @@
-## 계획
+# Artgarden
 
-2024/01/26 : navbar
-2024/01/28 : 역동적인 캐러셀 (공연/전시/팝업스토어) //react-material-ui-carousel 사용!. https://www.npmjs.com/package/react-material-ui-carousel
-: material-ui 활용!, daisy-ui 활용 !
-2024/02/02 : 최신 상품 캐러셀 //react-slick 사용 !
-2024/02/05 : xml 데이터를 json 형식으로 파싱하기 위함 xml2js와 같은 XML 파싱 라이브러리를 설치
-2024/02/06 : 페이지네이션 및 무한스크롤 구현 위해서 tanstack-qeury 설치
+// 이미지 삽입하기 
 
-## 메인 페이지 기능
+## 프로젝트 소개 
+기획 의도: 모든 것이 디지털화 되어있는 시대, 더 많은 사람들이 풍요로운 여가시간을 보냈으면 좋겠다는 생각에서 기획하게 되었습니다. 
+사용자에게 트렌디한 공연/전시/팝업스토어 정보를 제공함으로써 사용자가 손쉽게 정보에 접근하도록 했습니다. 
+### 배포 주소 
+### 팀원 소개 
 
-- 메인 캐러셀 (공연/ 전시/ 팝업스토어) => 완료
-- BEST Ranking (공연/전시/팝업) => Best 공연 더 보기=> 완료
-- 최신 (공연/전시/팝업) => 완료
-- 리뷰 (공연/전시/팝업)
-- 달력기능? 그날 클릭하면 추천하는 공연/전시/팝업스토어 뜨게 하는 것
-- 거리 가까운거 검색할 수 있게?
-- 아니면, 지역 검색으로 가능하게?
-- ai 추천 어때?
-- css (클릭했을 때 효과)
-- 찜 기능
+### 현재 진행상황 (2024/04/08 UPDATE)
+![image](https://github.com/FordangIT/Artgarden/assets/93567754/0b28ff0e-ff95-40c3-b461-27efd48bcad8)
 
-## 전체 정보 페이지
+## 목차 
+  - [시작가이드] (#설치)
+  - []
+## 시작 가이드
+### Requirements
+- Node.js 14.19.3
+- Npm 9.2.0
+### Installation
+Use the package manager [npm](https://www.npmjs.com/) to install Artgarden.
+```bash
+npm install
+```
 
-- 전체 정보 나열
-- 조건 검색
-- 내리는 효과(페이지네이션 혹은 무한스크롤)
-  무한스크롤 참고: https://velog.io/@hdpark/React-Query%EC%99%80-%ED%95%A8%EA%BB%98%ED%95%98%EB%8A%94-Next.js-%EB%AC%B4%ED%95%9C-%EC%8A%A4%ED%81%AC%EB%A1%A4
-- 스켈레톤
-- 검색 기능
+## Stacks
 
-## 상세 정보 페이지
+## 화면 구성 
 
-- 해당 공연/전시/팝업스토어 정보 상세
-  => 예를 들어, 사진 , 정보글, 사이트, 리뷰
+Pull requests are welcome. For major changes, please open an issue first
+to discuss what you would like to change.
 
-## 로그인
+Please make sure to update tests as appropriate.
 
-- next.js에서 관리하는 소셜 로그인 추가
+## 주요 기능 
 
-## 배포 및 자동화
+## 아키텍처 
+### 디렉터리 구조 
 
-- vercel로 할지
-- aws로 진행할지 고민
-
-## 최적화
-
-- 렌더링 성능 최적화
-- 찜 데이터 저장 (브라우저 새로고침 시 유지)
-
-## GIT CONVENTION
-
+### GIT CONVENTION 
 Feat : 새로운 기능을 추가하는 경우
 Fix : 버그를 고친경우
 Docs : 문서를 수정한 경우
@@ -61,3 +50,4 @@ Design : CSS 등 사용자가 UI 디자인을 변경했을 때
 Rename : 파일명(or 폴더명) 을 수정한 경우
 Remove : 코드(파일) 의 삭제가 있을 때. "Clean", "Eliminate" 를 사용하기도 함
 Replace: 파일의 장소를 변경함
+
