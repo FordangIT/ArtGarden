@@ -29,8 +29,6 @@ jobs:
   deploy:
     needs: build 
     if: github.event.pull_request.merged == true
-    env:
-      ENV_PATH: .env
     environment: production
     runs-on: ubuntu-latest
     steps:
@@ -42,10 +40,10 @@ jobs:
 
       - name: ⚙️ Create .env file
         run: |
-            touch ${{ env.ENV_PATH }}
-            echo DOMAIN_FIR=${{ secrets.DOMAIN_FIR }} >> ${{ env.ENV_PATH }}
-            echo SOCKET_PORT_PROD=${{ secrets.SOCKET_PORT_PROD }} >> ${{ env.ENV_PATH }}
-            echo SOCKET_PORT_TEST=${{ secrets.SOCKET_PORT_TEST }} >> ${{ env.ENV_PATH }}
+            touch .env
+            echo DOMAIN_FIR=${{ secrets.DOMAIN_FIR }} >> .env
+            echo SOCKET_PORT_PROD=${{ secrets.SOCKET_PORT_PROD }} >> .env
+            echo SOCKET_PORT_TEST=${{ secrets.SOCKET_PORT_TEST }} >> .env
       - name: 📦 Zip project files
         run: zip -r ./$GITHUB_SHA.zip .    
       - name: 🌎 Access to AWS
