@@ -37,12 +37,12 @@ const Reviews = () => {
               className="card w-80 h-96 bg-white shadow-xl rounded-xl border-2 border-white"
             >
               <figure>
-                {/* <Image
+                <Image
                   src={el.perform_id}
                   alt="review-image"
                   width={420}
                   height={380}
-                /> */}
+                />
               </figure>
               <div className="card-body">
                 <h2 className="card-title">{el.perform_id}</h2>
