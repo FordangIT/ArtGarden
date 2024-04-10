@@ -24,7 +24,7 @@ function ReviewForm(id: ReviewFormProps) {
         reviewData
       );
       setReviewText("");
-      setRate(5);
+      setRate(1);
     } catch (error) {
       console.log("error", error);
       throw new Error("error fetching data");
@@ -34,8 +34,6 @@ function ReviewForm(id: ReviewFormProps) {
   const mutation = useMutation(submitReview, {
     onSuccess: () => {
       queryClient.invalidateQueries("reviews");
-      setReviewText("");
-      setRate(0);
       console.log("성공 mutation");
     },
     onError: (error) => {
@@ -50,14 +48,12 @@ function ReviewForm(id: ReviewFormProps) {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(curId, rate, "아이디랑 별 점수");
-    if (typeof id === "string" && typeof rate === "number") {
-      await mutation.mutate({
-        performid: curId,
-        content: reviewText,
-        rate: rate,
-        memberid: "1",
-      });
-    }
+    await mutation.mutate({
+      performid: String(curId),
+      content: reviewText,
+      rate: Number(rate),
+      memberid: "1",
+    });
   };
 
   return (
