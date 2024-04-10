@@ -2,11 +2,14 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import CreateReview from "@/components/performances/CreateReview";
-//공연 상세 정보 페이지
-function DetailPage() {
-  const router = useRouter();
-  const { id } = router.query;
+import { GetServerSidePropsContext } from "next";
+interface ReviewFormProps {
+  id: string;
+}
 
+//공연 상세 정보 페이지
+function DetailPage(props: ReviewFormProps) {
+  const id = props.id;
   //send a request to the backend api
   const [data, setData] = useState<Array<any>>([]);
   useEffect(() => {
@@ -25,9 +28,7 @@ function DetailPage() {
       };
       fetchData();
     }
-    console.log(id, "id");
-    console.log(data[0], "data");
-  }, [id]);
+  }, [id, data]);
   return (
     <div className="flex justify-center items-center ">
       <div className="flex-col min-h w-full justify-center items-center">
@@ -92,7 +93,7 @@ function DetailPage() {
           </div>
         </div>
         <div className="w-4/7 flex">
-          <CreateReview />
+          <CreateReview id={id} />
         </div>
         <div className="flex justify-center items-center w-4/7 min-h">
           <div className="flex-col">
@@ -113,3 +114,16 @@ function DetailPage() {
   );
 }
 export default DetailPage;
+
+export async function getServerSideProps(
+  context: GetServerSidePropsContext
+): Promise<{ props: ReviewFormProps }> {
+  // 여기에서 공연 ID를 가져옵니다.
+  const { id } = context.query;
+
+  return {
+    props: {
+      id: id as string,
+    },
+  };
+}
