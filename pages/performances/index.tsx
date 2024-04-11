@@ -1,5 +1,8 @@
+import dynamic from "next/dynamic";
 import SearchCondition from "@/components/performances/SearchCondition";
-import AllPerformances from "@/components/performances/AllPerformances";
+const AllPerformances = dynamic(
+  import("@/components/performances/AllPerformances")
+);
 
 //공연 전체 정보 페이지
 function Performances() {
