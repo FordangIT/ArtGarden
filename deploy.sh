@@ -14,11 +14,11 @@ if [ "${DEPLOYMENT_GROUP_NAME}" == "production" ]; then
   if [ $? -eq 0 ]; then
     # 실행 중인 경우
     echo "artgarden 프로세스가 실행 중입니다."
-    sudo npm run pm2:reload:prod
+    sudo npm run pm2:reload
   else
     # 실행 중이 아닌 경우
     echo "artgarden 프로세스가 실행되지 않았습니다."
-    sudo npm run pm2:start:prod
+    sudo npm run pm2:start
   fi
 else
   echo "잘못된 배포 그룹 이름입니다."

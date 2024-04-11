@@ -6,7 +6,16 @@ import { useQueryClient } from "react-query";
 interface ReviewFormProps {
   id: string;
 }
-
+interface Review_Data {
+  id: string;
+  perform_id: string;
+  content: string;
+  rate: number;
+  member_id: number;
+  created_at: string;
+  modified_at: string;
+  regdt: string;
+}
 export function ReadReview(id: ReviewFormProps) {
   const curId = id.id;
   const maxPage = 10;
@@ -28,7 +37,7 @@ export function ReadReview(id: ReviewFormProps) {
     }
   }, [currentPage, queryClient]);
 
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading, isError, error } = useQuery<Review_Data[]>({
     queryKey: ["detailReview", currentPage],
     queryFn: () => fetchData(),
     staleTime: 5000,
