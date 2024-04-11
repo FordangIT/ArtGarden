@@ -32,7 +32,7 @@ function DetailPage(props: ReviewFormProps) {
   return (
     <div className="flex justify-center items-center ">
       <div className="flex-col min-h w-full justify-center items-center">
-        <div className="flex justify-center items-center bg-deep-blue">
+        <div className="flex justify-center items-center">
           <div className="flex w-2/3">
             <div className="w-1/2 flex justify-center items-center">
               {data[0] && (
@@ -48,12 +48,14 @@ function DetailPage(props: ReviewFormProps) {
             <div className="flex justify-center w-1/2 mx-12 my-12">
               <div className="">
                 {data[0] && (
-                  <div className="text-white">
-                    <div className="text-5xl font-bold mt-20 mb-20">
+                  <div className="text-black">
+                    <div>별점 총점(리뷰 몇개),찜하기, 공유하기</div>
+                    <div className="text-5xl font-bold mt-6 mb-4 leading-normal">
                       {data[0].name}
                     </div>
-                    <div className="mt-8">
-                      <div className="text-2xl font-bold mb-20 flex justify-end">
+                    <div className="w-full h-1 bg-gray-100 mb-7"></div>
+                    <div className="mb-20">
+                      <div className="text-2xl flex justify-end mb-7">
                         {data[0].start} ~ {data[0].end}
                       </div>
                       <div className="mt-10 text-lg">
@@ -72,7 +74,7 @@ function DetailPage(props: ReviewFormProps) {
                         </div>
                         <div className="mb-4">
                           <span className=" font-semibold">
-                            공연 소요시간 :{" "}
+                            공연 소요시간 :{}
                           </span>
                           {data[0].runtime}
                         </div>
@@ -85,6 +87,10 @@ function DetailPage(props: ReviewFormProps) {
                           {data[0].price}
                         </div>
                       </div>
+                    </div>
+
+                    <div className="bg-deep-blue font-semibold text-xl text-white w-full h-16 flex justify-center items-center">
+                      예매하러 가기
                     </div>
                   </div>
                 )}
