@@ -32,7 +32,7 @@ jobs:
         run: npm run build
 
       - name: Make zip file
-        run: zip -qq -r ./chagok.zip . -x "node_modules/*"
+        run: zip -qq -r ./k.zip . -x "node_modules/*"
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
@@ -42,7 +42,7 @@ jobs:
           aws-region: ap-northeast-2
 
       - name: Upload to S3
-        run: aws s3 cp --region ap-northeast-2 ./chagok.zip s3://$S3_BUCKET_NAME/chagok.zip
+        run: aws s3 cp --region ap-northeast-2 ./artgarden.zip s3://$S3_BUCKET_NAME/artgarden.zip
 
       - name: Code Deploy
         run: |
@@ -50,4 +50,4 @@ jobs:
           --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
           --deployment-config-name CodeDeployDefault.AllAtOnce \
           --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} \
-          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=chagok.zip
+          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=artgarden.zip
