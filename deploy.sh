@@ -22,5 +22,5 @@ if [ "${DEPLOYMENT_GROUP_NAME}" == "artgardenfordeploygroup" ]; then
   fi
 else
   echo "잘못된 배포 그룹 이름입니다."
-  exit 1
+  it 1
 fi
