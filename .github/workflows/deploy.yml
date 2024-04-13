@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [20]
+        node-version: [21.7.2]
 
     steps:
       - name: Checkout
@@ -32,7 +32,7 @@ jobs:
         run: npm run build
 
       - name: Make zip file
-        run: zip -qq -r ./k.zip . -x "node_modules/*"
+        run: zip -qq -r ./artgarden.zip . -x "node_modules/*"
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
