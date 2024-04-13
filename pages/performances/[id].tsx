@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import CreateReview from "@/components/performances/CreateReview";
+import { ReadReview } from "@/components/performances/ReadReview";
 import { GetServerSidePropsContext } from "next";
 interface ReviewFormProps {
   id: string;
@@ -100,6 +101,9 @@ function DetailPage(props: ReviewFormProps) {
         </div>
         <div className="w-4/7 flex">
           <CreateReview id={id} />
+        </div>
+        <div className="">
+          <ReadReview id={id} />
         </div>
         <div className="flex justify-center items-center w-4/7 min-h">
           <div className="flex-col">
