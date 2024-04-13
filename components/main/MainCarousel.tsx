@@ -57,6 +57,23 @@ const Item: React.FC<ItemProps> = ({ item }) => {
 const MainCarousel: React.FC = () => {
   var items = [
     {
+      info: "전시회",
+      title: "#데이트",
+      titleStyle:
+        "flex justify-center items-center bg-[#F76B0D] rounded-md w-28 h-9 text-lg font-semibold text-white absolute top-20 z-20",
+      name: "데이트하기 딱! 좋은 장소 손쉽게 구하기 📷",
+      nameStyle: "text-black w-96 text-4xl absolute top-40 font-extrabold z-20",
+      description: "사진찍기 딱 좋은 전시회!",
+      descriptionStyle:
+        "text-black w-96 text-2xl absolute top-72 font-bold z-20",
+      style: "bg-[#F3EAD6] h-full flex justify-center",
+      image: "/hotstuff.gif",
+      width: 400,
+      height: 400,
+      position: "absolute top-8 right-8",
+      buttonStyle: "CheckButton text-[#F76B0D] absolute bottom-2 left-60 z-20",
+    },
+    {
       info: "공연",
       title: "UPDATE",
       titleStyle:
@@ -73,23 +90,6 @@ const MainCarousel: React.FC = () => {
       position: "absolute top-8 right-8",
       buttonStyle:
         "CheckButton text-main-yellow absolute bottom-2 left-60 z-20",
-    },
-    {
-      info: "전시회",
-      title: "#데이트",
-      titleStyle:
-        "flex justify-center items-center bg-[#F76B0D] rounded-md w-28 h-9 text-lg font-semibold text-white absolute top-20 z-20",
-      name: "데이트하기 딱! 좋은 장소 손쉽게 구하기 📷",
-      nameStyle: "text-black w-96 text-4xl absolute top-40 font-extrabold z-20",
-      description: "사진찍기 딱 좋은 전시회!",
-      descriptionStyle:
-        "text-black w-96 text-2xl absolute top-72 font-bold z-20",
-      style: "bg-[#F3EAD6] h-full flex justify-center",
-      image: "/hotstuff.gif",
-      width: 400,
-      height: 400,
-      position: "absolute top-8 right-8",
-      buttonStyle: "CheckButton text-[#F76B0D] absolute bottom-2 left-60 z-20",
     },
     {
       info: "팝업스토어",

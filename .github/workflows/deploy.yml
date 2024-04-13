@@ -1,0 +1,59 @@
+name: deploy to S3
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  S3_BUCKET_NAME: artgarden
+  CODE_DEPLOY_APPLICATION_NAME: codedeploy
+  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: artgardenfordeploygroup
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [21.7.2]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+
+      - name: .env setting
+        run: |
+          echo "KOPIS_URL=${{ secrets.KOPIS_URL }}" >> .env
+          echo "KOPIS_KEY=${{ secrets.KOPIS_KEY }}" >> .env
+          echo "BACKEND_URL=${{ secrets.BACKEND_URL }}" >> .env
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build next app
+        run: npm run build
+
+      - name: Make zip file
+        run: zip -qq -r ./artgarden.zip . -x "node_modules/*"
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Upload to S3
+        run: aws s3 cp --region ap-northeast-2 ./artgarden.zip s3://$S3_BUCKET_NAME/artgarden.zip
+
+      - name: Code Deploy
+        run: |
+          aws deploy create-deployment \
+          --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
+          --deployment-config-name CodeDeployDefault.AllAtOnce \
+          --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} \
+          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=artgarden.zip
