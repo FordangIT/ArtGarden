@@ -20,7 +20,7 @@ function ReviewForm(id: ReviewFormProps) {
   const submitReview = async (reviewData: ReviewData) => {
     try {
       const res = await axios.post(
-        `${process.env.BACKEND_URL}/reviews`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/reviews`,
         reviewData
       );
       setReviewText("");

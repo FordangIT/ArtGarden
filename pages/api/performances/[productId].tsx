@@ -25,7 +25,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const kopis_key = process.env.KOPIS_KEY;
+  const kopis_key = process.env.NEXT_PUBLIC_KOPIS_KEY;
   const { productId } = req.query;
   try {
     const response = await axios.get(
