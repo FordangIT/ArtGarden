@@ -13,44 +13,53 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [21.7.2]
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "npm"
+      - name: Checkout source code.
+        uses: actions/checkout@v3
+      - name: Check Node v
+        run: node -v
 
-      - name: .env setting
+      - name: Generate Environment Variables File
         run: |
-          echo "KOPIS_URL=${{ secrets.KOPIS_URL }}" >> .env
-          echo "KOPIS_KEY=${{ secrets.KOPIS_KEY }}" >> .env
-          echo "BACKEND_URL=${{ secrets.BACKEND_URL }}" >> .env
+          echo "KOPIS_URL=$KOPIS_URL" >> .env.local
+          echo "KOPIS_KEY=$KOPIS_KEY" >> .env.local
+          echo "BACKEND_URL=$BACKEND_URL" >> .env.local
+        env:
+          KOPIS_URL: ${{secrets.KOPIS_URL}}
+          KOPIS_KEY: ${{secrets.KOPIS_KEY}}
+          BACKEND_URL: ${{secrets.BACKEND_URL}}
+
+      - name: Cache node modules
+        uses: actions/cache@v3
+        id: cache
+        with:
+          path: node_modules
+          key: npm-packages-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
         run: npm install
 
       - name: Build next app
         run: npm run build
 
-      - name: Make zip file
-        run: zip -qq -r ./artgarden.zip . -x "node_modules/*"
+      - name: zip create
+        run: |
+          zip -qq -r --symlinks  ./artgarden.zip .
+        shell: bash
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v3-node20
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
       - name: Upload to S3
-        run: aws s3 cp --region ap-northeast-2 ./artgarden.zip s3://$S3_BUCKET_NAME/artgarden.zip
+        run: |
+          aws s3 cp --region ap-northeast-2 ./artgarden.zip s3://$S3_BUCKET_NAME/artgarden.zip
 
-      - name: Code Deploy
+      - name: Deploy For Development
         run: |
           aws deploy create-deployment \
           --deployment-config-name CodeDeployDefault.AllAtOnce \
