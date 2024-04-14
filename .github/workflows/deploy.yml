@@ -21,13 +21,13 @@ jobs:
 
       - name: Generate Environment Variables File
         run: |
-          echo "KOPIS_URL=$KOPIS_URL" >> .env.local
-          echo "KOPIS_KEY=$KOPIS_KEY" >> .env.local
-          echo "BACKEND_URL=$BACKEND_URL" >> .env.local
+          echo "NEXT_PUBLIC_KOPIS_URL=$KOPIS_URL" >> .env
+          echo "NEXT_PUBLIC_KOPIS_KEY=$KOPIS_KEY" >> .env
+          echo "NEXT_PUBLIC_BACKEND_URL=$BACKEND_URL" >> .env
         env:
-          KOPIS_URL: ${{secrets.KOPIS_URL}}
-          KOPIS_KEY: ${{secrets.KOPIS_KEY}}
-          BACKEND_URL: ${{secrets.BACKEND_URL}}
+          NEXT_PUBLIC_KOPIS_URL: ${{secrets.NEXT_PUBLIC_KOPIS_URL}}
+          NEXT_PUBLIC_KOPIS_KEY: ${{secrets.NEXT_PUBLIC_KOPIS_KEY}}
+          NEXT_PUBLIC_BACKEND_URL: ${{secrets.NEXT_PUBLIC_BACKEND_URL}}
 
       - name: Cache node modules
         uses: actions/cache@v3
