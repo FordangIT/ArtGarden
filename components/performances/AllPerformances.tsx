@@ -5,7 +5,6 @@ import Link from "next/link";
 import axios from "axios";
 import { useObserver } from "@/customHook/useObserver";
 import useLocalStorage from "use-local-storage";
-import { BiSearch } from "react-icons/bi";
 import Hangul from "hangul-js";
 
 interface Performance {
@@ -14,6 +13,7 @@ interface Performance {
   startDate: string;
   endDate: string;
   place: string;
+  price: string;
   posterUrl: string;
   genre: string;
   performStatus: string;
@@ -51,7 +51,7 @@ const AllPerformances: React.FC = () => {
   const getPerformanceWithPageInfo = async ({ pageParam = 1 }) => {
     try {
       const res = await axios.get(
-        `${process.env.BACKEND_URL}/performances?status=all&days=30&page=${pageParam}&size=12`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/performances?status=all&days=30&page=${pageParam}&size=12`
       );
       return res;
     } catch (error) {
