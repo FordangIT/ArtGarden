@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 interface ReviewData {
@@ -41,10 +41,12 @@ function ReviewForm(id: ReviewFormProps) {
       // 에러 처리 로직 추가 (예: 사용자에게 알림 등)
     },
   });
+
   const handleRatingChange = (selectedRate: number) => {
     setRate(selectedRate);
     console.log(selectedRate, "clickstar");
   };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(curId, rate, "아이디랑 별 점수");

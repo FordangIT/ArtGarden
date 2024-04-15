@@ -1,18 +1,20 @@
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import CreateReview from "@/components/performances/CreateReview";
 import { ReadReview } from "@/components/performances/ReadReview";
 import { GetServerSidePropsContext } from "next";
-interface ReviewFormProps {
+import axios from "axios";
+import { useMutation } from "react-query";
+
+interface PropsType {
   id: string;
 }
-
 //공연 상세 정보 페이지
-function DetailPage(props: ReviewFormProps) {
-  const id = props.id;
+function DetailPage(props: PropsType) {
+  const { id } = props;
   //send a request to the backend api
   const [data, setData] = useState<Array<any>>([]);
+
   useEffect(() => {
     if (id) {
       const fetchData = async () => {
@@ -30,6 +32,7 @@ function DetailPage(props: ReviewFormProps) {
       fetchData();
     }
   }, [id, data]);
+
   return (
     <div className="flex justify-center items-center ">
       <div className="flex-col min-h w-full justify-center items-center">
@@ -127,10 +130,8 @@ export default DetailPage;
 
 export async function getServerSideProps(
   context: GetServerSidePropsContext
-): Promise<{ props: ReviewFormProps }> {
-  // 여기에서 공연 ID를 가져옵니다.
+): Promise<{ props: { id: string } }> {
   const { id } = context.query;
-
   return {
     props: {
       id: id as string,
