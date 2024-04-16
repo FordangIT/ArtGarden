@@ -1,9 +1,10 @@
 version: 0.0
 os: linux
+
 files:
-  source: /
-  destination: /home/ubuntu
-  overwrite: yes
+  - source: /
+    destination: /home/ubuntu
+    overwrite: yes
 
 permissions:
   - object: /home/ubuntu
@@ -11,7 +12,7 @@ permissions:
     group: ubuntu
     mode: 755
 hooks:
-  ApplicationStart:
-    - location: deploy.sh
-      timeout: 500
-      runas: ubuntu
+AfterInstall: # 배포 완료 후 실행할 동작 설정.
+  - location: ./deploy.sh # deploy.sh를 실행.
+    timeout: 60 # 제한 시간 1000초 으로 설정. 1000초가 넘어가면 실패함.
+    runas: ubuntu # ubuntu 권한으로 실행.

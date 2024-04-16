@@ -12,10 +12,10 @@ interface ReviewFormProps {
 }
 
 function ReviewForm(id: ReviewFormProps) {
+  const queryClient = useQueryClient();
   let curId = id.id;
   const [rate, setRate] = useState(5);
   const [reviewText, setReviewText] = useState("");
-  const queryClient = useQueryClient();
 
   const submitReview = async (reviewData: ReviewData) => {
     try {
@@ -69,9 +69,9 @@ function ReviewForm(id: ReviewFormProps) {
           cols={50}
         />
         <div className="rating">
-          {[1, 2, 3, 4, 5].map((star) => (
+          {[1, 2, 3, 4, 5].map((star, idx) => (
             <input
-              key={star}
+              key={idx}
               type="radio"
               name="rating"
               value={star}
