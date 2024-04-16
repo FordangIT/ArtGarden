@@ -29,23 +29,14 @@ jobs:
           NEXT_PUBLIC_KOPIS_KEY: ${{secrets.NEXT_PUBLIC_KOPIS_KEY}}
           NEXT_PUBLIC_BACKEND_URL: ${{secrets.NEXT_PUBLIC_BACKEND_URL}}
 
-      - name: Cache node modules
-        uses: actions/cache@v3
-        id: cache
-        with:
-          path: node_modules
-          key: npm-packages-${{ hashFiles('**/package-lock.json') }}
-
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
         run: npm install
 
       - name: Build next app
         run: npm run build
 
       - name: zip create
-        run: |
-          zip -qq -r --symlinks  ./artgarden.zip .
+        run: zip -qq -r ./artgarden.zip .
         shell: bash
 
       - name: Configure AWS credentials
@@ -60,8 +51,7 @@ jobs:
           aws s3 cp --region ap-northeast-2 ./artgarden.zip s3://$S3_BUCKET_NAME/artgarden.zip
 
       - name: Deploy For Development
-        run: |
-          aws deploy create-deployment \
+        run: aws deploy create-deployment \
           --deployment-config-name CodeDeployDefault.AllAtOnce \
           --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
           --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} \

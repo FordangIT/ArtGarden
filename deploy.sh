@@ -1,23 +1,23 @@
-#!/bin/bash
+REPOSITORY=/home/ubuntu
 
-REPOSITORY_PROD=/home/ubuntu
+cd $REPOSITORY
 
-echo "DEPLOYMENT_GROUP_NAME: ${DEPLOYMENT_GROUP_NAME}"
-
-if [ "${DEPLOYMENT_GROUP_NAME}" = "artgardenfordeploygroup" ]; then
-  echo "운영 서버 배포"
-  cd "${REPOSITORY_PROD}"
-  
-  sudo npm install
-  pm2_output=$(pm2 describe artgarden)
-  pm2_status=$(echo "$pm2_output" | jq '.status')
-  if [ "$pm2_status" = "running" ]; then
-    # 실행 중인 경우
-    echo "artgarden 프로세스가 실행 중입니다."
-    sudo npm run pm2:reload:prod
-  else
-    # 실행 중이 아닌 경우
-    echo "artgarden 프로세스가 실행되지 않았습니다."
-    sudo npm run pm2:start:prod
-  fi
+# pm2 명령어의 경로를 설정
+if ! command -v pm2 &> /dev/null
+then
+    # pm2 명령어를 찾을 수 없는 경우, 적절한 경로로 심볼릭 링크 설정
+    if command -v npm &> /dev/null
+    then
+        PM2_PATH=$(npm prefix -g)/bin/pm2
+        if [ -f "$PM2_PATH" ]; then
+            sudo ln -sf $PM2_PATH /usr/local/bin/pm2
+        else
+            echo "Error: pm2 not found in npm global bin directory."
+        fi
+    else
+        echo "Error: npm not found. Please make sure npm is installed."
+    fi
 fi
+
+# npm run deploy 명령어 실행
+npm run deploy
