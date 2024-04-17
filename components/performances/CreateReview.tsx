@@ -24,7 +24,7 @@ function ReviewForm(id: ReviewFormProps) {
         reviewData
       );
       setReviewText("");
-      setRate(1);
+      setRate(5);
     } catch (error) {
       console.log("error", error);
       throw new Error("error fetching data");
@@ -48,7 +48,6 @@ function ReviewForm(id: ReviewFormProps) {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
     console.log(curId, rate, "아이디랑 별 점수");
     await mutation.mutate({
       performid: String(curId),
@@ -59,31 +58,40 @@ function ReviewForm(id: ReviewFormProps) {
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <textarea
-          value={reviewText}
-          onChange={(e) => setReviewText(e.target.value)}
-          placeholder="Write your review..."
-          rows={4}
-          cols={50}
-        />
-        <div className="rating">
-          {[1, 2, 3, 4, 5].map((star, idx) => (
-            <input
-              key={idx}
-              type="radio"
-              name="rating"
-              value={star}
-              className="mask mask-star-2 bg-orange-400"
-              onClick={() => handleRatingChange(star)} // rating 선택 시 handleRatingChange 호출
-            />
-          ))}
+    <div>
+      <form onSubmit={handleSubmit} className="flex-col">
+        <div className="flex justify-between">
+          <textarea
+            value={reviewText}
+            onChange={(e) => setReviewText(e.target.value)}
+            placeholder="Write your review..."
+            rows={4}
+            cols={50}
+            className="rounded-md h-28 w-[50rem]"
+          />
+          <button
+            type="submit"
+            className="text-white text-xl border-2 px-4 py-4 ml-8 rounded-md"
+          >
+            submit
+          </button>
         </div>
-
-        <button type="submit">Submit Review</button>
+        <div className="flex justify-between my-5">
+          <div className="rating">
+            {[1, 2, 3, 4, 5].map((star, idx) => (
+              <input
+                key={idx}
+                type="radio"
+                name="rating"
+                value={star}
+                className="mask mask-star-2 bg-orange-400"
+                onClick={() => handleRatingChange(star)} // rating 선택 시 handleRatingChange 호출
+              />
+            ))}
+          </div>
+        </div>
       </form>
-    </>
+    </div>
   );
 }
 
