@@ -38,7 +38,7 @@ function DetailPage(props: PropsType) {
       <div className="flex-col min-h w-full justify-center items-center">
         <div className="flex justify-center items-center">
           <div className="flex w-2/3">
-            <div className="w-1/2 flex justify-center items-center">
+            <div className="w-1/2 flex justify-center items-center ">
               {data[0] && (
                 <Image
                   src={data[0].img}
@@ -102,11 +102,32 @@ function DetailPage(props: PropsType) {
             </div>
           </div>
         </div>
-        <div className="w-4/7 flex">
-          <CreateReview id={id} />
+        <div className="bg-black w-full flex-col mt-20 h-80 px-10">
+          <div className="flex justify-center items-center">
+            <div className="w-2/3 h-1/3">
+              <div className="flex justify-start items-center">
+                <div className="font-semibold text-3xl my-10 text-white">
+                  리뷰 작성
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex justify-center items-center">
+            <div className="w-2/3 h-2/3">
+              <div className="flex items-center">
+                <CreateReview id={id} />
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="">
-          <ReadReview id={id} />
+        <div className="w-full flex-col px-10">
+          <div className="flex justify-center items-center w-full h-80">
+            <div className="w-2/3">
+              <div className="flex items-center">
+                <ReadReview id={id} />
+              </div>
+            </div>
+          </div>
         </div>
         <div className="flex justify-center items-center w-4/7 min-h">
           <div className="flex-col">
