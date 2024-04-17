@@ -11,8 +11,9 @@ permissions:
     owner: ubuntu
     group: ubuntu
     mode: 755
+
 hooks:
-AfterInstall: # 배포 완료 후 실행할 동작 설정.
-  - location: ./deploy.sh # deploy.sh를 실행.
-    timeout: 60 # 제한 시간 1000초 으로 설정. 1000초가 넘어가면 실패함.
-    runas: ubuntu # ubuntu 권한으로 실행.
+  AfterInstall:
+    - location: scripts/after-deploy.sh
+      timeout: 300
+      runas: root
