@@ -1,4 +1,4 @@
-name: deploy to S3
+name: CI/CD
 
 on:
   push:
@@ -13,11 +13,13 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout source code.
+      - name: Checkout
         uses: actions/checkout@v3
-      - name: Check Node v
-        run: node -v
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
 
       - name: Generate Environment Variables File
         run: |
@@ -35,8 +37,8 @@ jobs:
       - name: Build next app
         run: npm run build
 
-      - name: zip create
-        run: zip -qq -r ./artgarden.zip .
+      - name: Make zip file
+        run: zip -qq -r ./artgarden.zip . -x "node_modules/*"
         shell: bash
 
       - name: Configure AWS credentials
@@ -48,11 +50,11 @@ jobs:
 
       - name: Upload to S3
         run: |
-          aws s3 cp --region ap-northeast-2 ./artgarden.zip s3://$S3_BUCKET_NAME/artgarden.zip
-
+          aws s3 cp --region ap-northeast-2 ./artgarden.zip s3://artgarden/artgarden.zip
       - name: Deploy For Development
-        run: aws deploy create-deployment \
+        run: |
+          aws deploy create-deployment \
           --deployment-config-name CodeDeployDefault.AllAtOnce \
           --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
           --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} \
-          --s3-location bucket=$S3_BUCKET_NAME,key=artgarden.zip,bundleType=zip
+          --s3-location bucket=artgarden,bundleType=zip,key=artgarden.zip
