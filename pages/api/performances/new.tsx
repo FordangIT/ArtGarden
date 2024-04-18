@@ -17,10 +17,9 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> {
-  const kopis_key = process.env.NEXT_PUBLIC_KOPIS_KEY;
   try {
     const response = await axios.get<string>(
-      `http://www.kopis.or.kr/openApi/restful/pblprfr?service=${kopis_key}&stdate=20160101&eddate=20240327&cpage=1&rows=100&prfstate=02&newsql=Y`,
+      `${process.env.KOPIS_URL}/pblprfr?service=${process.env.KOPIS_KEY}&stdate=20160101&eddate=20240327&cpage=1&rows=100&prfstate=02&newsql=Y`,
       { timeout: 5000 }
     );
     const xmlData = response.data;

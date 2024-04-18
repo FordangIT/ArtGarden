@@ -25,11 +25,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const kopis_key = process.env.NEXT_PUBLIC_KOPIS_KEY;
   const { productId } = req.query;
   try {
     const response = await axios.get(
-      `http://www.kopis.or.kr/openApi/restful/pblprfr/${productId}?service=${kopis_key}&newsql=Y`
+      `${process.env.KOPIS_URL}/pblprfr/${productId}?service=${process.env.KOPIS_KEY}&newsql=Y`
     );
     const xmlData = response.data;
 

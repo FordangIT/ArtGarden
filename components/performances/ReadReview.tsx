@@ -20,7 +20,7 @@ export function ReadReview(id: ReviewFormProps) {
 
   const fetchData = async (pageNum = 1): Promise<{ data: Review_Data[] }> => {
     const res = await fetch(
-      `https://artgarden.site/reviewList/${curId}?page=${pageNum}&size=1`
+      `${process.env.BACKEND_URL}/reviewList/${curId}?page=${pageNum}&size=1`
     ); //여기에 몇 페이지 가져오게
     return res.json();
   };
