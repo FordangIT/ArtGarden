@@ -3,17 +3,17 @@ os: linux
 
 files:
   - source: /
-    destination: /home/ubuntu
+    destination: /home/ubuntu/artgarden
     overwrite: yes
 
 permissions:
-  - object: /home/ubuntu
+  - object: /home/ubuntu/artgarden
     owner: ubuntu
     group: ubuntu
     mode: 755
 
 hooks:
-  AfterInstall:
-    - location: scripts/after-deploy.sh
-      timeout: 300
+  ApplicationStart:
+    - location: deploy.sh
+      timeout: 500
       runas: root
