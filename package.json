@@ -3,13 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3060",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3060",
     "lint": "next lint",
     "test": "jest",
-    "test:watch": "jest --watchAll",
-    "deploy": "pm2 start ecosystem.config.js --env production"
+    "test:watch": "jest --watchAll"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",

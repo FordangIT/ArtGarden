@@ -20,6 +20,10 @@ export default function App({ Component, pageProps }: AppProps) {
               name="description"
               content="공연, 전시, 팝업스토어 정보 제공 사이트입니다."
             ></meta>
+            <meta
+              name="viewport"
+              content="initial-scale=1.0, width=device-width"
+            ></meta>
           </Head>
           <Component {...pageProps} />
         </Layout>
