@@ -16,10 +16,9 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> {
-  const kopis_key = process.env.NEXT_PUBLIC_KOPIS_KEY;
   try {
     const response = await axios.get<string>(
-      `http://kopis.or.kr/openApi/restful/boxoffice?service=${kopis_key}&ststype=week&date=20240322`
+      `${process.env.KOPIS_URL}/boxoffice?service=${process.env.KOPIS_KEY}&ststype=week&date=20240322`
     );
     const xmlData = response.data;
     parseString(xmlData, (err, result) => {
