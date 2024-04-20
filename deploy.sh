@@ -7,6 +7,8 @@ cd $REPOSITORY
 # npm 설치
 sudo npm install
 
+npm run build
+
 # pm2 프로세스 체크
 pm2 describe artgarden > /dev/null
 if [ $? -eq 0 ]; then
