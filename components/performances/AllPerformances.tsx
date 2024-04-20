@@ -51,7 +51,7 @@ const AllPerformances: React.FC = () => {
   const getPerformanceWithPageInfo = async ({ pageParam = 1 }) => {
     try {
       const res = await axios.get(
-        `${process.env.BACKEND_URL}/performances?status=all&days=30&page=${pageParam}&size=12`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/performances?status=all&days=30&page=${pageParam}&size=12`
       );
       return res;
     } catch (error) {

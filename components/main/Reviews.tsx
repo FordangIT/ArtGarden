@@ -25,7 +25,7 @@ const Reviews = () => {
     "mainReview",
     async () => {
       const res: AxiosResponse<Review_Full> = await axios.get(
-        `${process.env.BACKEND_URL}/reviews?page=1&size=8`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/reviews?page=1&size=8`
       );
       return res.data;
     }

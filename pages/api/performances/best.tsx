@@ -23,7 +23,6 @@ export default async function handler(
     const xmlData = response.data;
     parseString(xmlData, (err, result) => {
       if (err) {
-        console.log(err);
         return res.status(500).json({ error: "failed to parse XML" });
       }
       const jsonData: BestProducts[] = result.boxofs?.boxof?.map(
