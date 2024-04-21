@@ -3,6 +3,8 @@ import Image from "next/image";
 import CreateReview from "@/components/performances/CreateReview";
 import { ReadReview } from "@/components/performances/ReadReview";
 import { GetServerSidePropsContext } from "next";
+import Link from "next/link";
+import { Anchor } from "@/lib/anchore";
 import axios from "axios";
 import { useMutation } from "react-query";
 
@@ -102,47 +104,99 @@ function DetailPage(props: PropsType) {
             </div>
           </div>
         </div>
-        <div className="bg-black w-full flex-col mt-20 h-80 px-10">
-          <div className="flex justify-center items-center">
-            <div className="w-2/3 h-1/3">
-              <div className="flex justify-start items-center">
-                <div className="font-semibold text-3xl my-10 text-white">
-                  리뷰 작성
+        <div className="flex justify-center items-center mx-16 my-20">
+          <div className="flex justify-center items-center w-2/3 h-16 ">
+            <div className="border-[1px] border-x-black border-t-black border-b-0 w-1/2 h-full ">
+              <Link
+                href="#detail"
+                className="flex justify-center items-center h-full"
+              >
+                <div className="flex justify-center items-center font-semibold h-full">
+                  공연 상세 정보
+                </div>
+              </Link>
+            </div>
+            <div className="border-[1px] w-1/2 h-full border-b-black bg-review-section">
+              <Link
+                href="#review"
+                className="flex justify-center items-center h-full"
+              >
+                <div className="flex justify-center items-center font-medium h-full">
+                  공연 리뷰
+                </div>
+              </Link>
+            </div>
+          </div>
+        </div>
+        <section id="detail">
+          <div className="flex justify-center items-center w-4/7 min-h">
+            <div className="flex-col">
+              {data[0] &&
+                data[0].styurls.map((el: any, idx: number) => (
+                  <Image
+                    key={idx}
+                    src={el}
+                    alt={`image ${idx}`}
+                    width={940}
+                    height={400}
+                  />
+                ))}
+            </div>
+          </div>
+        </section>
+        <div className="flex justify-center items-center mx-16 my-20">
+          <div className="flex justify-center items-center w-2/3 h-16 ">
+            <div className="border-[1px] w-1/2 h-full border-b-black bg-review-section ">
+              <Link
+                href="#detail"
+                className="flex justify-center items-center h-full"
+              >
+                <div className="flex justify-center items-center font-semibold h-full">
+                  공연 상세 정보
+                </div>
+              </Link>
+            </div>
+            <div className="border-[1px] w-1/2 h-full border-x-black border-t-black border-b-0">
+              <Link
+                href="#review"
+                className="flex justify-center items-center h-full"
+              >
+                <div className="flex justify-center items-center font-medium h-full">
+                  공연 리뷰
+                </div>
+              </Link>
+            </div>
+          </div>
+        </div>
+        <section id="review">
+          <div className="bg-black w-full flex-col mt-20 h-80 px-10 justify-center items-center">
+            <div className="flex justify-center items-center">
+              <div className="w-2/3 h-1/3">
+                <div className="flex justify-start items-center">
+                  <div className="font-semibold text-3xl my-10 text-white">
+                    리뷰 작성
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex justify-center items-center bg-red-300">
+              <div className="w-2/3 h-2/3">
+                <div className="flex items-center">
+                  <CreateReview id={id} />
                 </div>
               </div>
             </div>
           </div>
-          <div className="flex justify-center items-center">
-            <div className="w-2/3 h-2/3">
-              <div className="flex items-center">
-                <CreateReview id={id} />
+          <div className="w-full flex-col px-10">
+            <div className="flex justify-center items-center w-full h-80">
+              <div className="w-2/3">
+                <div className="flex items-center">
+                  <ReadReview id={id} />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="w-full flex-col px-10">
-          <div className="flex justify-center items-center w-full h-80">
-            <div className="w-2/3">
-              <div className="flex items-center">
-                <ReadReview id={id} />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="flex justify-center items-center w-4/7 min-h">
-          <div className="flex-col">
-            {data[0] &&
-              data[0].styurls.map((el: any, idx: number) => (
-                <Image
-                  key={idx}
-                  src={el}
-                  alt={`image ${idx}`}
-                  width={940}
-                  height={400}
-                />
-              ))}
-          </div>
-        </div>
+        </section>
       </div>
     </div>
   );
