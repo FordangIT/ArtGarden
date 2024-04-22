@@ -20,6 +20,7 @@ const config: Config = {
         "deep-orange": "#E64A19",
         "lightcoral-pink": "#FF8289",
         "deep-blue": "#090E24",
+        "review-section": "#F8F8F8",
       },
       keyframes: {
         slideFlow: {
