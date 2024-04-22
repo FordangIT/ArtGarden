@@ -12,6 +12,14 @@ const nextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/backend/:path*",
+        destination: "https://artgarden.site/:path*",
+      },
+    ];
+  },
 };
 
 export default nextConfig;
