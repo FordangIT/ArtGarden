@@ -151,7 +151,7 @@ function DetailPage(props: PropsType) {
                 href="#detail"
                 className="flex justify-center items-center h-full"
               >
-                <div className="flex justify-center items-center font-semibold h-full">
+                <div className="flex justify-center items-center font-medium h-full">
                   공연 상세 정보
                 </div>
               </Link>
@@ -161,7 +161,7 @@ function DetailPage(props: PropsType) {
                 href="#review"
                 className="flex justify-center items-center h-full"
               >
-                <div className="flex justify-center items-center font-medium h-full">
+                <div className="flex justify-center items-center  font-semibold h-full">
                   공연 리뷰
                 </div>
               </Link>
@@ -169,28 +169,33 @@ function DetailPage(props: PropsType) {
           </div>
         </div>
         <section id="review">
-          <div className="bg-black w-full flex-col mt-20 h-80 px-10 justify-center items-center">
-            <div className="flex justify-center items-center">
-              <div className="w-2/3 h-1/3">
-                <div className="flex justify-start items-center">
-                  <div className="font-semibold text-3xl my-10 text-white">
-                    리뷰 작성
+          <div className="flex justify-center items-center mx-16">
+            <div className="bg-black w-2/3 flex-col mt-20 h-80 px-10 justify-center items-center">
+              <div className="flex justify-center items-center">
+                <div className="w-full h-1/3">
+                  <div className="flex justify-start items-center">
+                    <div className="font-semibold text-3xl my-10 text-white">
+                      리뷰 작성
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-center items-center bg-white">
+                <div className="w-2/3 h-2/3">
+                  <div className="flex items-center justify-center">
+                    <CreateReview id={id} />
                   </div>
                 </div>
               </div>
             </div>
-            <div className="flex justify-center items-center bg-red-300">
-              <div className="w-2/3 h-2/3">
-                <div className="flex items-center">
-                  <CreateReview id={id} />
-                </div>
-              </div>
-            </div>
           </div>
-          <div className="w-full flex-col px-10">
-            <div className="flex justify-center items-center w-full h-80">
-              <div className="w-2/3">
-                <div className="flex items-center">
+          <div className="flex justify-center items-center mx-16">
+            <div className="bg-black w-2/3">
+              <div className="font-semibold text-3xl my-10 text-white mx-9">
+                리뷰(개수)
+              </div>
+              <div className="min-h-screen flex justify-center items-center">
+                <div className="flex justify-center items-center w-full bg-black min-h-screen">
                   <ReadReview id={id} />
                 </div>
               </div>

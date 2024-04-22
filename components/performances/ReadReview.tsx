@@ -20,7 +20,7 @@ export function ReadReview(id: ReviewFormProps) {
 
   const fetchData = async (pageNum = 1): Promise<{ data: Review_Data[] }> => {
     const res = await fetch(
-      `${process.env.BACKEND_URL}/reviewList/${curId}?page=${pageNum}&size=1`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/reviewList/${curId}?page=${pageNum}&size=5`
     ); //여기에 몇 페이지 가져오게
     return res.json();
   };
@@ -42,38 +42,22 @@ export function ReadReview(id: ReviewFormProps) {
   });
 
   return (
-    <>
-      <button
-        disabled={currentPage <= 1}
-        onClick={() => setCurrentPage((prev) => prev - 1)}
-      >
-        pre
-      </button>
-      <div className="flex justify-center bg-blue-500 w-full h-80">
-        <div className="flex-none bg-black h-20 flex justify-center items-center">
-          <Image
-            src="/artgarden.png"
-            alt="logo of artgarden"
-            width={50}
-            height={40}
-            className="rounded-full"
-          ></Image>
-        </div>
-
-        <div className="flex-1 bg-red-600">
+    <div className="flex-col w-full justify-center items-center mx-10">
+      <div className="flex justify-center bg-blue-500 w-full ">
+        <div className="bg-black w-full">
           {data &&
             data?.data.map((el) => (
               <div
                 key={el.reviewid}
-                className="  w-full bg-white shadow-xl rounded-xl border-2 border-white hover:cursor-pointer hover:bg-black hover:transition hover:duration-300 hover:ease-in-out hover:text-white"
+                className="w-full bg-white shadow-xl rounded-xl border-2 border-white mb-4 py-4"
               >
-                <div className="h-20 flex justify-between items-center">
-                  <div className="text-xl font-semibold">{`fordn**`}</div>
+                <div className="py-2 flex justify-between items-center">
+                  <div className="text-xl font-semibold">{`비회원**`}</div>
                   <div className="text-gray-500 flex justify-end group-hover:text-white">
                     {new Date(el.regdt).toLocaleDateString()}
                   </div>
                 </div>
-                <div className="rating">
+                <div className="rating py-2">
                   {[1, 2, 3, 4, 5].map((star, idx) => (
                     <input
                       key={idx}
@@ -86,20 +70,31 @@ export function ReadReview(id: ReviewFormProps) {
                     />
                   ))}
                 </div>
-                <div>
+                <div className="py-2">
                   <h3>리뷰: {el.content}</h3>
                 </div>
               </div>
             ))}
-          <span>Page {currentPage}</span>
         </div>
       </div>
-      <button
-        disabled={currentPage >= maxPage}
-        onClick={() => setCurrentPage((next) => next + 1)}
-      >
-        next
-      </button>
-    </>
+
+      <div className="flex justify-around w-full ">
+        <button
+          disabled={currentPage <= 1}
+          onClick={() => setCurrentPage((prev) => prev - 1)}
+          className="text-white"
+        >
+          이전
+        </button>
+        <span className="text-white">Page {currentPage}</span>
+        <button
+          disabled={currentPage >= maxPage}
+          onClick={() => setCurrentPage((next) => next + 1)}
+          className="text-white"
+        >
+          이후
+        </button>
+      </div>
+    </div>
   );
 }
