@@ -11,24 +11,17 @@ interface ReviewFormProps {
   id: string;
 }
 
-function ReviewForm(id: ReviewFormProps) {
+function ReviewForm({ id }: ReviewFormProps) {
   const queryClient = useQueryClient();
-  let curId = id.id;
   const [rate, setRate] = useState(5);
   const [reviewText, setReviewText] = useState("");
 
   const submitReview = async (reviewData: ReviewData) => {
-    try {
-      const res = await axios.post(
-        `${process.env.BACKEND_URL}/reviews`,
-        reviewData
-      );
-      setReviewText("");
-      setRate(5);
-    } catch (error) {
-      console.log("error", error);
-      throw new Error("error fetching data");
-    }
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/reviews`,
+      reviewData
+    );
+    return res.data;
   };
 
   const mutation = useMutation(submitReview, {
@@ -48,30 +41,29 @@ function ReviewForm(id: ReviewFormProps) {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    console.log(curId, rate, "아이디랑 별 점수");
+    e.preventDefault();
     await mutation.mutate({
-      performid: String(curId),
+      performid: String(id),
       content: reviewText,
       rate: Number(rate),
       memberid: "1",
     });
+    setReviewText(""), setRate(5);
   };
 
   return (
-    <div>
+    <div className="flex justify-start items-center">
       <form onSubmit={handleSubmit} className="flex-col">
-        <div className="flex justify-between">
+        <div className="flex justify-between mt-8">
           <textarea
             value={reviewText}
             onChange={(e) => setReviewText(e.target.value)}
-            placeholder="Write your review..."
-            rows={4}
-            cols={50}
-            className="rounded-md h-28 w-[50rem]"
+            placeholder="리뷰를 작성하세요"
+            className="rounded-md h-28 w-[50rem] border-2 border-black"
           />
           <button
             type="submit"
-            className="text-white text-xl border-2 px-4 py-4 ml-8 rounded-md"
+            className="text-black text-xl border-2 px-4 py-4 ml-8 rounded-md border-black"
           >
             submit
           </button>
