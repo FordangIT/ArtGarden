@@ -54,6 +54,7 @@ export default function NewProducts(): JSX.Element {
         const result = await response.json();
         setReady(false);
         setData(result);
+        console.log(result, "feresult");
         setLoading(false);
       } catch (error) {
         console.error("error fetching data", error);

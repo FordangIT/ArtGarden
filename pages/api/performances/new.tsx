@@ -1,6 +1,16 @@
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 import { parseString } from "xml2js";
+interface NewProducts {
+  id: number;
+  img: string;
+  name: string;
+  place: string;
+  start: string;
+  end: string;
+  genre: string;
+  rank: string;
+}
 
 export default async function handler(
   req: NextApiRequest,
@@ -8,18 +18,29 @@ export default async function handler(
 ): Promise<void> {
   try {
     const response = await axios.get<string>(
-      `${process.env.KOPIS_URL}/pblprfr?service=${process.env.KOPIS_KEY}&stdate=20160101&eddate=20240327&cpage=1&rows=100&prfstate=02&newsql=Y`
+      `${process.env.KOPIS_URL}/pblprfr?service=${process.env.KOPIS_KEY}&stdate=20240301&eddate=20240420&rows=30&cpage=1&newsql=Y`
     );
+
     const xmlData = response.data;
-    console.log(xmlData, "XML");
-    // XML 데이터를 JSON으로 변환
     parseString(xmlData, (err, result) => {
       if (err) {
-        console.error(err); // 오류가 발생한 경우 콘솔에 오류 메시지 출력
         return res.status(500).json({ error: "failed to parse XML" });
       }
-      // 변환된 JSON 데이터를 클라이언트에 반환
-      return res.status(200).json(result);
+      console.log(xmlData, "xmlDATA");
+      const jsonData: NewProducts[] = result.dbs.db.map((item: any) => ({
+        id: item.mt20id?.[0],
+        img: item.poster?.[0],
+        name: item.prfnm?.[0],
+        place: item.fcltynm?.[0],
+        start: item.prfpdfrom?.[0],
+        end: item.prfpdto?.[0],
+        genre: item.genrenm?.[0],
+        rank: item.prfstate?.[0],
+      }));
+      if (!jsonData) {
+        return res.status(500).json({ error: "data format error" });
+      }
+      return res.status(200).json(jsonData);
     });
   } catch (error) {
     console.error("error:", error); // API 요청에 대한 오류 처리
