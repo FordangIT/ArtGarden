@@ -8,7 +8,7 @@ import {
   Scrollbar,
   Autoplay,
   Virtual,
-  Pagination,
+  Pagination
 } from "swiper/modules";
 import SwiperCore from "swiper";
 import "swiper/css";
@@ -38,9 +38,6 @@ export default function NewProducts(): JSX.Element {
   const selectedNew = useSelector(
     (state: RootState) => state.selected.new || ""
   );
-  useEffect(() => {
-    console.log(selectedNew);
-  }, [selectedNew]);
   const [data, setData] = useState<Performance[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [ready, setReady] = useState<boolean>(false);
@@ -54,7 +51,6 @@ export default function NewProducts(): JSX.Element {
         const result = await response.json();
         setReady(false);
         setData(result);
-        console.log(result, "feresult");
         setLoading(false);
       } catch (error) {
         console.error("error fetching data", error);
@@ -72,7 +68,6 @@ export default function NewProducts(): JSX.Element {
       try {
         setReady(true);
         setLoading(false);
-        console.log("팝업스토어 데이터 호출");
       } catch (error) {
         console.error("error fetching datat", error);
       }
@@ -102,7 +97,7 @@ export default function NewProducts(): JSX.Element {
           slidesPerView={5}
           navigation={{
             nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
+            prevEl: ".swiper-button-prev"
           }}
           pagination={{ clickable: false }}
           virtual

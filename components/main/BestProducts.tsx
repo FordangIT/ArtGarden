@@ -9,9 +9,6 @@ const BestProducts = () => {
   const selectedBest = useSelector(
     (state: RootState) => state.selected.best || ""
   );
-  useEffect(() => {
-    console.log(selectedBest);
-  }, [selectedBest]);
   const truncateText = (text: string, maxLength: number) => {
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
   };
@@ -30,7 +27,6 @@ const BestProducts = () => {
         setReady(false);
         setData(result);
         setLoading(false);
-        console.log("공연 데이터 호출");
       } catch (error) {
         console.error("error fetching datat", error);
       }
@@ -47,7 +43,6 @@ const BestProducts = () => {
       try {
         setReady(true);
         setLoading(false);
-        console.log("팝업스토어 데이터 호출");
       } catch (error) {
         console.error("error fetching datat", error);
       }

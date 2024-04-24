@@ -49,7 +49,7 @@ export default async function handler(
           end: item.prfpdto[0],
           place: item.fcltynm[0],
           genre: item.genrenm[0],
-          state: item.prfstate[0],
+          state: item.prfstate[0]
         }));
         resolve({
           results: parsedData,
@@ -58,7 +58,7 @@ export default async function handler(
           pageParam: Number(cpage),
           pages: [Number(cpage)],
           pageParams: [Number(cpage)],
-          total_results: 264, //여기에 api/performances/all 전체 데이터의 개수가 사실 들어가야함
+          total_results: 264 //여기에 api/performances/all 전체 데이터의 개수가 사실 들어가야함
         });
       });
     });
