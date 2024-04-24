@@ -7,15 +7,24 @@ import Link from "next/link";
 import { Anchor } from "@/lib/anchore";
 import axios from "axios";
 import { useMutation } from "react-query";
-
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToFavorite,
+  removeFromFavorite
+} from "@/redux/slices/favoriteSlice";
+import { RootState } from "@/redux/store";
+import { FaHeart } from "react-icons/fa";
+import { FaRegHeart } from "react-icons/fa";
+import { MdShare } from "react-icons/md";
 interface PropsType {
   id: string;
 }
 //공연 상세 정보 페이지
 function DetailPage(props: PropsType) {
   const { id } = props;
-  //send a request to the backend api
   const [data, setData] = useState<Array<any>>([]);
+  const dispatch = useDispatch();
+  const favorites = useSelector((state: RootState) => state.favorites.list);
 
   useEffect(() => {
     if (id) {
@@ -35,6 +44,13 @@ function DetailPage(props: PropsType) {
     }
   }, [id, data]);
 
+  const handleFavorite = (id: string) => {
+    if (favorites.includes(id)) {
+      dispatch(removeFromFavorite(id));
+    } else {
+      dispatch(addToFavorite(id));
+    }
+  };
   return (
     <div className="flex justify-center items-center ">
       <div className="flex-col min-h w-full justify-center items-center">
@@ -55,8 +71,22 @@ function DetailPage(props: PropsType) {
               <div className="">
                 {data[0] && (
                   <div className="text-black">
-                    <div>별점 총점(리뷰 몇개),찜하기, 공유하기</div>
-                    <div className="text-5xl font-bold mt-6 mb-4 leading-normal">
+                    <div className="flex justify-end items-center">
+                      <div
+                        onClick={() => handleFavorite(id)}
+                        className="border-[1px] border-black"
+                      >
+                        {favorites.includes(id) ? (
+                          <FaHeart className="w-8 h-8 m-2 font-light text-main-pink" />
+                        ) : (
+                          <FaRegHeart className="w-8 h-8 m-2 font-light " />
+                        )}
+                      </div>
+                      <div className="border-[1px] border-black ml-1">
+                        <MdShare className="w-8 h-8 m-2 font-light text-black" />
+                      </div>
+                    </div>
+                    <div className="text-5xl font-bold mb-4 leading-normal">
                       {data[0].name}
                     </div>
                     <div className="w-full h-1 bg-gray-100 mb-7"></div>
@@ -194,8 +224,8 @@ function DetailPage(props: PropsType) {
               <div className="font-semibold text-3xl my-10 text-white mx-9">
                 리뷰(개수)
               </div>
-              <div className="min-h-screen flex justify-center items-center">
-                <div className="flex justify-center items-center w-full bg-black min-h-screen">
+              <div className="h-fit flex justify-center items-center">
+                <div className="flex justify-center items-center w-full bg-black">
                   <ReadReview id={id} />
                 </div>
               </div>
@@ -214,7 +244,7 @@ export async function getServerSideProps(
   const { id } = context.query;
   return {
     props: {
-      id: id as string,
-    },
+      id: id as string
+    }
   };
 }
