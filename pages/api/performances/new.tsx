@@ -26,7 +26,6 @@ export default async function handler(
       if (err) {
         return res.status(500).json({ error: "failed to parse XML" });
       }
-      console.log(xmlData, "xmlDATA");
       const jsonData: NewProducts[] = result.dbs.db.map((item: any) => ({
         id: item.mt20id?.[0],
         img: item.poster?.[0],
