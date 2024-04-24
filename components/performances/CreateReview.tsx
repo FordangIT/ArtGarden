@@ -17,11 +17,16 @@ function ReviewForm({ id }: ReviewFormProps) {
   const [reviewText, setReviewText] = useState("");
 
   const submitReview = async (reviewData: ReviewData) => {
-    const res = await axios.post(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/reviews`,
-      reviewData
-    );
-    return res.data;
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/reviews`,
+        reviewData
+      );
+      return res.data;
+    } catch (error) {
+      console.log(error, "error");
+      throw error;
+    }
   };
 
   const mutation = useMutation(submitReview, {
@@ -32,21 +37,19 @@ function ReviewForm({ id }: ReviewFormProps) {
     onError: (error) => {
       console.error("Mutation error", error); // mutation 에러 로그 출력
       // 에러 처리 로직 추가 (예: 사용자에게 알림 등)
-    },
+    }
   });
 
   const handleRatingChange = (selectedRate: number) => {
     setRate(selectedRate);
-    console.log(selectedRate, "clickstar");
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    await mutation.mutate({
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    mutation.mutate({
       performid: String(id),
       content: reviewText,
       rate: Number(rate),
-      memberid: "1",
+      memberid: "asdf"
     });
     setReviewText(""), setRate(5);
   };
