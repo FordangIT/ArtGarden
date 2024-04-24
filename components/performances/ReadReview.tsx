@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useQuery, useMutation } from "react-query";
-import Image from "next/image";
 import { useQueryClient } from "react-query";
+import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
 interface ReviewFormProps {
   id: string;
 }
@@ -20,7 +20,7 @@ export function ReadReview(id: ReviewFormProps) {
 
   const fetchData = async (pageNum = 1): Promise<{ data: Review_Data[] }> => {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/reviewList/${curId}?page=${pageNum}&size=5`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/reviewList/${curId}?page=${pageNum}&size=10`
     ); //여기에 몇 페이지 가져오게
     return res.json();
   };
@@ -49,7 +49,7 @@ export function ReadReview(id: ReviewFormProps) {
             data?.data.map((el) => (
               <div
                 key={el.reviewid}
-                className="w-full bg-white shadow-xl rounded-xl border-2 border-white mb-4 py-4"
+                className="w-full bg-white shadow-xl rounded-xl border-2 border-white mb-4 p-6"
               >
                 <div className="py-2 flex justify-between items-center">
                   <div className="text-xl font-semibold">{`비회원**`}</div>
@@ -78,21 +78,20 @@ export function ReadReview(id: ReviewFormProps) {
         </div>
       </div>
 
-      <div className="flex justify-around w-full ">
+      <div className="flex justify-around w-full py-10">
         <button
           disabled={currentPage <= 1}
           onClick={() => setCurrentPage((prev) => prev - 1)}
-          className="text-white"
         >
-          이전
+          <FaArrowAltCircleLeft className="text-white bg-black w-7 h-5" />
         </button>
-        <span className="text-white">Page {currentPage}</span>
+        <span className="text-white font-semibold">Page {currentPage}</span>
         <button
           disabled={currentPage >= maxPage}
           onClick={() => setCurrentPage((next) => next + 1)}
           className="text-white"
         >
-          이후
+          <FaArrowAltCircleRight className="text-white bg-black w-7 h-5" />
         </button>
       </div>
     </div>
