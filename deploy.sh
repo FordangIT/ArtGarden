@@ -5,7 +5,7 @@ REPOSITORY=/home/ubuntu/artgarden
 cd $REPOSITORY
 
 # npm 설치
-sudo npm install
+npm install
 
 npm run build
 
