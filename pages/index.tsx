@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   updateBest,
   updateNew,
-  updateReview,
+  updateReview
 } from "@/redux/slices/selectSlice";
 import { RootState } from "@/redux/store";
 const inter = Inter({ subsets: ["latin"] });
@@ -25,15 +25,12 @@ export default function Home() {
   );
   const handleSelectBest = (text: string) => {
     dispatch(updateBest(text));
-    console.log(text, "선택한 text");
   };
   const handleSelectNew = (text: string) => {
     dispatch(updateNew(text));
-    console.log(text, "선택한 text");
   };
   const handleSelectReview = (text: string) => {
     dispatch(updateReview(text));
-    console.log(text, "선택한 text");
   };
   return (
     <>
