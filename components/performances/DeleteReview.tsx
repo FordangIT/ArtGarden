@@ -4,7 +4,7 @@
 //   const res = await fetch(
 //     `${process.env.NEXT_PUBLIC_BACKEND_URL}/reviews/${reviewId}`,
 //     {
-//       method: "DELETE",
+//       method: "DELETE"
 //     }
 //   );
 //   if (!res.ok) {
