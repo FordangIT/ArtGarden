@@ -1,27 +1,86 @@
-import { useEffect, useState } from "react";
-import { useQuery, useMutation } from "react-query";
-import { useQueryClient } from "react-query";
+import React, { useEffect, useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
+import UpdateReview from "./UpdateReview"; // UpdateReview 컴포넌트를 가져옵니다.
+
 interface ReviewFormProps {
   id: string;
 }
-interface Review_Data {
+
+interface ReviewData {
   reviewid: number;
   content: string;
   rate: number;
   memberid: string;
   regdt: string;
 }
-export function ReadReview(id: ReviewFormProps) {
-  const curId = id.id;
+
+async function updateReview(
+  reviewId: number,
+  newContent: string
+): Promise<any> {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/reviews/${reviewId}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ content: newContent })
+    }
+  );
+  if (!res.ok) {
+    throw new Error("Failed to update review");
+  }
+  return res.json();
+}
+async function deleteReview(reviewId: number): Promise<any> {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/reviews/${reviewId}`,
+    {
+      method: "DELETE"
+    }
+  );
+  if (!res.ok) {
+    throw new Error("Failed to delete review");
+  }
+  return res.json();
+}
+
+export function ReadReview({ id }: ReviewFormProps) {
+  const curId = id;
   const maxPage = 10;
   const queryClient = useQueryClient();
   const [currentPage, setCurrentPage] = useState(1);
+  const [editingReviewId, setEditingReviewId] = useState<number | null>(null);
+  const [newReviewContent, setNewReviewContent] = useState<string>("");
 
-  const fetchData = async (pageNum = 1): Promise<{ data: Review_Data[] }> => {
+  const updateMutation = useMutation(updateReview);
+  const deletemutation = useMutation(deleteReview);
+
+  const handleUpdate = async (reviewId: number) => {
+    try {
+      await updateMutation.mutateAsync(reviewId, newReviewContent);
+      setEditingReviewId(null);
+      console.log("리뷰가 성공적으로 업데이트되었습니다.");
+    } catch (error) {
+      console.error("리뷰 업데이트에 실패했습니다:", error);
+    }
+  };
+
+  const handleDelete = async (reviewId: number) => {
+    try {
+      await deletemutation.mutateAsync(reviewId);
+      console.log("리뷰가 성공적으로 삭제되었습니다.");
+    } catch (error) {
+      console.error("리뷰 삭제에 실패했습니다:", error);
+    }
+  };
+
+  const fetchData = async (pageNum = 1): Promise<{ data: ReviewData[] }> => {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/reviewList/${curId}?page=${pageNum}&size=10`
-    ); //여기에 몇 페이지 가져오게
+    );
     return res.json();
   };
 
@@ -30,7 +89,7 @@ export function ReadReview(id: ReviewFormProps) {
       const nextPage = currentPage + 1;
       queryClient.prefetchQuery({
         queryKey: ["detailReview", nextPage],
-        queryFn: () => fetchData(nextPage),
+        queryFn: () => fetchData(nextPage)
       });
     }
   }, [currentPage, queryClient]);
@@ -38,7 +97,7 @@ export function ReadReview(id: ReviewFormProps) {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["detailReview", currentPage],
     queryFn: () => fetchData(),
-    staleTime: 5000,
+    staleTime: 5000
   });
 
   return (
@@ -70,9 +129,45 @@ export function ReadReview(id: ReviewFormProps) {
                     />
                   ))}
                 </div>
-                <div className="py-2">
-                  <h3>리뷰: {el.content}</h3>
-                </div>
+                {editingReviewId === el.reviewid ? (
+                  <div className="py-2 flex justify-between">
+                    <input
+                      type="text"
+                      value={newReviewContent}
+                      onChange={(e) => setNewReviewContent(e.target.value)}
+                    />
+                    <div className="flex">
+                      <button onClick={() => handleUpdate(el.reviewid)}>
+                        완료
+                      </button>
+                      <button onClick={() => setEditingReviewId(null)}>
+                        취소
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="py-2 flex justify-between">
+                    <div>리뷰: {el.content}</div>
+                    <div className="flex">
+                      <div
+                        className="text-gray-500 hover:text-black"
+                        onClick={() => setEditingReviewId(el.reviewid)}
+                      >
+                        수정
+                      </div>
+                      <div className="text-gray-300 mx-2">|</div>
+                      <div
+                        className="text-gray-500 hover:text-black"
+                        onClick={() => handleDelete(el.reviewid)}
+                      >
+                        삭제
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {editingReviewId === el.reviewid && ( // 리뷰를 수정할 때만 UpdateReview 컴포넌트를 보여줍니다.
+                  <UpdateReview reviewId={el.reviewid} />
+                )}
               </div>
             ))}
         </div>
