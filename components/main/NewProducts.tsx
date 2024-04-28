@@ -94,7 +94,7 @@ export default function NewProducts(): JSX.Element {
         <Swiper
           className="slider-wrapper flex "
           spaceBetween={40}
-          slidesPerView={5}
+          // slidesPerView={5}
           navigation={{
             nextEl: ".swiper-button-next",
             prevEl: ".swiper-button-prev"
@@ -103,6 +103,24 @@ export default function NewProducts(): JSX.Element {
           virtual
           loop // 무한 루프 활성화
           autoplay={{ delay: 2000 }} // 자동 재생 설정
+          breakpoints={{
+            640: {
+              slidesPerView: 2,
+              spaceBetween: 20
+            },
+            768: {
+              slidesPerView: 3,
+              spaceBetween: 30
+            },
+            1024: {
+              slidesPerView: 4,
+              spaceBetween: 40
+            },
+            1280: {
+              slidesPerView: 5,
+              spaceBetween: 50
+            }
+          }}
         >
           {data.map((el: Performance) => (
             <SwiperSlide virtualIndex={el.id} key={el.id}>

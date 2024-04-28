@@ -52,11 +52,11 @@ function DetailPage(props: PropsType) {
     }
   };
   return (
-    <div className="flex justify-center items-center ">
-      <div className="flex-col min-h w-full justify-center items-center">
-        <div className="flex justify-center items-center">
-          <div className="flex w-2/3">
-            <div className="w-1/2 flex justify-center items-center ">
+    <div className="flex justify-center items-center bg-black">
+      <div className="bg-blue-300">
+        <div className="flex items-center justify-center bg-red-300">
+          <div className="flex-col justify-center items-center bg-yellow-300">
+            <div className="flex justify-center items-center mx-16">
               {data[0] && (
                 <Image
                   src={data[0].img}
@@ -67,8 +67,8 @@ function DetailPage(props: PropsType) {
                 />
               )}
             </div>
-            <div className="flex justify-center w-1/2 mx-12 my-12">
-              <div className="">
+            <div className="flex justify-center items-center my-12 md:my-6">
+              <div className="flex justify-center items-center w-1/2 md:w-full">
                 {data[0] && (
                   <div className="text-black">
                     <div className="flex justify-end items-center">

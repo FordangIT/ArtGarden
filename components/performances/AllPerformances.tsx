@@ -220,7 +220,7 @@ const AllPerformances: React.FC = () => {
           </div>
         </div>
         <div className="flex items-center justify-center">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 ">
             {status === "loading" && <div>로딩중</div>}
             {status === "error" && <p>불러오기 실패</p>}
             {status === "success" && data && (
