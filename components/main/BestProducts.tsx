@@ -61,11 +61,11 @@ const BestProducts = () => {
 
   return (
     <div className="flex-col">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
+      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-12 ">
         {loading ? (
-          <SkeletonBest cards={8} />
+          <SkeletonBest cards={9} />
         ) : ready ? (
-          <ReadyBest cards={8} />
+          <ReadyBest cards={9} />
         ) : (
           data.map((el) => (
             <Link href={`/performances/${el.id}`} key={el.id}>
