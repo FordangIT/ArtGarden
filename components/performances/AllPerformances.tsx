@@ -6,7 +6,7 @@ import axios from "axios";
 import { useObserver } from "@/customHook/useObserver";
 import useLocalStorage from "use-local-storage";
 import Hangul from "hangul-js";
-
+import { IoSearch } from "react-icons/io5";
 interface Performance {
   id: string;
   name: string;
@@ -29,13 +29,14 @@ const AllPerformances: React.FC = () => {
   const [scrollY, setScrollY] = useLocalStorage("performance_scroll", 0);
   const bottom = useRef(null);
   const [searchTerm, setSearchTerm] = useState("");
-
+  const [local, setLocal] = useState("지역");
+  const [sort, setSort] = useState("정렬순");
   const onIntersect = ([entry]: IntersectionObserverEntry[]) =>
     entry.isIntersecting && fetchNextPage();
 
   useObserver({
     target: bottom,
-    onIntersect,
+    onIntersect
   });
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,7 +69,7 @@ const AllPerformances: React.FC = () => {
         const page = lastPage.data.pageNo;
         if (lastPage.data.totalPages === page) return false;
         return page + 1;
-      },
+      }
     }
   );
 
@@ -76,17 +77,147 @@ const AllPerformances: React.FC = () => {
     let searcher = new Hangul.Searcher(text);
     return searcher.search(text2);
   };
+
+  const handleLocal = (text: string) => {
+    setLocal(text);
+  };
+
+  const handleSort = (text: string) => {
+    setSort(text);
+  };
   return (
     <>
       <div className="flex-col">
-        <div className="flex items-center justify-center ">
-          <input
-            type="text"
-            placeholder="공연 이름을 검색하세요"
-            value={searchTerm}
-            onChange={handleSearch}
-            className="border-2 border-slate-300 rounded-3xl w-[40rem] h-12 mb-12 px-10"
-          />
+        <div className="flex justify-between items-center mx-16 py-16">
+          <div className="dropdown dropdown-right dropdown-end">
+            <div tabIndex={0} role="button" className="btn m-1">
+              지역
+            </div>
+            <ul
+              tabIndex={0}
+              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 gap-y-2"
+            >
+              <div
+                onClick={() => handleLocal("서울")}
+                className="flex items-center gap-2"
+              >
+                <input
+                  type="checkbox"
+                  defaultChecked
+                  className="checkbox checkbox-sm"
+                />
+                <div>전체</div>
+              </div>
+              <div
+                onClick={() => handleLocal("서울")}
+                className="flex items-center gap-2"
+              >
+                <input
+                  type="checkbox"
+                  defaultChecked
+                  className="checkbox checkbox-sm"
+                />
+                <div>서울</div>
+              </div>
+              <div
+                onClick={() => handleLocal("서울")}
+                className="flex items-center gap-2"
+              >
+                <input
+                  type="checkbox"
+                  defaultChecked
+                  className="checkbox checkbox-sm"
+                />
+                <div>경기/인천</div>
+              </div>
+              <div
+                onClick={() => handleLocal("서울")}
+                className="flex items-center gap-2"
+              >
+                <input
+                  type="checkbox"
+                  defaultChecked
+                  className="checkbox checkbox-sm"
+                />
+                <div>충청/대전/세종</div>
+              </div>
+              <div
+                onClick={() => handleLocal("서울")}
+                className="flex items-center gap-2"
+              >
+                <input
+                  type="checkbox"
+                  defaultChecked
+                  className="checkbox checkbox-sm"
+                />
+                <div>강원도</div>
+              </div>
+              <div
+                onClick={() => handleLocal("서울")}
+                className="flex items-center gap-2"
+              >
+                <input
+                  type="checkbox"
+                  defaultChecked
+                  className="checkbox checkbox-sm"
+                />
+                <div>경상도</div>
+              </div>
+              <div
+                onClick={() => handleLocal("서울")}
+                className="flex items-center gap-2"
+              >
+                <input
+                  type="checkbox"
+                  defaultChecked
+                  className="checkbox checkbox-sm"
+                />
+                <div>전라/광주</div>
+              </div>
+              <div
+                onClick={() => handleLocal("서울")}
+                className="flex items-center gap-2"
+              >
+                <input
+                  type="checkbox"
+                  defaultChecked
+                  className="checkbox checkbox-sm"
+                />
+                <div>제주도</div>
+              </div>
+            </ul>
+          </div>
+          <div className="relative flex items-center justify-center w-[30rem] focus:border-black-2">
+            <input
+              type="text"
+              placeholder="공연 이름을 검색하세요"
+              value={searchTerm}
+              onChange={handleSearch}
+              className="border-[1px] border-slate-300 rounded-3xl w-full h-12 pl-14"
+            />
+            <div className="absolute top-3 left-5 right-4 none">
+              <IoSearch className="w-6 h-6" />
+            </div>
+          </div>
+          <div className="dropdown dropdown-left dropdown-end">
+            <div tabIndex={0} role="button" className="btn m-1">
+              {sort}
+            </div>
+            <ul
+              tabIndex={0}
+              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-60"
+            >
+              <li onClick={() => handleSort("최신순")}>
+                <a>최신순</a>
+              </li>
+              <li onClick={() => handleSort("조회순")}>
+                <a>조회순</a>
+              </li>
+              <li onClick={() => handleSort("찜하기순")}>
+                <a>찜하기순</a>
+              </li>
+            </ul>
+          </div>
         </div>
         <div className="flex items-center justify-center">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
