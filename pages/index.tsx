@@ -10,9 +10,32 @@ import {
   updateReview
 } from "@/redux/slices/selectSlice";
 import { RootState } from "@/redux/store";
+import { loadNew, loadBest } from "@/lib/loadData";
 const inter = Inter({ subsets: ["latin"] });
-
-export default function Home() {
+interface Best_TYPE {
+  id: string;
+  name: string;
+  img: string;
+  date: string;
+  place: string;
+  genre: string;
+  count: string;
+}
+interface New_TYPE {
+  id: number;
+  img: string;
+  name: string;
+  place: string;
+  start: string;
+  end: string;
+  genre: string;
+  rank: string;
+}
+interface Performance_TYPE {
+  bestData: Best_TYPE[];
+  newData: New_TYPE[];
+}
+export default function Home(props: Performance_TYPE) {
   const dispatch = useDispatch();
   const selectedBest = useSelector(
     (state: RootState) => state.selected.best || ""
@@ -72,7 +95,7 @@ export default function Home() {
           </div>
         </div>
         <div className="flex justify-center items-center">
-          <BestProducts />
+          <BestProducts data={props.bestData} />
         </div>
         <div className="flex-col sm:flex sm:flex-row justify-center sm:justify-around items-center">
           <div className="text-main-pink text-5xl font-extrabold py-12 sm:px-16">
@@ -109,7 +132,7 @@ export default function Home() {
         </div>
       </main>
       <div className="bg-black py-20 z-20">
-        <NewProducts />
+        <NewProducts data={props.newData} />
       </div>
       <div className="bg-main-pink z-20 flex-col justify-center py-20">
         <div className="flex flex-col sm:flex-row justify-center items-center my-16">
@@ -128,4 +151,10 @@ export default function Home() {
       </div>
     </>
   );
+}
+
+export async function getStaticProps() {
+  const newData = await loadNew();
+  const bestData = await loadBest();
+  return { props: { bestData, newData } };
 }

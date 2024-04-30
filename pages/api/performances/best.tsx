@@ -18,7 +18,7 @@ export default async function handler(
 ): Promise<void> {
   try {
     const response = await axios.get<string>(
-      `${process.env.KOPIS_URL}/boxoffice?service=${process.env.KOPIS_KEY}&ststype=week&date=20240322`
+      `${process.env.KOPIS_URL}/boxoffice?service=${process.env.KOPIS_KEY}&ststype=week&date=20240424`
     );
     const xmlData = response.data;
     parseString(xmlData, (err, result) => {
@@ -33,14 +33,14 @@ export default async function handler(
           date: item.prfpd?.[0],
           place: item.area?.[0],
           genre: item.cate?.[0],
-          count: item.prfdtcnt?.[0],
+          count: item.prfdtcnt?.[0]
         })
       );
       if (!jsonData) {
         return res.status(500).json({ error: "data format error" });
       }
 
-      const paginatedData = jsonData.slice(0, 8);
+      const paginatedData = jsonData.slice(0, 9);
       return res.status(200).json(paginatedData);
     });
   } catch (error) {

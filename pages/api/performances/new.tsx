@@ -34,7 +34,7 @@ export default async function handler(
         start: item.prfpdfrom?.[0],
         end: item.prfpdto?.[0],
         genre: item.genrenm?.[0],
-        rank: item.prfstate?.[0],
+        rank: item.prfstate?.[0]
       }));
       if (!jsonData) {
         return res.status(500).json({ error: "data format error" });

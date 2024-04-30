@@ -5,17 +5,30 @@ import SkeletonBest from "../basic/SkeletonBest";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import ReadyBest from "../basic/ReadyBest";
-const BestProducts = () => {
+
+interface Best_TYPE {
+  id: string;
+  name: string;
+  img: string;
+  date: string;
+  place: string;
+  genre: string;
+  count: string;
+}
+
+interface BEST_TYPE {
+  data: Best_TYPE[];
+}
+const BestProducts = (props: BEST_TYPE) => {
   const selectedBest = useSelector(
     (state: RootState) => state.selected.best || ""
   );
   const truncateText = (text: string, maxLength: number) => {
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
   };
-  const [data, setData] = useState<Array<any>>([]);
+  // const [data, setData] = useState<Array<any>>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [ready, setReady] = useState<boolean>(false);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -25,7 +38,7 @@ const BestProducts = () => {
         }
         const result = await response.json();
         setReady(false);
-        setData(result);
+        // setData(result);
         setLoading(false);
       } catch (error) {
         console.error("error fetching datat", error);
@@ -67,7 +80,7 @@ const BestProducts = () => {
         ) : ready ? (
           <ReadyBest cards={9} />
         ) : (
-          data.map((el) => (
+          props.data.map((el) => (
             <Link href={`/performances/${el.id}`} key={el.id}>
               <div className="card w-[26rem] h-[30rem] bg-white shadow-xl rounded-none border-2 border-white  transition ease-in-out delay-10 hover:-translate-y-1 hover:scale-105 duration-100">
                 <figure>

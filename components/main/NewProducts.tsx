@@ -30,7 +30,11 @@ interface Performance {
   rank: string;
 }
 
-export default function NewProducts(): JSX.Element {
+export default function NewProducts({
+  data
+}: {
+  data: Performance[];
+}): JSX.Element {
   SwiperCore.use([Virtual, Navigation, Pagination, Autoplay, Scrollbar]);
   const truncateText = (text: string, maxLength: number) => {
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
@@ -38,19 +42,20 @@ export default function NewProducts(): JSX.Element {
   const selectedNew = useSelector(
     (state: RootState) => state.selected.new || ""
   );
-  const [data, setData] = useState<Performance[]>([]);
+  // const [data, setData] = useState<Performance[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [ready, setReady] = useState<boolean>(false);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/api/performances/new");
-        if (!response.ok) {
-          throw new Error("failed to fetch data");
-        }
-        const result = await response.json();
+        // const response = await fetch("/api/performances/new");
+        // if (!response.ok) {
+        //   throw new Error("failed to fetch data");
+        // }
+        // const result = await response.json();
         setReady(false);
-        setData(result);
+        // setData(result);
         setLoading(false);
       } catch (error) {
         console.error("error fetching data", error);
@@ -93,7 +98,7 @@ export default function NewProducts(): JSX.Element {
       ) : (
         <Swiper
           className="slider-wrapper flex "
-          spaceBetween={40}
+          //spaceBetween={40}
           // slidesPerView={5}
           navigation={{
             nextEl: ".swiper-button-next",
@@ -112,10 +117,7 @@ export default function NewProducts(): JSX.Element {
               slidesPerView: 3,
               spaceBetween: 30
             },
-            1024: {
-              slidesPerView: 4,
-              spaceBetween: 40
-            },
+
             1280: {
               slidesPerView: 5,
               spaceBetween: 50
@@ -126,7 +128,7 @@ export default function NewProducts(): JSX.Element {
             <SwiperSlide virtualIndex={el.id} key={el.id}>
               <Link href={`/performances/${el.id}`} key={el.id}>
                 <div className="card ">
-                  <figure className="h-80 ">
+                  <figure className="h-46 md:h-80">
                     <Image
                       src={el.img}
                       alt="new image"
