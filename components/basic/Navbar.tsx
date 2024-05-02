@@ -7,12 +7,13 @@ export default function Navbar() {
     <>
       <div className="bg-main-pink flex justify-center items-center h-40">
         <div className="flex justify-between items-center w-2/3">
-          <Link href="/" className=" w-48 ">
+          <Link href="/" className="w-full h-full">
             <Image
               src="/logo.png"
               alt="logo of artgarden"
               width={200}
               height={40}
+              className="w-48"
             ></Image>
           </Link>
 
