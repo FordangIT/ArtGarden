@@ -8,18 +8,24 @@ const nextConfig = {
       {
         protocol: "http",
         hostname: "www.kopis.or.kr",
-        pathname: "**",
-      },
-    ],
+        pathname: "**"
+      }
+    ]
   },
   async rewrites() {
-    return [
-      {
-        source: "/backend/:path*",
-        destination: "https://artgarden.site/:path*",
-      },
-    ];
-  },
+    return {
+      beforeFiles: [
+        {
+          source: "/backend",
+          destination: "https://artgarden.site"
+        },
+        {
+          source: "/backend/:path*",
+          destination: "https://artgarden.site/:path*"
+        }
+      ]
+    };
+  }
 };
 
 export default nextConfig;
