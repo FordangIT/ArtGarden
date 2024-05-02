@@ -55,18 +55,18 @@ function ReviewForm({ id }: ReviewFormProps) {
   };
 
   return (
-    <div className="flex justify-start items-center">
-      <form onSubmit={handleSubmit} className="flex-col">
+    <div className="flex justify-start items-center w-full">
+      <form onSubmit={handleSubmit} className="flex-col w-full">
         <div className="flex justify-between mt-8">
           <textarea
             value={reviewText}
             onChange={(e) => setReviewText(e.target.value)}
             placeholder="리뷰를 작성하세요"
-            className="rounded-md h-28 w-[50rem] border-2 border-black"
+            className="rounded-md h-28 w-full border-2 border-black"
           />
           <button
             type="submit"
-            className="text-black text-xl border-2 px-4 py-4 ml-8 rounded-md border-black"
+            className="text-white text-xl border-2 md:px-4 md:py-4 ml-8 rounded-md border-white"
           >
             submit
           </button>
