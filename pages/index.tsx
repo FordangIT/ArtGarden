@@ -10,8 +10,10 @@ import {
   updateReview
 } from "@/redux/slices/selectSlice";
 import { RootState } from "@/redux/store";
-import { loadNew, loadBest } from "@/lib/loadData";
+import { loadNew, loadBest, loadReview } from "@/lib/loadData";
+import { useEffect } from "react";
 const inter = Inter({ subsets: ["latin"] });
+
 interface Best_TYPE {
   id: string;
   name: string;
@@ -31,11 +33,29 @@ interface New_TYPE {
   genre: string;
   rank: string;
 }
+interface Review_TYPE {
+  name: string;
+  reviewid: string;
+  performid: string;
+  content: string;
+  rate: number;
+  regdt: string;
+  membierid: string;
+  genre: string;
+  posterurl: string;
+}
+interface Review_Props {
+  data: Review_TYPE[];
+}
 interface Performance_TYPE {
   bestData: Best_TYPE[];
   newData: New_TYPE[];
+  reviewData: Review_Props;
 }
 export default function Home(props: Performance_TYPE) {
+  useEffect(() => {
+    console.log(props.reviewData, "reviewData 데이터");
+  });
   const dispatch = useDispatch();
   const selectedBest = useSelector(
     (state: RootState) => state.selected.best || ""
@@ -146,7 +166,7 @@ export default function Home(props: Performance_TYPE) {
           </div>
         </div>
         <div>
-          <Reviews />
+          <Reviews data={props.reviewData} />
         </div>
       </div>
     </>
@@ -156,5 +176,6 @@ export default function Home(props: Performance_TYPE) {
 export async function getStaticProps() {
   const newData = await loadNew();
   const bestData = await loadBest();
-  return { props: { bestData, newData } };
+  const reviewData = await loadReview();
+  return { props: { bestData, newData, reviewData } };
 }
