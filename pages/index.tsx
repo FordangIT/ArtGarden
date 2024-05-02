@@ -134,8 +134,8 @@ export default function Home(props: Performance_TYPE) {
       <div className="bg-black py-20 z-20">
         <NewProducts data={props.newData} />
       </div>
-      <div className="bg-main-pink z-20 flex-col justify-center py-20">
-        <div className="flex flex-col sm:flex-row justify-center items-center my-16">
+      <div className="bg-main-pink z-20 flex-col justify-center pb-20 pt-1">
+        <div className="flex flex-col sm:flex-row justify-center items-center my-12">
           <div className="text-white text-5xl font-extrabold py-12 sm:px-16">
             REVIEW
           </div>
