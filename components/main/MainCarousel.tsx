@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Carousel from "react-material-ui-carousel";
 import { Paper, Button } from "@mui/material";
 import Image from "next/image";
@@ -26,17 +26,28 @@ interface ItemProps {
 }
 
 const Item: React.FC<ItemProps> = ({ item }) => {
+  const linkAddress =
+    item.info === "공연"
+      ? "/performances"
+      : item.info === "전시회"
+      ? "/exhibitions"
+      : item.info === "팝업스토어"
+      ? "/popupstores"
+      : "/";
   return (
     <Paper>
       <div className="h-[28rem]">
         <div className={item.style}>
-          <div className="w-2/3 relative">
+          <div className="w-2/3 relative ">
             <div className={item.titleStyle}>{item.title}</div>
             <div className={item.nameStyle}>{item.name}</div>
             <div className={item.descriptionStyle}>{item.description}</div>
-            <Link href={`/performances`}>
-              <Button className={item.buttonStyle}>
-                모든 {item.info} 보러 가기
+            <Link href={linkAddress}>
+              <Button
+                className={`absolute ${item.buttonStyle}`}
+                style={{ bottom: "2rem", left: "28rem", width: "180px" }}
+              >
+                <div>모든 {item.info} 보러 가기</div>
               </Button>
             </Link>
 
@@ -71,7 +82,7 @@ const MainCarousel: React.FC = () => {
       width: 400,
       height: 400,
       position: "absolute top-8 right-8",
-      buttonStyle: "CheckButton text-[#F76B0D] absolute bottom-2 left-60 z-20",
+      buttonStyle: "CheckButton text-[#F76B0D] absolute bottom-2 left-60 z-20"
     },
     {
       info: "공연",
@@ -88,8 +99,7 @@ const MainCarousel: React.FC = () => {
       width: 400,
       height: 400,
       position: "absolute top-8 right-8",
-      buttonStyle:
-        "CheckButton text-main-yellow absolute bottom-2 left-60 z-20",
+      buttonStyle: "CheckButton text-main-yellow absolute bottom-2 left-60 z-20"
     },
     {
       info: "팝업스토어",
@@ -106,8 +116,8 @@ const MainCarousel: React.FC = () => {
       width: 380,
       height: 380,
       position: "absolute top-8 right-8",
-      buttonStyle: "CheckButton text-main-pink absolute bottom-2 left-60 z-20",
-    },
+      buttonStyle: "CheckButton text-main-pink absolute bottom-2 left-60 z-20"
+    }
   ];
 
   return (
@@ -119,8 +129,8 @@ const MainCarousel: React.FC = () => {
           width: "60px",
           height: "60px",
           backgroundColor: "#D73D55",
-          borderRadius: "full",
-        },
+          borderRadius: "full"
+        }
       }}
       navButtonsWrapperProps={{
         // Move the buttons to the bottom. Unsetting top here to override default style.
@@ -128,8 +138,8 @@ const MainCarousel: React.FC = () => {
           marginTop: "30px",
           textAlign: "right",
           bottom: "0",
-          top: "unset",
-        },
+          top: "unset"
+        }
       }}
       NextIcon={<FaArrowRight />}
       PrevIcon={<FaArrowLeft />}
