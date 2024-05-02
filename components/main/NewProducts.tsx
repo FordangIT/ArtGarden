@@ -113,12 +113,15 @@ export default function NewProducts({
               slidesPerView: 2,
               spaceBetween: 20
             },
-            768: {
+            1024: {
               slidesPerView: 3,
-              spaceBetween: 30
+              spaceBetween: 40
             },
-
-            1280: {
+            1200: {
+              slidesPerView: 4,
+              spaceBetween: 50
+            },
+            1400: {
               slidesPerView: 5,
               spaceBetween: 50
             }
@@ -128,26 +131,31 @@ export default function NewProducts({
             <SwiperSlide virtualIndex={el.id} key={el.id}>
               <Link href={`/performances/${el.id}`} key={el.id}>
                 <div className="card ">
-                  <figure className="h-46 md:h-80">
+                  <figure className="bg-red-500 h-96 md:h-80">
                     <Image
                       src={el.img}
                       alt="new image"
-                      width={330}
-                      height={100}
-                      className="rounded-4xl"
+                      width={300}
+                      height={200}
+                      className="rounded-4xl w-full "
                     />
                   </figure>
                   <div className="card-body text-white rounded-3xl border-b-2 pb-2">
-                    <h2 className="card-title">
-                      {truncateText(el.name, 10)}
+                    <h2 className="card-title text-2xl sm:text-xl">
+                      {truncateText(el.name, 9)}
                       <div className="badge badge-secondary bg-main-yellow border-none text-black ">
                         NEW
                       </div>
                     </h2>
-                    <p>장소: {truncateText(el.place, 16)}</p>
-                    공연 기간: {el.start}~{el.end}
-                    <div className="card-actions justify-end m-5">
-                      <div className="badge badge-outline">{el.genre}</div>
+                    <p className="text-lg sm:text-base ">
+                      장소: {truncateText(el.place, 13)}
+                    </p>
+                    <p className="text-lg sm:text-base">
+                      공연 기간: {el.start}~{el.end}
+                    </p>
+
+                    <div className="card-actions flex flex-col m-5 items-end ">
+                      <div className="badge badge-outline my-1">{el.genre}</div>
                       <div className="badge badge-outline">{el.rank}</div>
                     </div>
                   </div>
