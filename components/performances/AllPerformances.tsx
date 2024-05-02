@@ -47,7 +47,7 @@ const AllPerformances: React.FC = () => {
   };
   useEffect(() => {
     if (scrollY !== 0) window.scrollTo(0, Number(scrollY));
-  }, []);
+  }, [scrollY]);
 
   const getPerformanceWithPageInfo = async ({ pageParam = 1 }) => {
     try {
