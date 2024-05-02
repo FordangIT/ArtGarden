@@ -3,10 +3,12 @@ import { useQuery } from "react-query";
 import axios, { AxiosResponse } from "axios";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-interface Review_Full {
-  data: Review_Data[];
+interface Review_Props {
+  data: {
+    data: ReviewData[];
+  };
 }
-interface Review_Data {
+interface ReviewData {
   name: string;
   reviewid: string;
   performid: string;
@@ -17,31 +19,18 @@ interface Review_Data {
   genre: string;
   posterurl: string;
 }
-const Reviews = () => {
+const Reviews = ({ data }: Review_Props) => {
   const truncateText = (text: string, maxLength: number) => {
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
   };
-  const { data, isLoading, isError, error } = useQuery<Review_Full>(
-    "mainReview",
-    async () => {
-      const res: AxiosResponse<Review_Full> = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/reviews?page=1&size=8`
-      );
-      return res.data;
-    }
-  );
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-  if (isError) {
-    return <div>{(error as Error).message}</div>;
-  }
+  useEffect(() => {
+    console.log(data, "맞다이로 들어와");
+  });
   return (
     <div className="flex justify-center ">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 ">
         {data &&
-          data?.data.map((el) => (
+          data.data.map((el: ReviewData) => (
             <Link href={`/performances/${el.performid}`} key={el.reviewid}>
               <div
                 key={el.reviewid}
