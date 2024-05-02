@@ -187,7 +187,7 @@ const AllPerformances: React.FC = () => {
               </div>
             </ul>
           </div>
-          <div className="relative flex items-center justify-center w-[30rem] focus:border-black-2">
+          <div className="relative flex items-center justify-center w-[30rem]">
             <input
               type="text"
               placeholder="공연 이름을 검색하세요"
@@ -195,7 +195,7 @@ const AllPerformances: React.FC = () => {
               onChange={handleSearch}
               className="border-[1px] border-slate-300 rounded-3xl w-full h-12 pl-14"
             />
-            <div className="absolute top-3 left-5 right-4 none">
+            <div className="absolute top-3 left-5 right-4 w-fit">
               <IoSearch className="w-6 h-6" />
             </div>
           </div>
