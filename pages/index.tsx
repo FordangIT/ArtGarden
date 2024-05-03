@@ -44,17 +44,14 @@ interface Review_TYPE {
   genre: string;
   posterurl: string;
 }
-interface Review_Props {
-  data: Review_TYPE[];
-}
 interface Performance_TYPE {
-  bestData: Best_TYPE[];
-  newData: New_TYPE[];
-  reviewData: Review_Props;
+  best: Best_TYPE[];
+  new: New_TYPE[];
+  review: Review_TYPE[];
 }
 export default function Home(props: Performance_TYPE) {
   useEffect(() => {
-    console.log(props.reviewData, "reviewData 데이터");
+    console.log(props.review);
   });
   const dispatch = useDispatch();
   const selectedBest = useSelector(
@@ -115,7 +112,7 @@ export default function Home(props: Performance_TYPE) {
           </div>
         </div>
         <div className="flex justify-center items-center">
-          <BestProducts data={props.bestData} />
+          <BestProducts data={props.best} />
         </div>
         <div className="flex-col sm:flex sm:flex-row justify-center sm:justify-around items-center">
           <div className="text-main-pink text-5xl font-extrabold py-12 sm:px-16">
@@ -152,7 +149,7 @@ export default function Home(props: Performance_TYPE) {
         </div>
       </main>
       <div className="bg-black py-20 z-20">
-        <NewProducts data={props.newData} />
+        <NewProducts data={props.new} />
       </div>
       <div className="bg-main-pink z-20 flex-col justify-center pb-20 pt-1">
         <div className="flex flex-col sm:flex-row justify-center items-center my-12">
@@ -166,7 +163,7 @@ export default function Home(props: Performance_TYPE) {
           </div>
         </div>
         <div>
-          <Reviews data={props.reviewData} />
+          <Reviews data={props.review} />
         </div>
       </div>
     </>
@@ -177,5 +174,11 @@ export async function getStaticProps() {
   const newData = await loadNew();
   const bestData = await loadBest();
   const reviewData = await loadReview();
-  return { props: { bestData, newData, reviewData } };
+  return {
+    props: {
+      best: bestData,
+      new: newData,
+      review: reviewData
+    }
+  };
 }

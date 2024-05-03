@@ -3,11 +3,6 @@ import { useQuery } from "react-query";
 import axios, { AxiosResponse } from "axios";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-interface Review_Props {
-  data: {
-    data: ReviewData[];
-  };
-}
 interface ReviewData {
   name: string;
   reviewid: string;
@@ -19,7 +14,10 @@ interface ReviewData {
   genre: string;
   posterurl: string;
 }
-const Reviews = ({ data }: Review_Props) => {
+interface REVIEW_TYPE {
+  data: ReviewData[];
+}
+const Reviews = (data: REVIEW_TYPE) => {
   const truncateText = (text: string, maxLength: number) => {
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
   };
