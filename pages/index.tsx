@@ -4,11 +4,7 @@ import NewProducts from "@/components/main/NewProducts";
 import Reviews from "@/components/main/Reviews";
 import MainCarousel from "@/components/main/MainCarousel";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  updateBest,
-  updateNew,
-  updateReview
-} from "@/redux/slices/selectSlice";
+import { updateBest, updateNew } from "@/redux/slices/selectSlice";
 import { RootState } from "@/redux/store";
 import { loadNew, loadBest, loadReview } from "@/lib/loadData";
 import { useEffect } from "react";
@@ -60,18 +56,18 @@ export default function Home(props: Performance_TYPE) {
   const selectedNew = useSelector(
     (state: RootState) => state.selected.new || ""
   );
-  const selectedReview = useSelector(
-    (state: RootState) => state.selected.review || ""
-  );
+  // const selectedReview = useSelector(
+  //   (state: RootState) => state.selected.review || ""
+  // );
   const handleSelectBest = (text: string) => {
     dispatch(updateBest(text));
   };
   const handleSelectNew = (text: string) => {
     dispatch(updateNew(text));
   };
-  const handleSelectReview = (text: string) => {
-    dispatch(updateReview(text));
-  };
+  // const handleSelectReview = (text: string) => {
+  //   dispatch(updateReview(text));
+  // };
   return (
     <>
       <MainCarousel />
