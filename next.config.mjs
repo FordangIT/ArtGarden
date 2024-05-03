@@ -22,6 +22,14 @@ const nextConfig = {
         {
           source: "/backend/:path*",
           destination: "https://artgarden.site/:path*"
+        },
+        {
+          source: "/frontend",
+          destination: "http://localhost:3060"
+        },
+        {
+          source: "/frontend/:path*",
+          destination: "http://localhost:3060/:path*"
         }
       ]
     };
