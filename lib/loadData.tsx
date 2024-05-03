@@ -16,14 +16,18 @@ interface Review_Data {
 }
 export async function loadNew() {
   // Call an external API endpoint to get posts
-  const res = await fetch("http://localhost:3060/api/performances/new");
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/performances/new`
+  );
   const data = await res.json();
   return data;
 }
 
 export async function loadBest() {
   try {
-    const response = await fetch("http://localhost:3060/api/performances/best");
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/performances/best`
+    );
     if (!response.ok) {
       throw new Error("failed to fetch data");
     }
@@ -36,7 +40,9 @@ export async function loadBest() {
 }
 
 export async function loadReview() {
-  const res = await fetch(`https://artgarden.site/reviews?page=1&size=8`);
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/reviews?page=1&size=8`
+  );
   const data = await res.json();
   return data.data;
 }
