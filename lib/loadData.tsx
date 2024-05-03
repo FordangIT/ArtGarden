@@ -38,5 +38,5 @@ export async function loadBest() {
 export async function loadReview() {
   const res = await fetch(`https://artgarden.site/reviews?page=1&size=8`);
   const data = await res.json();
-  return data;
+  return data.data;
 }
