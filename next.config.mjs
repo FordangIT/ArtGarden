@@ -13,23 +13,16 @@ const nextConfig = {
     ]
   },
   async rewrites() {
+    console.log("rewrites 함수 입장");
     return {
       beforeFiles: [
         {
-          source: "/backend",
-          destination: "https://artgarden.site"
-        },
-        {
-          source: "/backend/:path*",
+          source: "/clientside/:path*",
           destination: "https://artgarden.site/:path*"
         },
         {
-          source: "/frontend",
-          destination: "http://localhost:3060"
-        },
-        {
-          source: "/frontend/:path*",
-          destination: "http://localhost:3060/:path*"
+          source: "/client",
+          destination: "https://artgarden.site"
         }
       ]
     };
