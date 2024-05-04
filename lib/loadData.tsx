@@ -20,6 +20,7 @@ export async function loadNew() {
     `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/performances/new`
   );
   const data = await res.json();
+  console.log("loadNew 함수 데이터");
   return data;
 }
 
