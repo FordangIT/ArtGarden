@@ -53,10 +53,10 @@ function DetailPage(props: PropsType) {
   };
   return (
     <div className="flex justify-center items-center">
-      <div className="w-2/3">
+      <div className="w-2/3 ">
         <div className="flex items-center justify-center w-ful">
-          <div className="flex flex-col lg:flex-row justify-center items-center w-full mt-6">
-            <div className="flex flex-1 justify-center items-center lg:mr-8 ">
+          <div className="flex flex-col h-full lg:flex-row justify-center items-center w-full mt-6">
+            <div className="flex flex-auto justify-center items-center h-full  w-[26rem] lg:pr-10 lg:w-[40rem] lg:h-[30rem]">
               {data[0] && (
                 <Image
                   src={data[0].img}
@@ -67,10 +67,10 @@ function DetailPage(props: PropsType) {
                 />
               )}
             </div>
-            <div className="flex flex-1 w-full h-full">
+            <div className="flex flex-auto w-full">
               {data[0] && (
                 <div className="text-black w-full">
-                  <div className="flex justify-end items-center my-2">
+                  <div className="flex justify-end items-center my-4">
                     <div
                       onClick={() => handleFavorite(id)}
                       className="border-[1px] border-black p-2"
@@ -85,11 +85,11 @@ function DetailPage(props: PropsType) {
                       <MdShare className="w-8 h-8 font-light text-black" />
                     </div>
                   </div>
-                  <div className="text-2xl md:text-3xl lg:text-2xl xl:text-3xl 2xl:text-5xl font-bold mb-4 leading-normal">
+                  <div className="text-2xl md:text-3xl lg:text-2xl xl:text-3xl 2xl:text-5xl font-bold mb-4 leading-normal ">
                     {data[0].name}
                   </div>
                   <div className="w-full h-1 bg-gray-100 mb-7"></div>
-                  <div className="lg:mb-10 2xl:mb-10 3xl:mb-20">
+                  <div className=" mb-10 2xl:mb-10 3xl:mb-20">
                     <div className="xl:text-xl 2xl:text-2xl flex justify-end mb-7">
                       {data[0].start} ~ {data[0].end}
                     </div>
@@ -123,7 +123,6 @@ function DetailPage(props: PropsType) {
                       </div>
                     </div>
                   </div>
-
                   <div className="bg-deep-blue font-semibold text-xl text-white w-full h-16 flex justify-center items-center">
                     예매하러 가기
                   </div>
@@ -132,8 +131,8 @@ function DetailPage(props: PropsType) {
             </div>
           </div>
         </div>
-        <div className="flex justify-center items-center mx-16 my-20">
-          <div className="flex justify-center items-center w-full h-16 ">
+        <div className="flex w-full">
+          <div className="flex justify-center items-center w-full h-16 my-20">
             <div className="border-[1px] border-x-black border-t-black border-b-0 w-1/2 h-full ">
               <Link
                 href="#detail"
