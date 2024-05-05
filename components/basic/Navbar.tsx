@@ -2,10 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaArrowDown } from "react-icons/fa";
 import Smallbar from "./Smallbar";
+import Sidebar from "./Sidebar";
 export default function Navbar() {
   return (
     <>
-      <div className="bg-main-pink flex justify-center items-center h-40">
+      <Sidebar />
+      <div className="bg-main-pink flex justify-center items-center h-20 lg:h-40 fixed to-0 w-full z-40">
         <div className="flex justify-between items-center w-2/3">
           <Link href="/" className="w-full h-full">
             <Image
@@ -16,7 +18,6 @@ export default function Navbar() {
               className="w-48"
             ></Image>
           </Link>
-
           <div className="lg:hidden">
             <Smallbar />
           </div>
