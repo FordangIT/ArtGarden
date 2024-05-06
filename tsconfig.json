@@ -16,6 +16,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.tsx", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.tsx", "**/*.tsx", "lib/mongodb.ts"],
   "exclude": ["node_modules"]
 }
