@@ -1,5 +1,8 @@
 import { useQuery } from "react-query";
 import axios, { AxiosResponse } from "axios";
+import { ObjectId } from "mongodb";
+import clientPromise from "../lib/mongodb";
+
 interface Review_Full {
   data: Review_Data[];
 }
@@ -46,4 +49,16 @@ export async function loadReview() {
   );
   const data = await res.json();
   return data.data;
+}
+
+export async function loadBestPopup() {
+  const client = await clientPromise;
+  const db = client.db("popupstores");
+  const collections = db.collection("bestPopupstore");
+  const data = await collections.find({}).toArray();
+  const bestPopup = data.map((item) => ({
+    ...item,
+    _id: item._id.toString()
+  }));
+  return bestPopup;
 }
