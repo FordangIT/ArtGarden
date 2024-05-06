@@ -6,7 +6,7 @@ import MainCarousel from "@/components/main/MainCarousel";
 import { useDispatch, useSelector } from "react-redux";
 import { updateBest, updateNew } from "@/redux/slices/selectSlice";
 import { RootState } from "@/redux/store";
-import { loadNew, loadBest, loadReview } from "@/lib/loadData";
+import { loadNew, loadBest, loadReview, loadBestPopup } from "@/lib/loadData";
 import { useEffect } from "react";
 const inter = Inter({ subsets: ["latin"] });
 
@@ -40,14 +40,25 @@ interface Review_TYPE {
   genre: string;
   posterurl: string;
 }
+
+interface BestPopup_TYPE {
+  _id: string;
+  name: string;
+  img: string;
+  place: string;
+  date: string;
+  time: string[];
+  images: string[];
+}
 interface Performance_TYPE {
   best: Best_TYPE[];
   new: New_TYPE[];
   review: Review_TYPE[];
+  bestPopup: BestPopup_TYPE[];
 }
 export default function Home(props: Performance_TYPE) {
   useEffect(() => {
-    console.log(props.review);
+    console.log(props, "props");
   });
   const dispatch = useDispatch();
   const selectedBest = useSelector(
@@ -68,9 +79,15 @@ export default function Home(props: Performance_TYPE) {
   // const handleSelectReview = (text: string) => {
   //   dispatch(updateReview(text));
   // };
+
+  const bestData =
+    selectedBest === "Best팝업스토어" ? props.bestPopup : props.best;
+
   return (
     <>
-      <MainCarousel />
+      <div className="hidden lg:block">
+        <MainCarousel />
+      </div>
       <main
         className={`flex min-h-screen flex-col items-center bg-black pt-20 z-10 ${inter.className}`}
       >
@@ -108,7 +125,7 @@ export default function Home(props: Performance_TYPE) {
           </div>
         </div>
         <div className="flex justify-center items-center">
-          <BestProducts data={props.best} />
+          <BestProducts selectedBest={selectedBest} data={bestData} />
         </div>
         <div className="flex-col sm:flex sm:flex-row justify-center sm:justify-around items-center">
           <div className="text-main-pink text-5xl font-extrabold py-12 sm:px-16">
@@ -170,11 +187,13 @@ export async function getStaticProps() {
   const newData = await loadNew();
   const bestData = await loadBest();
   const reviewData = await loadReview();
+  const bestPopup = await loadBestPopup();
   return {
     props: {
       best: bestData,
       new: newData,
-      review: reviewData
+      review: reviewData,
+      bestPopup: bestPopup
     }
   };
 }
