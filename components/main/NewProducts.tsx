@@ -131,7 +131,7 @@ export default function NewProducts({
             <SwiperSlide virtualIndex={el.id} key={el.id}>
               <Link href={`/performances/${el.id}`} key={el.id}>
                 <div className="card ">
-                  <figure className="bg-red-500 h-96 md:h-80">
+                  <figure className="bg-white h-96 md:h-80">
                     <Image
                       src={el.img}
                       alt="new image"
