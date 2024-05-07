@@ -16,33 +16,61 @@ import { RootState } from "@/redux/store";
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import { MdShare } from "react-icons/md";
-interface PropsType {
+import { fetchPerformanceDetails } from "@/lib/api/datailpage";
+import { fetchDetailPerformanceReview } from "@/lib/api/reviews";
+import DetailSection, {
+  DetailSection2
+} from "@/components/reviews/DetailSection";
+import DetailReview from "@/components/reviews/DetailReview";
+interface DetailPerformance_TYPE {
+  0: {
+    id: string;
+    name: string;
+    img: string;
+    start: string;
+    end: string;
+    place: string;
+    genre: string;
+    state: string;
+    cast: string;
+    runtime: string;
+    age: string;
+    price: string;
+    story: string;
+    prfstate: string;
+    styurls: string[];
+  };
+}
+
+interface DetailReview_TYPE {
+  data: {
+    name: string;
+    content: string;
+    genre: string;
+    memberid: string;
+    performid: string;
+    posterurl: string;
+    rate: number;
+    regdt: string;
+    reviewid: number;
+  }[];
+}
+interface DetailPage_TYPE {
   id: string;
+  data: DetailPerformance_TYPE;
+  reviews: DetailReview_TYPE;
 }
 //공연 상세 정보 페이지
-function DetailPage(props: PropsType) {
-  const { id } = props;
-  const [data, setData] = useState<Array<any>>([]);
-  const dispatch = useDispatch();
-  const favorites = useSelector((state: RootState) => state.favorites.list);
+function DetailPage(props: DetailPage_TYPE) {
+  const id = props.id;
+  const data = props.data[0];
+  const reviews = props.reviews;
 
   useEffect(() => {
-    if (id) {
-      const fetchData = async () => {
-        try {
-          const response = await fetch(`/api/performances/${id}`);
-          if (!response.ok) {
-            throw new Error("failed to fetch data");
-          }
-          const result = await response.json();
-          setData(result);
-        } catch (error) {
-          console.error("error fetching datat", error);
-        }
-      };
-      fetchData();
-    }
-  }, [id, data]);
+    console.log(props.data, "propscheck");
+  }, []);
+  const dispatch = useDispatch();
+  const favorites = useSelector((state: RootState) => state.favorites.list);
 
   const handleFavorite = (id: string) => {
     if (favorites.includes(id)) {
@@ -57,9 +85,9 @@ function DetailPage(props: PropsType) {
         <div className="flex items-center justify-center w-ful">
           <div className="flex flex-col h-full lg:flex-row justify-center items-center w-full mt-6">
             <div className="flex flex-auto justify-center items-center h-full  w-[26rem] lg:pr-10 lg:w-[40rem] lg:h-[30rem]">
-              {data[0] && (
+              {data && (
                 <Image
-                  src={data[0].img}
+                  src={data.img}
                   alt="메인 이미지"
                   width={500}
                   height={400}
@@ -68,7 +96,7 @@ function DetailPage(props: PropsType) {
               )}
             </div>
             <div className="flex flex-auto w-full">
-              {data[0] && (
+              {data && (
                 <div className="text-black w-full">
                   <div className="flex justify-end items-center my-4">
                     <div
@@ -86,40 +114,38 @@ function DetailPage(props: PropsType) {
                     </div>
                   </div>
                   <div className="text-2xl md:text-3xl lg:text-2xl xl:text-3xl 2xl:text-5xl font-bold mb-4 leading-normal ">
-                    {data[0].name}
+                    {data.name}
                   </div>
                   <div className="w-full h-1 bg-gray-100 mb-7"></div>
                   <div className=" mb-10 2xl:mb-10 3xl:mb-20">
                     <div className="xl:text-xl 2xl:text-2xl flex justify-end mb-7">
-                      {data[0].start} ~ {data[0].end}
+                      {data.start} ~ {data.end}
                     </div>
                     <div className="mt-10 text-lg 2xl:text-xl">
                       <div className="mb-4">
                         <span className=" font-semibold">장소 : </span>
-                        {data[0].place}
+                        {data.place}
                       </div>
                       <div className="mb-4">
                         <span className=" font-semibold">장르 : </span>
-                        {data[0].genre}
+                        {data.genre}
                       </div>
                       <div className="mb-4">
-                        <span className=" font-semibold">
-                          {data[0].prfstate}
-                        </span>
+                        <span className=" font-semibold">{data.prfstate}</span>
                       </div>
                       <div className="mb-4">
                         <span className=" font-semibold">
                           공연 소요시간 :{}
                         </span>
-                        {data[0].runtime}
+                        {data.runtime}
                       </div>
                       <div className="mb-4">
                         <span className=" font-semibold">연령 : </span>
-                        {data[0].age}
+                        {data.age}
                       </div>
                       <div>
                         <span className=" font-semibold">가격 : </span>
-                        {data[0].price}
+                        {data.price}
                       </div>
                     </div>
                   </div>
@@ -131,35 +157,12 @@ function DetailPage(props: PropsType) {
             </div>
           </div>
         </div>
-        <div className="flex w-full">
-          <div className="flex justify-center items-center w-full h-16 my-20">
-            <div className="border-[1px] border-x-black border-t-black border-b-0 w-1/2 h-full ">
-              <Link
-                href="#detail"
-                className="flex justify-center items-center h-full"
-              >
-                <div className="flex justify-center items-center font-semibold h-full">
-                  공연 상세 정보
-                </div>
-              </Link>
-            </div>
-            <div className="border-[1px] w-1/2 h-full border-b-black bg-review-section">
-              <Link
-                href="#review"
-                className="flex justify-center items-center h-full"
-              >
-                <div className="flex justify-center items-center font-medium h-full">
-                  공연 리뷰
-                </div>
-              </Link>
-            </div>
-          </div>
-        </div>
+        <DetailSection />
         <section id="detail">
           <div className="flex justify-center items-center w-4/7 min-h">
             <div className="flex-col">
-              {data[0] &&
-                data[0].styurls.map((el: any, idx: number) => (
+              {data &&
+                data.styurls.map((el: any, idx: number) => (
                   <Image
                     key={idx}
                     src={el}
@@ -171,77 +174,26 @@ function DetailPage(props: PropsType) {
             </div>
           </div>
         </section>
-        <div className="flex justify-center items-center md:mx-16 my-20">
-          <div className="flex justify-center items-center w-full h-16">
-            <div className="border-[1px] w-1/2 h-full border-b-black bg-review-section ">
-              <Link
-                href="#detail"
-                className="flex justify-center items-center h-full"
-              >
-                <div className="flex justify-center items-center font-medium h-full">
-                  공연 상세 정보
-                </div>
-              </Link>
-            </div>
-            <div className="border-[1px] w-1/2 h-full border-x-black border-t-black border-b-0">
-              <Link
-                href="#review"
-                className="flex justify-center items-center h-full"
-              >
-                <div className="flex justify-center items-center  font-semibold h-full">
-                  공연 리뷰
-                </div>
-              </Link>
-            </div>
-          </div>
-        </div>
-        <section id="review">
-          <div className="flex justify-center items-center xl:mx-16">
-            <div className="bg-black w-full flex-col mt-20 px-10 justify-center items-center">
-              <div className="flex justify-center items-center">
-                <div className="w-full h-1/3">
-                  <div className="flex justify-start items-center">
-                    <div className="font-semibold text-3xl my-10 text-white">
-                      리뷰 작성
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex justify-center items-center w-full">
-                <div className="w-full h-2/3">
-                  <div className="flex items-center justify-center w-full">
-                    <CreateReview id={id} />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="flex justify-center items-center xl:mx-16">
-            <div className="bg-black w-full">
-              <div className="font-semibold text-3xl my-10 text-white mx-9">
-                리뷰(개수)
-              </div>
-              <div className="h-fit flex justify-center items-center">
-                <div className="flex justify-center items-center w-full bg-black">
-                  <ReadReview id={id} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <DetailSection2 />
+        <DetailReview id={id} reviews={reviews} />
       </div>
     </div>
   );
 }
 export default DetailPage;
 
-export async function getServerSideProps(
-  context: GetServerSidePropsContext
-): Promise<{ props: { id: string } }> {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { id } = context.query;
+  const detailPerformance = await fetchPerformanceDetails(id);
+  const detailPerformanceReview = await fetchDetailPerformanceReview(
+    id as string,
+    1
+  );
   return {
     props: {
-      id: id as string
+      id,
+      data: detailPerformance,
+      reviews: detailPerformanceReview
     }
   };
 }
