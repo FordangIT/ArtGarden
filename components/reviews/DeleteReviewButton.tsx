@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 
@@ -7,6 +7,9 @@ interface Props {
 }
 
 const DeleteReviewButton = ({ id }: Props) => {
+  useEffect(() => {
+    console.log(id, "삭제 id");
+  }, []);
   const queryClient = useQueryClient();
 
   const deleteReviewMutation = useMutation(
