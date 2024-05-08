@@ -21,7 +21,6 @@ export default function CreateReviewForm({ id }: PropsType) {
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
     mutation.mutate({
       performid: String(id),
       content: content,
