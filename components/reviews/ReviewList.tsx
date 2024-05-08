@@ -37,6 +37,7 @@ export default function ReviewList({ id, props }: ReviewList_TYPE) {
 
   const queryClient = useQueryClient();
   const [currentPage, setCurrentPage] = useState(1);
+  const [editingReview, setEditingReview] = useState<ReviewData | null>(null);
 
   useEffect(() => {
     if (currentPage < maxPage) {
@@ -47,6 +48,10 @@ export default function ReviewList({ id, props }: ReviewList_TYPE) {
       });
     }
   }, [currentPage, queryClient]);
+
+  const handleEditClick = (review: ReviewData) => {
+    setEditingReview(review);
+  };
 
   return (
     <div className="flex-col w-full justify-center items-center mx-10">
@@ -81,12 +86,25 @@ export default function ReviewList({ id, props }: ReviewList_TYPE) {
                 <div className="py-2 flex justify-between">
                   <div>리뷰: {el.content}</div>
                 </div>
-                {/* <EditReviewForm review={el.review} /> */}
+
+                <button
+                  onClick={() => handleEditClick(el)}
+                  className="bg-green-500 text-white p-2 rounded mt-2"
+                >
+                  수정
+                </button>
                 <DeleteReviewButton id={el.reviewid} />
               </div>
             ))}
         </div>
       </div>
+
+      {editingReview && (
+        <EditReviewForm
+          review={editingReview}
+          onClose={() => setEditingReview(null)}
+        />
+      )}
 
       <div className="flex justify-around w-full py-10">
         <button
