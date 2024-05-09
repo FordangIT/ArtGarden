@@ -7,6 +7,7 @@ import { useObserver } from "@/customHook/useObserver";
 import useLocalStorage from "use-local-storage";
 import Hangul from "hangul-js";
 import { IoSearch } from "react-icons/io5";
+import RegionDropdown from "./RegionDropdown";
 interface Performance {
   id: string;
   name: string;
@@ -89,104 +90,10 @@ const AllPerformances: React.FC = () => {
     <>
       <div className="flex-col">
         <div className="flex justify-between items-center mx-16 py-16">
-          <div className="dropdown dropdown-right dropdown-end">
-            <div tabIndex={0} role="button" className="btn m-1">
-              지역
-            </div>
-            <ul
-              tabIndex={0}
-              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 gap-y-2"
-            >
-              <div
-                onClick={() => handleLocal("서울")}
-                className="flex items-center gap-2"
-              >
-                <input
-                  type="checkbox"
-                  defaultChecked
-                  className="checkbox checkbox-sm"
-                />
-                <div>전체</div>
-              </div>
-              <div
-                onClick={() => handleLocal("서울")}
-                className="flex items-center gap-2"
-              >
-                <input
-                  type="checkbox"
-                  defaultChecked
-                  className="checkbox checkbox-sm"
-                />
-                <div>서울</div>
-              </div>
-              <div
-                onClick={() => handleLocal("서울")}
-                className="flex items-center gap-2"
-              >
-                <input
-                  type="checkbox"
-                  defaultChecked
-                  className="checkbox checkbox-sm"
-                />
-                <div>경기/인천</div>
-              </div>
-              <div
-                onClick={() => handleLocal("서울")}
-                className="flex items-center gap-2"
-              >
-                <input
-                  type="checkbox"
-                  defaultChecked
-                  className="checkbox checkbox-sm"
-                />
-                <div>충청/대전/세종</div>
-              </div>
-              <div
-                onClick={() => handleLocal("서울")}
-                className="flex items-center gap-2"
-              >
-                <input
-                  type="checkbox"
-                  defaultChecked
-                  className="checkbox checkbox-sm"
-                />
-                <div>강원도</div>
-              </div>
-              <div
-                onClick={() => handleLocal("서울")}
-                className="flex items-center gap-2"
-              >
-                <input
-                  type="checkbox"
-                  defaultChecked
-                  className="checkbox checkbox-sm"
-                />
-                <div>경상도</div>
-              </div>
-              <div
-                onClick={() => handleLocal("서울")}
-                className="flex items-center gap-2"
-              >
-                <input
-                  type="checkbox"
-                  defaultChecked
-                  className="checkbox checkbox-sm"
-                />
-                <div>전라/광주</div>
-              </div>
-              <div
-                onClick={() => handleLocal("서울")}
-                className="flex items-center gap-2"
-              >
-                <input
-                  type="checkbox"
-                  defaultChecked
-                  className="checkbox checkbox-sm"
-                />
-                <div>제주도</div>
-              </div>
-            </ul>
-          </div>
+          <RegionDropdown
+            selectedRegion={"지역"}
+            onSelectRegion={handleLocal}
+          />
           <div className="relative flex items-center justify-center w-[30rem]">
             <input
               type="text"
