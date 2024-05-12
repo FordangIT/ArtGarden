@@ -53,7 +53,7 @@ const AllPerformances: React.FC = () => {
   const getPerformanceWithPageInfo = async ({ pageParam = 1 }) => {
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_ClientSide_BACKEND_URL}/performances?status=all&days=30&page=${pageParam}&size=12`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/performances?status=all&days=30&page=${pageParam}&size=12`
       );
       return res;
     } catch (error) {
@@ -127,7 +127,7 @@ const AllPerformances: React.FC = () => {
           </div>
         </div>
         <div className="flex items-center justify-center">
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 ">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 ">
             {status === "loading" && <div>로딩중</div>}
             {status === "error" && <p>불러오기 실패</p>}
             {status === "success" && data && (
@@ -149,13 +149,14 @@ const AllPerformances: React.FC = () => {
                           key={el.id}
                           onClick={() => setScrollY(window.scrollY)}
                         >
-                          <div className="card w-[26rem] h-[30rem] bg-white shadow-xl rounded-none border-2 border-white  transition ease-in-out delay-10 hover:-translate-y-1 hover:scale-105 duration-100">
+                          <div className="card w-[24rem] h-[30rem] bg-white shadow-xl rounded-none border-2 border-white">
                             <figure>
                               <Image
                                 src={el.posterUrl}
                                 alt="공연사진"
-                                width={420}
-                                height={380}
+                                width={300}
+                                height={100}
+                                className="transition ease-in-out delay-10 hover:-translate-y-1 hover:scale-105 duration-100"
                               />
                             </figure>
                             <div className="card-body">
