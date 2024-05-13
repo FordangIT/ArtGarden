@@ -69,10 +69,18 @@ export default function SignIn() {
                   })
                 }
               >
-                <></>
-                <span className="font-semibold text-sm text-black">
-                  구글 계정으로 계속하기
-                </span>
+                <div className="flex justify-center items-center">
+                  <Image
+                    src="/google_login.png"
+                    alt="구글 로그인 아이콘"
+                    width={100}
+                    height={100}
+                    className="w-5 h-5 mr-2"
+                  />
+                  <span className="font-semibold text-sm text-black">
+                    구글 계정으로 계속하기
+                  </span>
+                </div>
               </button>
             </div>
           </div>
