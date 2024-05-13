@@ -6,7 +6,13 @@ import MainCarousel from "@/components/main/MainCarousel";
 import { useDispatch, useSelector } from "react-redux";
 import { updateBest, updateNew } from "@/redux/slices/selectSlice";
 import { RootState } from "@/redux/store";
-import { loadNew, loadBest, loadReview, loadBestPopup } from "@/lib/loadData";
+import {
+  loadNew,
+  loadBest,
+  loadReview,
+  loadNewPopup,
+  loadBestPopup
+} from "@/lib/loadData";
 import { useEffect } from "react";
 const inter = Inter({ subsets: ["latin"] });
 
@@ -54,6 +60,7 @@ interface Performance_TYPE {
   best: Best_TYPE[];
   new: New_TYPE[];
   review: Review_TYPE[];
+  newPopup: BestPopup_TYPE[];
   bestPopup: BestPopup_TYPE[];
 }
 export default function Home(props: Performance_TYPE) {
@@ -83,22 +90,24 @@ export default function Home(props: Performance_TYPE) {
   const bestData =
     selectedBest === "Best팝업스토어" ? props.bestPopup : props.best;
 
+  const newData = selectedNew === "New팝업스토어" ? props.newPopup : props.new;
   return (
-    <>
-      <div className="hidden lg:block">
-        <MainCarousel />
-      </div>
+    <div>
+      <div className="hidden lg:block">{/* <MainCarousel /> */}</div>
       <main
-        className={`flex min-h-screen flex-col items-center bg-black pt-20 z-10 ${inter.className}`}
+        className={`flex min-h-screen flex-col items-center pt-20 z-10 ${inter.className}`}
       >
         <div className="flex-col sm:flex sm:flex-row justify-center sm:justify-around items-center my-16 ">
-          <div className="text-main-pink text-5xl font-extrabold py-12 sm:px-16">
-            <div className="flex justify-center items-center ">RANKING</div>
+          <div className="text- text-5xl font-extrabold py-12 sm:px-16">
+            <div className="flex justify-center items-center gap-x-2">
+              <span className="text-black">RANKING </span>
+              <span className="text-main-pink">9</span>
+            </div>
           </div>
-          <div className="flex text-white text-3xl font-bold grid-rows-3 gap-4">
+          <div className="flex text-3xl font-bold grid-rows-3 gap-4">
             <div
               className={
-                selectedBest === "Best공연" ? "text-main-pink" : "text-white"
+                selectedBest === "Best공연" ? "text-main-pink" : "text-gray-400"
               }
               onClick={() => handleSelectBest("Best공연")}
             >
@@ -106,7 +115,7 @@ export default function Home(props: Performance_TYPE) {
             </div>
             <div
               className={
-                selectedBest === "Best전시" ? "text-main-pink" : "text-white "
+                selectedBest === "Best전시" ? "text-main-pink" : "text-gray-400"
               }
               onClick={() => handleSelectBest("Best전시")}
             >
@@ -116,7 +125,7 @@ export default function Home(props: Performance_TYPE) {
               className={
                 selectedBest === "Best팝업스토어"
                   ? "text-main-pink "
-                  : "text-white "
+                  : "text-gray-400"
               }
               onClick={() => handleSelectBest("Best팝업스토어")}
             >
@@ -127,14 +136,18 @@ export default function Home(props: Performance_TYPE) {
         <div className="flex justify-center items-center">
           <BestProducts selectedBest={selectedBest} data={bestData} />
         </div>
-        <div className="flex-col sm:flex sm:flex-row justify-center sm:justify-around items-center">
-          <div className="text-main-pink text-5xl font-extrabold py-12 sm:px-16">
-            <div className="flex justify-center items-center ">NEW</div>
+      </main>
+      <div>
+        <div className="bg-black flex-col sm:flex sm:flex-row justify-center items-center pt-12">
+          <div className="text-5xl font-extrabold py-12 sm:px-16">
+            <div className="flex justify-center items-center text-white">
+              NEW
+            </div>
           </div>
           <div className="flex text-white text-3xl font-bold grid-rows-3 gap-4">
             <div
               className={
-                selectedNew === "New공연" ? "text-main-pink" : "text-white"
+                selectedNew === "New공연" ? "text-main-pink" : "text-gray-400"
               }
               onClick={() => handleSelectNew("New공연")}
             >
@@ -142,7 +155,7 @@ export default function Home(props: Performance_TYPE) {
             </div>
             <div
               className={
-                selectedNew === "New전시" ? "text-main-pink " : "text-white"
+                selectedNew === "New전시" ? "text-main-pink " : "text-gray-400"
               }
               onClick={() => handleSelectNew("New전시")}
             >
@@ -152,7 +165,7 @@ export default function Home(props: Performance_TYPE) {
               className={
                 selectedNew === "New팝업스토어"
                   ? "text-main-pink"
-                  : "text-white"
+                  : "text-gray-400"
               }
               onClick={() => handleSelectNew("New팝업스토어")}
             >
@@ -160,16 +173,16 @@ export default function Home(props: Performance_TYPE) {
             </div>
           </div>
         </div>
-      </main>
-      <div className="bg-black py-20 z-20">
-        <NewProducts data={props.new} />
+        <div className="bg-black py-20 z-20">
+          <NewProducts selectedNew={selectedNew} data={newData} />
+        </div>
       </div>
-      <div className="bg-main-pink z-20 flex-col justify-center pb-20 pt-1">
+      <div className="flex-col justify-center my-16 z-20">
         <div className="flex flex-col sm:flex-row justify-center items-center my-12">
-          <div className="text-white text-5xl font-extrabold py-12 sm:px-16">
+          <div className="text-main-pink text-5xl font-extrabold py-12 sm:px-12">
             REVIEW
           </div>
-          <div className="flex text-white text-3xl font-bold grid-rows-3 gap-4">
+          <div className="flex text-gray-400 text-3xl font-bold grid-rows-3 gap-4">
             <div className="hover:text-black">공연</div>
             <div className="hover:text-black">전시</div>
             <div className="hover:text-black">팝업스토어</div>
@@ -179,7 +192,7 @@ export default function Home(props: Performance_TYPE) {
           <Reviews data={props.review} />
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
@@ -187,12 +200,14 @@ export async function getStaticProps() {
   const newData = await loadNew();
   const bestData = await loadBest();
   const reviewData = await loadReview();
+  const newPopup = await loadNewPopup();
   const bestPopup = await loadBestPopup();
   return {
     props: {
       best: bestData,
       new: newData,
       review: reviewData,
+      newPopup: newPopup,
       bestPopup: bestPopup
     }
   };
