@@ -19,6 +19,7 @@ import "swiper/css/effect-fade";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import ReadyNew from "../basic/ReadyNew";
+import { time } from "console";
 interface New_TYPE {
   id: number;
   img: string;
@@ -45,18 +46,16 @@ interface NewProducts_TYPE {
   data: (New_TYPE | NewPopup_TYPE)[];
 }
 
+const isTypeNew = (item: New_TYPE | NewPopup_TYPE): item is New_TYPE => {
+  return (item as New_TYPE).id !== undefined;
+};
+
 const NewProducts: React.FC<NewProducts_TYPE> = ({ selectedNew, data }) => {
-  SwiperCore.use([Virtual, Navigation, Pagination, Autoplay, Scrollbar]);
+  SwiperCore.use([Navigation, Pagination, Autoplay, Scrollbar]);
+
   const truncateText = (text: string, maxLength: number) => {
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
   };
-
-  const word = selectedNew.match(/[가-힣]+/g)?.[0];
-
-  useEffect(() => {
-    console.log(word, "check");
-    console.log(data, "checkdata");
-  }, [word, data]);
 
   return (
     <div className="bg-black flex-col ">
@@ -67,8 +66,6 @@ const NewProducts: React.FC<NewProducts_TYPE> = ({ selectedNew, data }) => {
           prevEl: ".swiper-button-prev"
         }}
         pagination={{ clickable: false }}
-        virtual
-        loop
         autoplay={{ delay: 2000 }}
         breakpoints={{
           640: {
@@ -90,11 +87,8 @@ const NewProducts: React.FC<NewProducts_TYPE> = ({ selectedNew, data }) => {
         }}
       >
         {data.map((el) => (
-          <SwiperSlide key={"id" in el ? el.id : el._id}>
-            <Link
-              href={`/performances/${"id" in el ? el.id : el._id}`}
-              key={"id" in el ? el.id : el._id}
-            >
+          <SwiperSlide key={isTypeNew(el) ? el.id : el._id}>
+            <Link href={`/performances/${isTypeNew(el) ? el.id : el._id}`}>
               <div className="card w-80">
                 <figure className="bg-white h-96 md:h-80">
                   <Image
@@ -113,15 +107,25 @@ const NewProducts: React.FC<NewProducts_TYPE> = ({ selectedNew, data }) => {
                     </div>
                   </h2>
                   <p className="text-lg sm:text-base ">
-                    장소: {truncateText(el.place, 13)}
+                    장소 : {truncateText(el.place, 13)}
                   </p>
-                  <p className="text-lg sm:text-base">
-                    공연 기간: {el.start}~{el.end}
-                  </p>
+                  {isTypeNew(el) ? (
+                    <p className="text-lg sm:text-base">
+                      공연 기간: {el.start}~{el.end}
+                    </p>
+                  ) : (
+                    <p className="text-lg sm:text-base">
+                      공연 기간 : {el.date}
+                    </p>
+                  )}
 
                   <div className="card-actions flex flex-col m-5 items-end ">
-                    <div className="badge badge-outline my-1">{el.genre}</div>
-                    <div className="badge badge-outline">{el.rank}</div>
+                    <div className="badge badge-outline my-1">
+                      {isTypeNew(el) ? el.genre : el.time[0]}
+                    </div>
+                    <div className="badge badge-outline">
+                      {isTypeNew(el) ? el.genre : el.time[1]}
+                    </div>
                   </div>
                 </div>
               </div>
