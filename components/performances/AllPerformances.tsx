@@ -7,7 +7,6 @@ import { useObserver } from "@/customHook/useObserver";
 import useLocalStorage from "use-local-storage";
 import Hangul from "hangul-js";
 import { IoSearch } from "react-icons/io5";
-import RegionDropdown from "./RegionDropdown";
 interface Performance {
   id: string;
   name: string;
@@ -89,11 +88,7 @@ const AllPerformances: React.FC = () => {
   return (
     <>
       <div className="flex-col">
-        <div className="flex justify-between items-center mx-16 py-16">
-          <RegionDropdown
-            selectedRegion={"지역"}
-            onSelectRegion={handleLocal}
-          />
+        <div className="flex justify-center items-center mx-16 py-16">
           <div className="relative flex items-center justify-center w-[30rem]">
             <input
               type="text"
@@ -106,25 +101,7 @@ const AllPerformances: React.FC = () => {
               <IoSearch className="w-6 h-6" />
             </div>
           </div>
-          <div className="dropdown dropdown-left dropdown-end">
-            <div tabIndex={0} role="button" className="btn m-1">
-              {sort}
-            </div>
-            <ul
-              tabIndex={0}
-              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-60"
-            >
-              <li onClick={() => handleSort("최신순")}>
-                <a>최신순</a>
-              </li>
-              <li onClick={() => handleSort("조회순")}>
-                <a>조회순</a>
-              </li>
-              <li onClick={() => handleSort("찜하기순")}>
-                <a>찜하기순</a>
-              </li>
-            </ul>
-          </div>
+          <button>조건검색</button>
         </div>
         <div className="flex items-center justify-center">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 ">
