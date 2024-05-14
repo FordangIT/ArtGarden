@@ -7,9 +7,6 @@ interface Props {
 }
 
 const DeleteReviewButton = ({ id }: Props) => {
-  useEffect(() => {
-    console.log(id, "삭제 id");
-  }, []);
   const queryClient = useQueryClient();
 
   const deleteReviewMutation = useMutation(
@@ -21,6 +18,7 @@ const DeleteReviewButton = ({ id }: Props) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["detailReview"]);
+        location.reload();
       }
     }
   );
@@ -32,7 +30,7 @@ const DeleteReviewButton = ({ id }: Props) => {
   return (
     <button
       onClick={handleDelete}
-      className="bg-red-500 text-white p-2 rounded mt-2"
+      className="bg-main-pink text-white p-2 rounded font-semibold"
     >
       삭제
     </button>

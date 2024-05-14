@@ -21,9 +21,6 @@ const Reviews = (data: REVIEW_TYPE) => {
   const truncateText = (text: string, maxLength: number) => {
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
   };
-  useEffect(() => {
-    console.log(data, "맞다이로 들어와");
-  });
   return (
     <div className="flex justify-center ">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 ">

@@ -4,9 +4,6 @@ import { useMutation, useQueryClient } from "react-query";
 import { updateReivew } from "@/lib/api/reviews";
 
 const EditReviewForm = ({ review }) => {
-  useEffect(() => {
-    console.log(review, "review");
-  });
   const [content, setContent] = useState(review);
   const queryClient = useQueryClient();
   const mutation = useMutation(

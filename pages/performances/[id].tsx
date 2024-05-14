@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import CreateReview from "@/components/performances/CreateReview";
 import { ReadReview } from "@/components/performances/ReadReview";
 import { GetServerSidePropsContext } from "next";
 import Link from "next/link";
@@ -66,9 +65,6 @@ function DetailPage(props: DetailPage_TYPE) {
   const data = props.data[0];
   const reviews = props.reviews;
 
-  useEffect(() => {
-    console.log(props.data, "propscheck");
-  }, []);
   const dispatch = useDispatch();
   const favorites = useSelector((state: RootState) => state.favorites.list);
 

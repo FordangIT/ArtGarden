@@ -64,9 +64,6 @@ interface Performance_TYPE {
   bestPopup: BestPopup_TYPE[];
 }
 export default function Home(props: Performance_TYPE) {
-  useEffect(() => {
-    console.log(props, "props");
-  });
   const dispatch = useDispatch();
   const selectedBest = useSelector(
     (state: RootState) => state.selected.best || ""

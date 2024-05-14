@@ -28,10 +28,6 @@ interface BestProducts_TYPE {
 
 const BestProducts: React.FC<BestProducts_TYPE> = ({ selectedBest, data }) => {
   const word = selectedBest.match(/[가-힣]+/g)?.[0];
-  useEffect(() => {
-    console.log(word, "check");
-    console.log(data, "checkdata");
-  }, [word, data]);
 
   const truncateText = (text: string, maxLength: number) => {
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;

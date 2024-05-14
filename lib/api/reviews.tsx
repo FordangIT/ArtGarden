@@ -24,7 +24,6 @@ export const createReview = async (reviewData: ReviewCreate_TYPE) => {
     `${process.env.NEXT_PUBLIC_ClientSide_BACKEND_URL}/reviews`,
     reviewData
   );
-  console.log(res, "확인완료");
   return res.data;
 };
 
@@ -44,9 +43,20 @@ export const deleteReview = async (id: number) => {
 export const fetchDetailPerformanceReview = async (
   id: string,
   pageNum: number
-): Promise<{ data: ReviewData[] }> => {
+): Promise<{
+  pageNo: number;
+  data: ReviewData[];
+  totalPages: number;
+  hasNext: boolean;
+}> => {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/reviewList/${id}?page=${pageNum}&size=10`
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/reviewList/${id}?page=${pageNum}&size=5`
   );
-  return res.json();
+  const result = await res.json();
+  return {
+    pageNo: result.pageNo,
+    data: result.data,
+    totalPages: result.totalPages,
+    hasNext: result.hasNext
+  };
 };
