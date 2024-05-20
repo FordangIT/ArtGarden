@@ -6,12 +6,12 @@ interface LayoutProps {
 }
 export default function Layout({ children }: LayoutProps): JSX.Element {
   return (
-    <>
+    <div className="flex-col justify-center items-center">
       <Navbar />
-      <div className="flex justify-center items-center mt-16 lg:mt-20">
-        <main className=" w-full min-h">{children}</main>
+      <div className=" flex justify-center items-center mt-16 lg:mt-20">
+        <main className=" w-4/5 min-h">{children}</main>
       </div>
       <Footer />
-    </>
+    </div>
   );
 }

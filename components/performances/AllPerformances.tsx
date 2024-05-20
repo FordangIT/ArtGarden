@@ -104,7 +104,7 @@ const AllPerformances: React.FC = () => {
           <button>조건검색</button>
         </div>
         <div className="flex items-center justify-center">
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 ">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 ">
             {status === "loading" && <div>로딩중</div>}
             {status === "error" && <p>불러오기 실패</p>}
             {status === "success" && data && (
@@ -131,7 +131,7 @@ const AllPerformances: React.FC = () => {
                               <Image
                                 src={el.posterUrl}
                                 alt="공연사진"
-                                width={300}
+                                width={350}
                                 height={100}
                                 className="transition ease-in-out delay-10 hover:-translate-y-1 hover:scale-105 duration-100"
                               />

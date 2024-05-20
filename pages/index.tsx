@@ -13,7 +13,7 @@ import {
   loadNewPopup,
   loadBestPopup
 } from "@/lib/loadData";
-import { useEffect } from "react";
+import MainBanner from "@/components/main/MainBanner";
 const inter = Inter({ subsets: ["latin"] });
 
 interface Best_TYPE {
@@ -90,7 +90,11 @@ export default function Home(props: Performance_TYPE) {
   const newData = selectedNew === "New팝업스토어" ? props.newPopup : props.new;
   return (
     <div>
-      <div className="hidden lg:block">{/* <MainCarousel /> */}</div>
+      <div className="flex justify-center items-center bg-red-300">
+        <div className="hidden lg:block w-full h-80">
+          <MainBanner />
+        </div>
+      </div>
       <main
         className={`flex min-h-screen flex-col items-center pt-20 z-10 ${inter.className}`}
       >
@@ -135,13 +139,13 @@ export default function Home(props: Performance_TYPE) {
         </div>
       </main>
       <div>
-        <div className="bg-black flex-col sm:flex sm:flex-row justify-center items-center pt-12">
+        <div className=" flex-col sm:flex sm:flex-row justify-center items-center pt-12">
           <div className="text-5xl font-extrabold py-12 sm:px-16">
-            <div className="flex justify-center items-center text-white">
+            <div className="flex justify-center items-center text-black">
               NEW
             </div>
           </div>
-          <div className="flex text-white text-3xl font-bold grid-rows-3 gap-4">
+          <div className="flex text-black text-3xl font-bold grid-rows-3 gap-4">
             <div
               className={
                 selectedNew === "New공연" ? "text-main-pink" : "text-gray-400"
@@ -170,13 +174,13 @@ export default function Home(props: Performance_TYPE) {
             </div>
           </div>
         </div>
-        <div className="bg-black py-20 z-20">
+        <div className="bg-white py-20 z-20r">
           <NewProducts selectedNew={selectedNew} data={newData} />
         </div>
       </div>
       <div className="flex-col justify-center my-16 z-20">
         <div className="flex flex-col sm:flex-row justify-center items-center my-12">
-          <div className="text-main-pink text-5xl font-extrabold py-12 sm:px-12">
+          <div className="text-black text-5xl font-extrabold py-12 sm:px-12">
             REVIEW
           </div>
           <div className="flex text-gray-400 text-3xl font-bold grid-rows-3 gap-4">

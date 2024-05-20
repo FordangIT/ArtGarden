@@ -23,7 +23,7 @@ const Reviews = (data: REVIEW_TYPE) => {
   };
   return (
     <div className="flex justify-center ">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 ">
+      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-8 ">
         {data &&
           data.data.map((el: ReviewData) => (
             <Link href={`/performances/${el.performid}`} key={el.reviewid}>

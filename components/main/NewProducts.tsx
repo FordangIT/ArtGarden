@@ -1,25 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import SkeletonNew from "../basic/SkeletonNew";
 import { Swiper, SwiperSlide } from "swiper/react";
-import {
-  Navigation,
-  Scrollbar,
-  Autoplay,
-  Virtual,
-  Pagination
-} from "swiper/modules";
+import { Navigation, Scrollbar, Autoplay, Pagination } from "swiper/modules";
 import SwiperCore from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "swiper/css/effect-fade";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
-import ReadyNew from "../basic/ReadyNew";
-import { time } from "console";
 interface New_TYPE {
   id: number;
   img: string;
@@ -58,7 +47,7 @@ const NewProducts: React.FC<NewProducts_TYPE> = ({ selectedNew, data }) => {
   };
 
   return (
-    <div className="bg-black flex-col ">
+    <div className="flex justify-center items-center">
       <Swiper
         className="slider-wrapper flex "
         navigation={{
@@ -69,19 +58,19 @@ const NewProducts: React.FC<NewProducts_TYPE> = ({ selectedNew, data }) => {
         autoplay={{ delay: 2000 }}
         breakpoints={{
           640: {
-            slidesPerView: 2,
+            slidesPerView: 1,
             spaceBetween: 20
           },
           1024: {
-            slidesPerView: 3,
+            slidesPerView: 2,
             spaceBetween: 40
           },
           1200: {
-            slidesPerView: 4,
+            slidesPerView: 3,
             spaceBetween: 50
           },
           1400: {
-            slidesPerView: 5,
+            slidesPerView: 4,
             spaceBetween: 50
           }
         }}
@@ -89,8 +78,8 @@ const NewProducts: React.FC<NewProducts_TYPE> = ({ selectedNew, data }) => {
         {data.map((el) => (
           <SwiperSlide key={isTypeNew(el) ? el.id : el._id}>
             <Link href={`/performances/${isTypeNew(el) ? el.id : el._id}`}>
-              <div className="card w-80">
-                <figure className="bg-white h-96 md:h-80">
+              <div className="card w-80 border-b-2 shadow-lg">
+                <figure className="bg-black h-96 md:h-80">
                   <Image
                     src={el.img}
                     alt="new image"
@@ -99,7 +88,7 @@ const NewProducts: React.FC<NewProducts_TYPE> = ({ selectedNew, data }) => {
                     className="rounded-4xl w-full "
                   />
                 </figure>
-                <div className="card-body text-white rounded-3xl border-b-2 pb-2">
+                <div className="card-body text-black rounded-3xl pb-2">
                   <h2 className="card-title text-2xl sm:text-xl">
                     {truncateText(el.name, 9)}
                     <div className="badge badge-secondary bg-main-yellow border-none text-black ">
@@ -134,7 +123,7 @@ const NewProducts: React.FC<NewProducts_TYPE> = ({ selectedNew, data }) => {
         ))}
         <div className="flex justify-end mt-12 mr-6">
           <Link href={`/performances`}>
-            <div className="text-white font-bold text-2xl hover:text-main-pink">
+            <div className="text-black font-bold text-2xl hover:text-main-pink">
               더 많은 NEW 공연 보러 가기
             </div>
           </Link>

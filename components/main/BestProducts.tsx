@@ -42,7 +42,7 @@ const BestProducts: React.FC<BestProducts_TYPE> = ({ selectedBest, data }) => {
               href={`/performances/${"id" in el ? el.id : el._id}`}
               key={"id" in el ? el.id : el._id}
             >
-              <div className="card w-[26rem] h-[30rem] bg-white shadow-xl rounded-none border-2 border-white transition ease-in-out delay-10 hover:-translate-y-1 hover:scale-105 duration-100">
+              <div className="card w-[24rem] h-[30rem] bg-white shadow-xl rounded-none border-2 border-white transition ease-in-out delay-10 hover:-translate-y-1 hover:scale-105 duration-100">
                 <figure>
                   <Image src={el.img} alt="공연사진" width={420} height={380} />
                 </figure>
@@ -68,7 +68,7 @@ const BestProducts: React.FC<BestProducts_TYPE> = ({ selectedBest, data }) => {
       {word === "공연" && (
         <div className="flex justify-end mt-8">
           <Link href={`/performances`}>
-            <div className="text-white font-bold text-2xl hover:text-main-pink">
+            <div className="text-black font-bold text-2xl hover:text-main-pink py-8">
               더 많은 BEST 공연 보러 가기
             </div>
           </Link>
