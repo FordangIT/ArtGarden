@@ -1,19 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
-import { ReadReview } from "@/components/performances/ReadReview";
 import { GetServerSidePropsContext } from "next";
-import Link from "next/link";
-import { Anchor } from "@/lib/anchore";
-import axios from "axios";
-import { useMutation } from "react-query";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  addToFavorite,
-  removeFromFavorite
-} from "@/redux/slices/favoriteSlice";
-import { RootState } from "@/redux/store";
-import { FaHeart } from "react-icons/fa";
-import { FaRegHeart } from "react-icons/fa";
 import { MdShare } from "react-icons/md";
 import { fetchPerformanceDetails } from "@/lib/api/datailpage";
 import { fetchDetailPerformanceReview } from "@/lib/api/reviews";
@@ -21,6 +8,8 @@ import DetailSection, {
   DetailSection2
 } from "@/components/reviews/DetailSection";
 import DetailReview from "@/components/reviews/DetailReview";
+import axios from "axios";
+import { FavoriteButton } from "@/lib/components/FavoriteButton";
 interface DetailPerformance_TYPE {
   0: {
     id: string;
@@ -59,22 +48,49 @@ interface DetailPage_TYPE {
   data: DetailPerformance_TYPE;
   reviews: DetailReview_TYPE;
 }
+
+export interface ReviewData {
+  reviewid: number;
+  content: string;
+  rate: number;
+  memberid: string;
+  regdt: string;
+}
+
+interface ReviewCreate_TYPE {
+  performid: string;
+  content: string;
+  rate: number;
+  memberid: string;
+}
 //공연 상세 정보 페이지
 function DetailPage(props: DetailPage_TYPE) {
   const id = props.id;
   const data = props.data[0];
-  const reviews = props.reviews;
 
-  const dispatch = useDispatch();
-  const favorites = useSelector((state: RootState) => state.favorites.list);
+  const [reviews, setReviews] = useState(props.reviews);
 
-  const handleFavorite = (id: string) => {
-    if (favorites.includes(id)) {
-      dispatch(removeFromFavorite(id));
-    } else {
-      dispatch(addToFavorite(id));
-    }
+  const createReview = async (reviewData: ReviewCreate_TYPE) => {
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_ClientSide_BACKEND_URL}/reviews`,
+      reviewData
+    );
+    setReviews([res.data, ...reviews]);
   };
+
+  const updateReview = async (id: number, review: Partial<ReviewData>) => {
+    const res = await axios.put(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/reviews/${id}`,
+      review
+    );
+    setReviews(reviews.map((review) => (review.id === id ? res.data : review)));
+  };
+
+  const deleteReview = async (id: number) => {
+    await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/reviews/${id}`);
+    setReviews(reviews.filter((review) => review.id !== id));
+  };
+
   return (
     <div className="flex justify-center items-center">
       <div className="w-2/3 ">
@@ -95,16 +111,7 @@ function DetailPage(props: DetailPage_TYPE) {
               {data && (
                 <div className="text-black w-full">
                   <div className="flex justify-end items-center my-4">
-                    <div
-                      onClick={() => handleFavorite(id)}
-                      className="border-[1px] border-black p-2"
-                    >
-                      {favorites.includes(id) ? (
-                        <FaHeart className="w-8 h-8 font-light text-main-pink" />
-                      ) : (
-                        <FaRegHeart className="w-8 h-8  font-light " />
-                      )}
-                    </div>
+                    <FavoriteButton item={id} />
                     <div className="border-[1px] p-2 border-black ml-1">
                       <MdShare className="w-8 h-8 font-light text-black" />
                     </div>
@@ -171,7 +178,13 @@ function DetailPage(props: DetailPage_TYPE) {
           </div>
         </section>
         <DetailSection2 />
-        <DetailReview id={id} reviews={reviews} />
+        <DetailReview
+          id={id}
+          reviews={reviews}
+          createReview={createReview}
+          updateReview={updateReview}
+          deleteReview={deleteReview}
+        />
       </div>
     </div>
   );
