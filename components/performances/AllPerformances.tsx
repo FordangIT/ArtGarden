@@ -7,6 +7,7 @@ import { useObserver } from "@/customHook/useObserver";
 import useLocalStorage from "use-local-storage";
 import Hangul from "hangul-js";
 import { IoSearch } from "react-icons/io5";
+import Condition from "./Condition";
 interface Performance {
   id: string;
   name: string;
@@ -101,7 +102,7 @@ const AllPerformances: React.FC = () => {
               <IoSearch className="w-6 h-6" />
             </div>
           </div>
-          <button>조건검색</button>
+          <Condition />
         </div>
         <div className="flex items-center justify-center">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 ">
