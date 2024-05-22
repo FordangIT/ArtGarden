@@ -102,7 +102,9 @@ const AllPerformances: React.FC = () => {
               <IoSearch className="w-6 h-6" />
             </div>
           </div>
-          <Condition />
+          <div className="w-28 h-12 ml-2">
+            <Condition />
+          </div>
         </div>
         <div className="flex items-center justify-center">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 ">
