@@ -54,6 +54,7 @@ export default async function handler(
           price: item.pcseguidance?.[0], //가격
           story: item.sty?.[0], //스토리
           styurls: item.styurls?.[0].styurl, //여러 이미지
+          relates: item.relates?.[0].relate[0].relateurl[0] //예매처목록
         }));
         resolve(parsedData);
       });
