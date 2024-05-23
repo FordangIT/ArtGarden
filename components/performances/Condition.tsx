@@ -6,10 +6,25 @@ import axios from "axios";
 interface Region {
   cdnm: string;
   cdengnm: string;
+  code: string;
 }
-export default function Condition() {
+
+interface ConditionProps {
+  onRegionChange: (selectedRegions: string[]) => void;
+  onSortChange: (selectedSort: string) => void;
+  onApply: () => void;
+}
+
+export default function Condition({
+  onRegionChange,
+  onSortChange,
+  onApply
+}: ConditionProps) {
   const [open, setOpen] = useState(false);
   const [data, setData] = useState<Region[]>([]);
+  const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
+  const [selectedSort, setSelectedSort] = useState<string>("latest");
+
   const openModal = () => {
     setOpen(true);
     console.log("open");
@@ -19,6 +34,26 @@ export default function Condition() {
     setOpen(false);
     console.log("close");
   };
+
+  const handleRegionChange = (region: string) => {
+    setSelectedRegions((prev) =>
+      prev.includes(region)
+        ? prev.filter((r) => r !== region)
+        : [...prev, region]
+    );
+  };
+
+  const handleSortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedSort(event.target.value);
+  };
+
+  const applyConditions = () => {
+    onRegionChange(selectedRegions);
+    onSortChange(selectedSort);
+    onApply();
+    closeModal();
+  };
+
   const getRegionNames = async () => {
     try {
       const res = await axios.get(
@@ -62,15 +97,36 @@ export default function Condition() {
                 <div className="basis-4/5">
                   <div className="basis-4/5 grid grid-cols-3 lg:grid-cols-6 lg:gap-4 items-center p-4">
                     <div className="col-span-1 flex items-center space-x-1">
-                      <input type="radio" id="latest" name="sorting" />
+                      <input
+                        type="radio"
+                        id="latest"
+                        name="sorting"
+                        value="latest"
+                        checked={selectedSort === "latest"}
+                        onChange={handleSortChange}
+                      />
                       <label htmlFor="latest">최신순</label>
                     </div>
                     <div className="col-span-1 flex items-center space-x-1">
-                      <input type="radio" id="views" name="sorting" />
+                      <input
+                        type="radio"
+                        id="views"
+                        name="sorting"
+                        value="popular"
+                        checked={selectedSort === "popular"}
+                        onChange={handleSortChange}
+                      />
                       <label htmlFor="views">조회순</label>
                     </div>
                     <div className="col-span-1 flex items-center space-x-1">
-                      <input type="radio" id="likes" name="sorting" />
+                      <input
+                        type="radio"
+                        id="likes"
+                        name="sorting"
+                        value="scrap"
+                        checked={selectedSort === "scrap"}
+                        onChange={handleSortChange}
+                      />
                       <label htmlFor="likes">찜하기순</label>
                     </div>
                   </div>
@@ -90,10 +146,13 @@ export default function Condition() {
                       >
                         <input
                           type="checkbox"
-                          id="nationwide"
-                          name="nationwide"
+                          id={region.code}
+                          name={region.code}
+                          value={region.code}
+                          checked={selectedRegions.includes(region.code)}
+                          onChange={() => handleRegionChange(region.code)}
                         />
-                        <label htmlFor="nationwide">{region.cdnm}</label>
+                        <label htmlFor={region.code}>{region.cdnm}</label>
                       </div>
                     ))
                   ) : (
@@ -104,7 +163,7 @@ export default function Condition() {
               <button
                 type="button"
                 className="flex justify-between items-center bg-main-pink absolute right-4 bottom-2 px-2 py-2 rounded-md text-sm text-white font-semibold tracking-wide"
-                onClick={closeModal}
+                onClick={applyConditions}
               >
                 <IoSearch />
                 조건 검색하기

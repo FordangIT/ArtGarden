@@ -8,6 +8,8 @@ import useLocalStorage from "use-local-storage";
 import Hangul from "hangul-js";
 import { IoSearch } from "react-icons/io5";
 import Condition from "./Condition";
+import { FavoriteButton } from "@/lib/components/FavoriteButton";
+import { truncateText } from "@/lib/components/TruncateText";
 interface Performance {
   id: string;
   name: string;
@@ -30,8 +32,11 @@ const AllPerformances: React.FC = () => {
   const [scrollY, setScrollY] = useLocalStorage("performance_scroll", 0);
   const bottom = useRef(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [local, setLocal] = useState("지역");
-  const [sort, setSort] = useState("정렬순");
+  const [local, setLocal] = useState<string[]>([]);
+  const [sort, setSort] = useState("latest");
+  const [appliedLocal, setAppliedLocal] = useState<string[]>([]);
+  const [appliedSort, setAppliedSort] = useState("latest");
+
   const onIntersect = ([entry]: IntersectionObserverEntry[]) =>
     entry.isIntersecting && fetchNextPage();
 
@@ -43,17 +48,18 @@ const AllPerformances: React.FC = () => {
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event?.target.value);
   };
-  const truncateText = (text: string, maxLength: number) => {
-    return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
-  };
+
   useEffect(() => {
     if (scrollY !== 0) window.scrollTo(0, Number(scrollY));
   }, [scrollY]);
 
   const getPerformanceWithPageInfo = async ({ pageParam = 1 }) => {
     try {
+      const areaParams = appliedLocal
+        .map((area) => `searchAreaArr=${area}`)
+        .join("&");
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/performances?status=all&days=30&page=${pageParam}&size=12`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/performances?status=all&days=30&page=${pageParam}&size=12&${areaParams}&orderby=${appliedSort}`
       );
       return res;
     } catch (error) {
@@ -62,8 +68,8 @@ const AllPerformances: React.FC = () => {
     }
   };
 
-  const { data, fetchNextPage, status } = useInfiniteQuery(
-    ["allPerformances"],
+  const { data, fetchNextPage, status, refetch } = useInfiniteQuery(
+    ["allPerformances", appliedSort, appliedLocal],
     getPerformanceWithPageInfo,
     {
       getNextPageParam: (lastPage) => {
@@ -79,12 +85,11 @@ const AllPerformances: React.FC = () => {
     return searcher.search(text2);
   };
 
-  const handleLocal = (text: string) => {
-    setLocal(text);
-  };
-
-  const handleSort = (text: string) => {
-    setSort(text);
+  const applyConditions = () => {
+    setAppliedLocal(local);
+    setAppliedSort(sort);
+    refetch();
+    console.log(appliedLocal, appliedSort, "check");
   };
   return (
     <>
@@ -103,7 +108,11 @@ const AllPerformances: React.FC = () => {
             </div>
           </div>
           <div className="w-28 h-12 ml-2">
-            <Condition />
+            <Condition
+              onRegionChange={setLocal}
+              onSortChange={setSort}
+              onApply={applyConditions}
+            />
           </div>
         </div>
         <div className="flex items-center justify-center">
@@ -140,12 +149,12 @@ const AllPerformances: React.FC = () => {
                               />
                             </figure>
                             <div className="card-body">
-                              <h2 className="card-title">
-                                {truncateText(el.name, 16)}
-                                {/* <div className="badge bg-main-pink text-white">
-                                  BEST
-                                </div> */}
-                              </h2>
+                              <div className="flex justify-between">
+                                <h2 className="card-title">
+                                  {truncateText(el.name, 16)}
+                                </h2>
+                                <FavoriteButton item={el.id} />
+                              </div>
                               공연기간: {el.startDate}~ {el.endDate}{" "}
                               <p>지역: {truncateText(el.place, 22)}</p>
                               <div className="card-actions justify-end">
