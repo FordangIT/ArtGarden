@@ -1,35 +1,31 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useMutation, useQueryClient } from "react-query";
-import axios from "axios";
-
+import { deleteReview } from "@/lib/api/reviews";
 interface Props {
   id: number;
 }
 
 const DeleteReviewButton = ({ id }: Props) => {
   const queryClient = useQueryClient();
-
-  const deleteReviewMutation = useMutation(
-    async (reviewId: number) => {
-      await axios.delete(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/reviews/${reviewId}`
+  const mutation = useMutation(() => deleteReview(id), {
+    onMutate: async () => {
+      await queryClient.cancelQueries("review");
+      const previousReviews = queryClient.getQueryData("reviews");
+      queryClient.setQueryData("reviews", (old) =>
+        old.filter((review) => review.id !== id)
       );
+      return { previousReviews };
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["detailReview"]);
-        location.reload();
-      }
+    onError: (err, id, context) => {
+      queryClient.setQueryData("reviews", context?.previousReviews);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries("reviews");
     }
-  );
-
-  const handleDelete = () => {
-    deleteReviewMutation.mutate(id);
-  };
-
+  });
   return (
     <button
-      onClick={handleDelete}
+      onClick={() => mutation.mutate()}
       className="bg-main-pink text-white p-2 rounded font-semibold"
     >
       삭제
