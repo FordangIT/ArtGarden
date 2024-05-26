@@ -1,15 +1,18 @@
 import Image from "next/image";
 import { useInfiniteQuery } from "react-query";
+import { useObserver } from "@/customHook/useObserver";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import axios from "axios";
-import { useObserver } from "@/customHook/useObserver";
 import useLocalStorage from "use-local-storage";
 import Hangul from "hangul-js";
 import { IoSearch } from "react-icons/io5";
 import Condition from "./Condition";
 import { FavoriteButton } from "@/lib/components/FavoriteButton";
 import { truncateText } from "@/lib/components/TruncateText";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+
 interface Performance {
   id: string;
   name: string;
@@ -22,20 +25,12 @@ interface Performance {
   performStatus: string;
 }
 
-interface QueryData {
-  pages: {
-    data: Performance[];
-  }[];
-}
-
 const AllPerformances: React.FC = () => {
   const [scrollY, setScrollY] = useLocalStorage("performance_scroll", 0);
   const bottom = useRef(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [local, setLocal] = useState<string[]>([]);
-  const [sort, setSort] = useState("latest");
-  const [appliedLocal, setAppliedLocal] = useState<string[]>([]);
-  const [appliedSort, setAppliedSort] = useState("latest");
+  const local = useSelector((state: RootState) => state.performance.local);
+  const sort = useSelector((state: RootState) => state.performance.sort);
 
   const onIntersect = ([entry]: IntersectionObserverEntry[]) =>
     entry.isIntersecting && fetchNextPage();
@@ -55,11 +50,9 @@ const AllPerformances: React.FC = () => {
 
   const getPerformanceWithPageInfo = async ({ pageParam = 1 }) => {
     try {
-      const areaParams = appliedLocal
-        .map((area) => `searchAreaArr=${area}`)
-        .join("&");
+      const areaParams = local.map((area) => `searchAreaArr=${area}`).join("&");
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/performances?status=all&days=30&page=${pageParam}&size=12&${areaParams}&orderby=${appliedSort}`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/performances?status=all&days=30&page=${pageParam}&size=12&${areaParams}&orderby=${sort}`
       );
       return res;
     } catch (error) {
@@ -68,8 +61,8 @@ const AllPerformances: React.FC = () => {
     }
   };
 
-  const { data, fetchNextPage, status, refetch } = useInfiniteQuery(
-    ["allPerformances", appliedSort, appliedLocal],
+  const { data, fetchNextPage, status } = useInfiniteQuery(
+    ["allPerformances", sort, local],
     getPerformanceWithPageInfo,
     {
       getNextPageParam: (lastPage) => {
@@ -85,12 +78,6 @@ const AllPerformances: React.FC = () => {
     return searcher.search(text2);
   };
 
-  const applyConditions = () => {
-    setAppliedLocal(local);
-    setAppliedSort(sort);
-    refetch();
-    console.log(appliedLocal, appliedSort, "check");
-  };
   return (
     <>
       <div className="flex-col">
@@ -108,11 +95,7 @@ const AllPerformances: React.FC = () => {
             </div>
           </div>
           <div className="w-28 h-12 ml-2">
-            <Condition
-              onRegionChange={setLocal}
-              onSortChange={setSort}
-              onApply={applyConditions}
-            />
+            <Condition />
           </div>
         </div>
         <div className="flex items-center justify-center">

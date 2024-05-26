@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { LuSettings2 } from "react-icons/lu";
-import { IoSearch } from "react-icons/io5";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { setLocal, setSort } from "@/redux/slices/performanceSlice";
+import { RootState } from "@/redux/store";
 
 interface Region {
   cdnm: string;
@@ -9,48 +11,40 @@ interface Region {
   code: string;
 }
 
-interface ConditionProps {
-  onRegionChange: (selectedRegions: string[]) => void;
-  onSortChange: (selectedSort: string) => void;
-  onApply: () => void;
-}
-
-export default function Condition({
-  onRegionChange,
-  onSortChange,
-  onApply
-}: ConditionProps) {
+export default function Condition() {
   const [open, setOpen] = useState(false);
   const [data, setData] = useState<Region[]>([]);
-  const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
-  const [selectedSort, setSelectedSort] = useState<string>("latest");
+  const selectedRegions = useSelector(
+    (state: RootState) => state.performance.local
+  );
+  const selectedSort = useSelector(
+    (state: RootState) => state.performance.sort
+  );
+  const dispatch = useDispatch();
 
   const openModal = () => {
     setOpen(true);
-    console.log("open");
   };
 
   const closeModal = () => {
     setOpen(false);
-    console.log("close");
   };
 
   const handleRegionChange = (region: string) => {
-    setSelectedRegions((prev) =>
-      prev.includes(region)
-        ? prev.filter((r) => r !== region)
-        : [...prev, region]
+    dispatch(
+      setLocal(
+        selectedRegions.includes(region)
+          ? selectedRegions.filter((r) => r !== region)
+          : [...selectedRegions, region]
+      )
     );
   };
 
   const handleSortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedSort(event.target.value);
+    dispatch(setSort(event.target.value));
   };
 
   const applyConditions = () => {
-    onRegionChange(selectedRegions);
-    onSortChange(selectedSort);
-    onApply();
     closeModal();
   };
 
@@ -165,8 +159,7 @@ export default function Condition({
                 className="flex justify-between items-center bg-main-pink absolute right-4 bottom-2 px-2 py-2 rounded-md text-sm text-white font-semibold tracking-wide"
                 onClick={applyConditions}
               >
-                <IoSearch />
-                조건 검색하기
+                저장하기
               </button>
             </form>
           </div>
