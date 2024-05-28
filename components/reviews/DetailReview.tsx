@@ -1,20 +1,7 @@
 import CreateReviewForm from "@/components/reviews/CreateReviewForm";
 import ReviewList from "@/components/reviews/ReviewList";
-
-interface DetailReview_TYPE {
-  data: {
-    name: string;
-    content: string;
-    genre: string;
-    memberid: string;
-    performid: string;
-    posterurl: string;
-    rate: number;
-    regdt: string;
-    reviewid: number;
-  }[];
-}
-
+import { DetailReview_TYPE } from "@/pages/performances/[id]";
+import { ReviewData } from "@/lib/api/reviews";
 interface PropsType {
   id: string;
   reviews: DetailReview_TYPE;
@@ -46,7 +33,7 @@ export default function DetailReview({ id, reviews }: PropsType) {
       <div className="flex justify-center items-center xl:mx-16">
         <div className="bg-black w-full">
           <div className="font-semibold text-3xl my-10 text-white mx-9">
-            리뷰(개수)
+            개수({reviews.data.length})
           </div>
           <div className="h-fit flex justify-center items-center">
             <div className="flex justify-center items-center w-full bg-black">

@@ -9,10 +9,13 @@ const DeleteReviewButton = ({ id }: Props) => {
   const queryClient = useQueryClient();
   const mutation = useMutation(() => deleteReview(id), {
     onMutate: async () => {
-      await queryClient.cancelQueries("review");
+      await queryClient.cancelQueries("reviews");
       const previousReviews = queryClient.getQueryData("reviews");
-      queryClient.setQueryData("reviews", (old) =>
-        old.filter((review) => review.id !== id)
+      if (!previousReviews) {
+        return { previousReviews: [] };
+      }
+      queryClient.setQueryData("reviews", (old: any) =>
+        old ? old.filter((review: any) => review.id !== id) : []
       );
       return { previousReviews };
     },

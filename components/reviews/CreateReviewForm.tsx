@@ -1,18 +1,33 @@
+import { ReviewCreate_TYPE } from "@/pages/performances/[id]";
 import { useState } from "react";
-import { createReview } from "@/lib/api/reviews";
 import { useMutation, useQueryClient } from "react-query";
-
+import { createReview } from "@/lib/api/reviews";
 interface PropsType {
   id: string;
 }
 export default function CreateReviewForm({ id }: PropsType) {
+  const queryClient = useQueryClient();
   const [rate, setRate] = useState(5);
   const [content, setContent] = useState("");
 
-  const queryClient = useQueryClient();
   const mutation = useMutation(createReview, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("reviews");
+    onMutate: async (newReview) => {
+      await queryClient.cancelQueries(["reviews", id]);
+      const previousReviews = queryClient.getQueriesData(["reviews", id]);
+      queryClient.setQueryData(["reviews", id], (old: any) => {
+        if (old) {
+          return [...old, { ...newReview, id: Date.now() }];
+        } else {
+          return [{ ...newReview, id: Date.now() }];
+        }
+      });
+      return { previousReviews };
+    },
+    onError: (err, newReview, context) => {
+      queryClient.setQueryData(["reviews", id], context.previousReviews);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["reviews", id]);
     }
   });
 
@@ -21,9 +36,10 @@ export default function CreateReviewForm({ id }: PropsType) {
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     mutation.mutate({
       performid: String(id),
-      content: content,
+      content,
       rate: Number(rate),
       memberid: "asdf"
     });
