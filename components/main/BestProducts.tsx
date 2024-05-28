@@ -68,8 +68,8 @@ const BestProducts: React.FC<BestProducts_TYPE> = ({ selectedBest, data }) => {
       {word === "공연" && (
         <div className="flex justify-end mt-8">
           <Link href={`/performances`}>
-            <div className="text-black font-bold text-2xl hover:text-main-pink py-8">
-              더 많은 BEST 공연 보러 가기
+            <div className="text-black font-bold text-xl hover:text-main-pink py-8">
+              더 많은 공연 보러 가기
             </div>
           </Link>
         </div>

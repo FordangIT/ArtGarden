@@ -48,87 +48,89 @@ const NewProducts: React.FC<NewProducts_TYPE> = ({ selectedNew, data }) => {
 
   return (
     <div className="flex justify-center items-center">
-      <Swiper
-        className="slider-wrapper flex "
-        navigation={{
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev"
-        }}
-        pagination={{ clickable: false }}
-        autoplay={{ delay: 2000 }}
-        breakpoints={{
-          640: {
-            slidesPerView: 1,
-            spaceBetween: 20
-          },
-          1024: {
-            slidesPerView: 2,
-            spaceBetween: 40
-          },
-          1200: {
-            slidesPerView: 3,
-            spaceBetween: 50
-          },
-          1400: {
-            slidesPerView: 4,
-            spaceBetween: 50
-          }
-        }}
-      >
-        {data.map((el) => (
-          <SwiperSlide key={isTypeNew(el) ? el.id : el._id}>
-            <Link href={`/performances/${isTypeNew(el) ? el.id : el._id}`}>
-              <div className="card w-80 border-b-2 shadow-lg">
-                <figure className="bg-black h-96 md:h-80">
-                  <Image
-                    src={el.img}
-                    alt="new image"
-                    width={300}
-                    height={200}
-                    className="rounded-4xl w-full "
-                  />
-                </figure>
-                <div className="card-body text-black rounded-3xl pb-2">
-                  <h2 className="card-title text-2xl sm:text-xl">
-                    {truncateText(el.name, 9)}
-                    <div className="badge badge-secondary bg-main-yellow border-none text-black ">
-                      NEW
-                    </div>
-                  </h2>
-                  <p className="text-lg sm:text-base ">
-                    장소 : {truncateText(el.place, 13)}
-                  </p>
-                  {isTypeNew(el) ? (
-                    <p className="text-lg sm:text-base">
-                      공연 기간: {el.start}~{el.end}
+      <div className="sm:w-4/5">
+        <Swiper
+          className="slider-wrapper flex "
+          navigation={{
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev"
+          }}
+          pagination={{ clickable: false }}
+          autoplay={{ delay: 2000 }}
+          breakpoints={{
+            640: {
+              slidesPerView: 1,
+              spaceBetween: 20
+            },
+            1024: {
+              slidesPerView: 2,
+              spaceBetween: 40
+            },
+            1200: {
+              slidesPerView: 3,
+              spaceBetween: 50
+            },
+            1400: {
+              slidesPerView: 4,
+              spaceBetween: 50
+            }
+          }}
+        >
+          {data.map((el) => (
+            <SwiperSlide key={isTypeNew(el) ? el.id : el._id}>
+              <Link href={`/performances/${isTypeNew(el) ? el.id : el._id}`}>
+                <div className="card w-80 border-b-2 shadow-lg ">
+                  <figure className="bg-black h-96 md:h-80">
+                    <Image
+                      src={el.img}
+                      alt="new image"
+                      width={300}
+                      height={200}
+                      className="rounded-4xl w-full "
+                    />
+                  </figure>
+                  <div className="card-body text-black rounded-3xl pb-2">
+                    <h2 className="card-title text-2xl sm:text-xl">
+                      {truncateText(el.name, 9)}
+                      <div className="badge badge-secondary bg-main-yellow border-none text-black ">
+                        NEW
+                      </div>
+                    </h2>
+                    <p className="text-lg sm:text-base ">
+                      장소 : {truncateText(el.place, 13)}
                     </p>
-                  ) : (
-                    <p className="text-lg sm:text-base">
-                      공연 기간 : {el.date}
-                    </p>
-                  )}
+                    {isTypeNew(el) ? (
+                      <p className="text-lg sm:text-base">
+                        공연 기간: {el.start}~{el.end}
+                      </p>
+                    ) : (
+                      <p className="text-lg sm:text-base">
+                        공연 기간 : {el.date}
+                      </p>
+                    )}
 
-                  <div className="card-actions flex flex-col m-5 items-end ">
-                    <div className="badge badge-outline my-1">
-                      {isTypeNew(el) ? el.genre : el.time[0]}
-                    </div>
-                    <div className="badge badge-outline">
-                      {isTypeNew(el) ? el.genre : el.time[1]}
+                    <div className="card-actions flex flex-col m-5 items-end ">
+                      <div className="badge badge-outline my-1">
+                        {isTypeNew(el) ? el.genre : el.time[0]}
+                      </div>
+                      <div className="badge badge-outline">
+                        {isTypeNew(el) ? el.genre : el.time[1]}
+                      </div>
                     </div>
                   </div>
                 </div>
+              </Link>
+            </SwiperSlide>
+          ))}
+          <div className="flex justify-end mt-12 mr-6">
+            <Link href={`/performances`}>
+              <div className="text-black font-bold text-xl hover:text-main-pink">
+                더 많은 공연 보러 가기
               </div>
             </Link>
-          </SwiperSlide>
-        ))}
-        <div className="flex justify-end mt-12 mr-6">
-          <Link href={`/performances`}>
-            <div className="text-black font-bold text-2xl hover:text-main-pink">
-              더 많은 NEW 공연 보러 가기
-            </div>
-          </Link>
-        </div>
-      </Swiper>
+          </div>
+        </Swiper>
+      </div>
     </div>
   );
 };
