@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { GetServerSidePropsContext } from "next";
 import { MdShare } from "react-icons/md";
@@ -10,6 +10,7 @@ import DetailSection, {
 import DetailReview from "@/components/reviews/DetailReview";
 import axios from "axios";
 import { FavoriteButton } from "@/lib/components/FavoriteButton";
+import Link from "next/link";
 interface DetailPerformance_TYPE {
   0: {
     id: string;
@@ -27,10 +28,11 @@ interface DetailPerformance_TYPE {
     story: string;
     prfstate: string;
     styurls: string[];
+    relates: string;
   };
 }
 
-interface DetailReview_TYPE {
+export interface DetailReview_TYPE {
   data: {
     name: string;
     content: string;
@@ -42,8 +44,11 @@ interface DetailReview_TYPE {
     regdt: string;
     reviewid: number;
   }[];
+  hasNext: boolean;
+  pageNo: number;
+  totalPages: number;
 }
-interface DetailPage_TYPE {
+export interface DetailPage_TYPE {
   id: string;
   data: DetailPerformance_TYPE;
   reviews: DetailReview_TYPE;
@@ -57,7 +62,7 @@ export interface ReviewData {
   regdt: string;
 }
 
-interface ReviewCreate_TYPE {
+export interface ReviewCreate_TYPE {
   performid: string;
   content: string;
   rate: number;
@@ -67,33 +72,11 @@ interface ReviewCreate_TYPE {
 function DetailPage(props: DetailPage_TYPE) {
   const id = props.id;
   const data = props.data[0];
-
   const [reviews, setReviews] = useState(props.reviews);
-
-  const createReview = async (reviewData: ReviewCreate_TYPE) => {
-    const res = await axios.post(
-      `${process.env.NEXT_PUBLIC_ClientSide_BACKEND_URL}/reviews`,
-      reviewData
-    );
-    setReviews([res.data, ...reviews]);
-  };
-
-  const updateReview = async (id: number, review: Partial<ReviewData>) => {
-    const res = await axios.put(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/reviews/${id}`,
-      review
-    );
-    setReviews(reviews.map((review) => (review.id === id ? res.data : review)));
-  };
-
-  const deleteReview = async (id: number) => {
-    await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/reviews/${id}`);
-    setReviews(reviews.filter((review) => review.id !== id));
-  };
 
   return (
     <div className="flex justify-center items-center">
-      <div className="w-2/3 ">
+      <div className="w-full px-2 sm:w-2/3 ">
         <div className="flex items-center justify-center w-ful">
           <div className="flex flex-col h-full lg:flex-row justify-center items-center w-full mt-6">
             <div className="flex flex-auto justify-center items-center h-full  w-[26rem] lg:pr-10 lg:w-[40rem] lg:h-[30rem]">
@@ -152,9 +135,11 @@ function DetailPage(props: DetailPage_TYPE) {
                       </div>
                     </div>
                   </div>
-                  <div className="bg-deep-blue font-semibold text-xl text-white w-full h-16 flex justify-center items-center">
-                    예매하러 가기
-                  </div>
+                  <Link href={data.relates}>
+                    <div className="bg-deep-blue font-semibold text-xl text-white w-full h-16 flex justify-center items-center">
+                      예매하러 가기
+                    </div>
+                  </Link>
                 </div>
               )}
             </div>
@@ -178,13 +163,7 @@ function DetailPage(props: DetailPage_TYPE) {
           </div>
         </section>
         <DetailSection2 />
-        <DetailReview
-          id={id}
-          reviews={reviews}
-          createReview={createReview}
-          updateReview={updateReview}
-          deleteReview={deleteReview}
-        />
+        <DetailReview id={id} reviews={reviews} />
       </div>
     </div>
   );
