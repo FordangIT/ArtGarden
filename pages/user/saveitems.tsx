@@ -1,10 +1,11 @@
-// pages/favorites.js
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { truncateText } from "@/lib/components/TruncateText";
 import { FavoriteButton } from "@/lib/components/FavoriteButton";
+import { useSession } from "next-auth/react";
+import { Session } from "next-auth";
 
 interface SaveItems {
   id: string;
@@ -16,32 +17,28 @@ interface SaveItems {
   genre: string;
   status: string;
 }
-// 찜 목록을 sessionStorage에서 불러오는 함수
-const getFavorites = () => {
-  const favorites = sessionStorage.getItem("favorites");
+
+const getFavorites = (session: Session | null) => {
+  const storage = session ? localStorage : sessionStorage;
+  const favorites = storage.getItem("favorites");
   return favorites ? JSON.parse(favorites) : [];
 };
 
-// // 찜 목록을 sessionStorage에 저장하는 함수
-// const saveFavorites = (favorites) => {
-//   sessionStorage.setItem("favorites", JSON.stringify(favorites));
-// };
-
 export default function FavoritesPage() {
-  const [favorites, setFavorites] = useState([]);
-  const [performances, setPerformances] = useState([]);
+  const { data: session } = useSession();
+  const [favorites, setFavorites] = useState<string[]>([]);
+  const [performances, setPerformances] = useState<SaveItems[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     const loadFavorites = async () => {
-      const favoriteIds = getFavorites();
+      const favoriteIds = getFavorites(session);
       if (favoriteIds.length) {
         try {
           const { data } = await axios.post("/api/user/saveitems", {
             ids: favoriteIds
           });
-          console.log(data, "data");
           setPerformances(data);
         } catch (error) {
           setIsError(true);
@@ -50,17 +47,9 @@ export default function FavoritesPage() {
       setIsLoading(false);
     };
 
-    setFavorites(getFavorites());
+    setFavorites(getFavorites(session));
     loadFavorites();
-  }, []);
-
-  // const handleToggleFavorite = (id) => {
-  //   const updatedFavorites = favorites.includes(id)
-  //     ? favorites.filter((favorite) => favorite !== id)
-  //     : [...favorites, id];
-  //   setFavorites(updatedFavorites);
-  //   saveFavorites(updatedFavorites);
-  // };
+  }, [session]);
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error loading performances</div>;
