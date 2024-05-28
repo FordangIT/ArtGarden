@@ -4,8 +4,15 @@ import Smallbar from "./Smallbar";
 import Sidebar from "./Sidebar";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { FaUserAlt } from "react-icons/fa";
+import { FaRegHeart } from "react-icons/fa";
+import { useState } from "react";
 export default function Navbar() {
   const { data: session, status } = useSession();
+  const [selected, setSelected] = useState("");
+
+  const handleSelect = (menu) => {
+    setSelected(menu);
+  };
   return (
     <>
       <Sidebar />
@@ -27,13 +34,34 @@ export default function Navbar() {
             <div className="flex">
               <div className="flex items-center justify-end gap-x-4 font-semibold text-lg text-white w-72 ml-8">
                 <Link href="/performances">
-                  <div className="hover:text-main-yellow ">공연</div>
+                  <div
+                    onClick={() => handleSelect("performances")}
+                    className={`hover:text-main-yellow ${
+                      selected === "performances" ? "text-main-yellow" : ""
+                    }`}
+                  >
+                    공연
+                  </div>
                 </Link>
                 <Link href="exhibitions">
-                  <div className="hover:text-main-yellow ">전시</div>
+                  <div
+                    onClick={() => handleSelect("exhibitions")}
+                    className={`hover:text-main-yellow ${
+                      selected === "exhibitions" ? "text-main-yellow" : ""
+                    }`}
+                  >
+                    전시
+                  </div>
                 </Link>
                 <Link href="popupstores">
-                  <div className="hover:text-main-yellow">팝업스토어</div>
+                  <div
+                    onClick={() => handleSelect("popupstores")}
+                    className={`hover:text-main-yellow ${
+                      selected === "popupstores" ? "text-main-yellow" : ""
+                    }`}
+                  >
+                    팝업스토어
+                  </div>
                 </Link>
               </div>
               <div className="flex justify-center items-center">
@@ -49,15 +77,11 @@ export default function Navbar() {
                   </div>
                 </div>
               </div>
-              {session ? (
-                <Link href="/user/saveitems">
-                  <div className="flex justify-center items-center text-white text-2xl m-4">
-                    <FaUserAlt />
-                  </div>
-                </Link>
-              ) : (
-                <></>
-              )}
+              <Link href="/user/saveitems">
+                <div className="flex justify-center items-center text-white text-2xl ml-4 my-4">
+                  {session ? <FaUserAlt /> : <FaRegHeart />}
+                </div>
+              </Link>
             </div>
           </div>
         </div>
