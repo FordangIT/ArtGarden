@@ -3,11 +3,11 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { parseString } from "xml2js";
 interface NewProducts {
   id: number;
-  img: string;
+  posterurl: string;
   name: string;
   place: string;
-  start: string;
-  end: string;
+  startdate: string;
+  enddate: string;
   genre: string;
   rank: string;
 }
@@ -18,7 +18,7 @@ export default async function handler(
 ): Promise<void> {
   try {
     const response = await axios.get<string>(
-      `${process.env.KOPIS_URL}/pblprfr?service=${process.env.KOPIS_KEY}&stdate=20240301&eddate=20240420&rows=30&cpage=1&newsql=Y`
+      `${process.env.KOPIS_URL}/pblprfr?service=${process.env.KOPIS_KEY}&stdate=20240501&eddate=20240514&rows=9&cpage=1&newsql=Y`
     );
 
     const xmlData = response.data;
@@ -28,11 +28,11 @@ export default async function handler(
       }
       const jsonData: NewProducts[] = result.dbs.db.map((item: any) => ({
         id: item.mt20id?.[0],
-        img: item.poster?.[0],
+        posterurl: item.poster?.[0],
         name: item.prfnm?.[0],
         place: item.fcltynm?.[0],
-        start: item.prfpdfrom?.[0],
-        end: item.prfpdto?.[0],
+        startdate: item.prfpdfrom?.[0],
+        enddate: item.prfpdto?.[0],
         genre: item.genrenm?.[0],
         rank: item.prfstate?.[0]
       }));

@@ -1,13 +1,14 @@
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 import { parseString } from "xml2js";
-//best 공연 순서대로 가져오는 정보
+
 interface BestProducts {
   id?: string;
   name?: string;
-  img?: string;
-  date?: string;
-  place?: string;
+  posterurl?: string;
+  startdate?: string;
+  enddate?: string;
+  area?: string;
   genre?: string;
   count?: string;
 }
@@ -18,7 +19,7 @@ export default async function handler(
 ): Promise<void> {
   try {
     const response = await axios.get<string>(
-      `${process.env.KOPIS_URL}/boxoffice?service=${process.env.KOPIS_KEY}&ststype=week&date=20240424`
+      `${process.env.KOPIS_URL}/boxoffice?service=${process.env.KOPIS_KEY}&ststype=week&date=20240522`
     );
     const xmlData = response.data;
     parseString(xmlData, (err, result) => {
@@ -26,15 +27,22 @@ export default async function handler(
         return res.status(500).json({ error: "failed to parse XML" });
       }
       const jsonData: BestProducts[] = result.boxofs?.boxof?.map(
-        (item: any) => ({
-          id: item.mt20id?.[0],
-          name: item.prfnm?.[0],
-          img: "http://www.kopis.or.kr" + item.poster?.[0],
-          date: item.prfpd?.[0],
-          place: item.area?.[0],
-          genre: item.cate?.[0],
-          count: item.prfdtcnt?.[0]
-        })
+        (item: any) => {
+          const dateRange = item.prfpd?.[0] || "";
+          const [startdate, enddate] = dateRange
+            .split("~")
+            .map((date: string) => date.trim().replace(/\./g, "-"));
+          return {
+            id: item.mt20id?.[0],
+            name: item.prfnm?.[0],
+            posterurl: "http://www.kopis.or.kr" + item.poster?.[0],
+            startdate,
+            enddate,
+            area: item.area?.[0],
+            genre: item.cate?.[0],
+            count: item.prfdtcnt?.[0]
+          };
+        }
       );
       if (!jsonData) {
         return res.status(500).json({ error: "data format error" });

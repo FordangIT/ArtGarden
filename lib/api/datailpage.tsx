@@ -1,5 +1,4 @@
 import axios from "axios";
-
 interface PerformanceDetail {
   id: string;
   name: string;
@@ -23,5 +22,15 @@ export const fetchPerformanceDetails = async (
     `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/performances/${id}`
   );
   const data = await res.json();
+  return data;
+};
+
+export const fetchExhibitionDetails = async (
+  id: string | string[] | undefined
+) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/exhibits/${id}`
+  );
+  const data = res.json();
   return data;
 };

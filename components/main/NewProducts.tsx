@@ -11,11 +11,11 @@ import "swiper/css/scrollbar";
 import "swiper/css/effect-fade";
 interface New_TYPE {
   id: number;
-  img: string;
+  posterurl: string;
   name: string;
   place: string;
-  start: string;
-  end: string;
+  startdate: string;
+  enddate: string;
   genre: string;
   rank: string;
 }
@@ -23,7 +23,7 @@ interface New_TYPE {
 interface NewPopup_TYPE {
   _id: string;
   name: string;
-  img: string;
+  posterurl: string;
   place: string;
   date: string;
   time: string[];
@@ -38,7 +38,18 @@ interface NewProducts_TYPE {
 const isTypeNew = (item: New_TYPE | NewPopup_TYPE): item is New_TYPE => {
   return (item as New_TYPE).id !== undefined;
 };
-
+const linkUrl = (selectedNew: string) => {
+  switch (selectedNew) {
+    case "New공연":
+      return "/performances";
+    case "New전시":
+      return "/exhibitions";
+    case "New팝업스토어":
+      return "/popupstores";
+    default:
+      return "/performances"; // 기본값 설정 (필요 시 조정)
+  }
+};
 const NewProducts: React.FC<NewProducts_TYPE> = ({ selectedNew, data }) => {
   SwiperCore.use([Navigation, Pagination, Autoplay, Scrollbar]);
 
@@ -78,11 +89,15 @@ const NewProducts: React.FC<NewProducts_TYPE> = ({ selectedNew, data }) => {
         >
           {data.map((el) => (
             <SwiperSlide key={isTypeNew(el) ? el.id : el._id}>
-              <Link href={`/performances/${isTypeNew(el) ? el.id : el._id}`}>
+              <Link
+                href={`${linkUrl(selectedNew)}/${
+                  isTypeNew(el) ? el.id : el._id
+                }`}
+              >
                 <div className="card w-80 border-b-2 shadow-lg ">
                   <figure className="bg-black h-96 md:h-80">
                     <Image
-                      src={el.img}
+                      src={el.posterurl}
                       alt="new image"
                       width={300}
                       height={200}
@@ -101,7 +116,7 @@ const NewProducts: React.FC<NewProducts_TYPE> = ({ selectedNew, data }) => {
                     </p>
                     {isTypeNew(el) ? (
                       <p className="text-lg sm:text-base">
-                        공연 기간: {el.start}~{el.end}
+                        공연 기간: {el.startdate}~{el.enddate}
                       </p>
                     ) : (
                       <p className="text-lg sm:text-base">

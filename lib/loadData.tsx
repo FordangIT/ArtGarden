@@ -52,7 +52,7 @@ export async function loadReview() {
 export async function loadBestExhibit() {
   // Call an external API endpoint to get posts
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/performances/new`
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/exhibits?days=30&page=1&size=9&orderby=popular`
   );
   const data = await res.json();
   return data;
@@ -61,7 +61,7 @@ export async function loadBestExhibit() {
 export async function loadNewExhibit() {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/performances/best`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/exhibits?days=30&page=1&size=9&orderby=latest`
     );
     if (!response.ok) {
       throw new Error("failed to fetch data");

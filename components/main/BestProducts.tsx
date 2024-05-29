@@ -5,18 +5,20 @@ import { useEffect } from "react";
 interface Best_TYPE {
   id: string;
   name: string;
-  img: string;
-  date: string;
-  place: string;
+  posterurl: string;
+  startdate: string;
+  enddate: string;
+  area: string;
   genre: string;
   count: string;
 }
 interface BestPopup_TYPE {
   _id: string;
   name: string;
-  img: string;
-  place: string;
-  date: string;
+  posterurl: string;
+  area: string;
+  startdate: string;
+  enddate: string;
   time: string[];
   images: string[];
 }
@@ -25,7 +27,18 @@ interface BestProducts_TYPE {
   selectedBest: string;
   data: (Best_TYPE | BestPopup_TYPE)[];
 }
-
+const linkUrl = (selectedBest: string) => {
+  switch (selectedBest) {
+    case "Best공연":
+      return "/performances";
+    case "Best전시":
+      return "/exhibitions";
+    case "Best팝업스토어":
+      return "/popupstores";
+    default:
+      return "/performances"; // 기본값 설정 (필요 시 조정)
+  }
+};
 const BestProducts: React.FC<BestProducts_TYPE> = ({ selectedBest, data }) => {
   const word = selectedBest.match(/[가-힣]+/g)?.[0];
 
@@ -39,19 +52,24 @@ const BestProducts: React.FC<BestProducts_TYPE> = ({ selectedBest, data }) => {
         {data &&
           data.map((el: Best_TYPE | BestPopup_TYPE) => (
             <Link
-              href={`/performances/${"id" in el ? el.id : el._id}`}
+              href={`${linkUrl(selectedBest)}/${"id" in el ? el.id : el._id}`}
               key={"id" in el ? el.id : el._id}
             >
               <div className="card w-[24rem] h-[30rem] bg-white shadow-xl rounded-none border-2 border-white transition ease-in-out delay-10 hover:-translate-y-1 hover:scale-105 duration-100">
                 <figure>
-                  <Image src={el.img} alt="공연사진" width={420} height={380} />
+                  <Image
+                    src={el.posterurl}
+                    alt="공연사진"
+                    width={420}
+                    height={380}
+                  />
                 </figure>
                 <div className="card-body">
                   <h2 className="card-title">
                     {truncateText(el.name, 16)}
                     <div className="badge bg-main-pink text-white">BEST</div>
                   </h2>
-                  기간: {el.date} <p>지역: {el.place}</p>
+                  기간: {el.startdate}~{el.enddate} <p>지역: {el.area}</p>
                   {word === "공연" && "count" in el && "genre" in el && (
                     <div className="card-actions justify-end">
                       <div className="badge badge-outline">{el.genre}</div>
