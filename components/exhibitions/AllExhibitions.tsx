@@ -16,8 +16,8 @@ import { RootState } from "@/redux/store";
 interface Exhibition {
   id: string;
   name: string;
-  startDate: string;
-  endDate: string;
+  startdate: string;
+  enddate: string;
   area: string;
   place: string;
   posterurl: string;
@@ -26,11 +26,11 @@ interface Exhibition {
 }
 
 const AllExhibitions: React.FC = () => {
-  const [scrollY, setScrollY] = useLocalStorage("performance_scroll", 0);
+  const [scrollY, setScrollY] = useLocalStorage("exhibition_scroll", 0);
   const bottom = useRef(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const local = useSelector((state: RootState) => state.performance.local);
-  const sort = useSelector((state: RootState) => state.performance.sort);
+  const local = useSelector((state: RootState) => state.exhibition.local);
+  const sort = useSelector((state: RootState) => state.exhibition.sort);
 
   const onIntersect = ([entry]: IntersectionObserverEntry[]) =>
     entry.isIntersecting && fetchNextPage();
@@ -48,11 +48,16 @@ const AllExhibitions: React.FC = () => {
     if (scrollY !== 0) window.scrollTo(0, Number(scrollY));
   }, [scrollY]);
 
+  useEffect(() => {
+    console.log(local, sort, "localadn");
+    console.log(data, "입력 data");
+  });
+
   const getPerformanceWithPageInfo = async ({ pageParam = 1 }) => {
     try {
       const areaParams = local.map((area) => `searchAreaArr=${area}`).join("&");
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/exhibits?status=all&days=30&page=${pageParam}&size=12`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/exhibits?status=all&days=30&page=${pageParam}&size=12&${areaParams}&orderby=${sort}`
       );
       return res;
     } catch (error) {
@@ -138,8 +143,8 @@ const AllExhibitions: React.FC = () => {
                                 </h2>
                                 <FavoriteButton item={el.id} />
                               </div>
-                              전시기간: {el.startDate}~ {el.endDate}{" "}
-                              <p>지역: {truncateText(el.place, 22)}</p>
+                              전시기간: {el.startdate}~ {el.enddate}{" "}
+                              <p>지역: {truncateText(el.area, 22)}</p>
                               <div className="card-actions justify-end">
                                 <div className="badge badge-outline">
                                   {el.genre}

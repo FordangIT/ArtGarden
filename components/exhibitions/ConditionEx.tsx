@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { LuSettings2 } from "react-icons/lu";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { setLocal, setSort } from "@/redux/slices/performanceSlice";
+import { setLocal, setSort } from "@/redux/slices/exhibitionSlice";
 import { RootState } from "@/redux/store";
 
 interface Region {
@@ -15,11 +15,9 @@ export default function ConditionEx() {
   const [open, setOpen] = useState(false);
   const [data, setData] = useState<Region[]>([]);
   const selectedRegions = useSelector(
-    (state: RootState) => state.performance.local
+    (state: RootState) => state.exhibition.local
   );
-  const selectedSort = useSelector(
-    (state: RootState) => state.performance.sort
-  );
+  const selectedSort = useSelector((state: RootState) => state.exhibition.sort);
   const dispatch = useDispatch();
 
   const openModal = () => {
@@ -63,7 +61,6 @@ export default function ConditionEx() {
     const fetchData = async () => {
       try {
         const res = await getRegionNames();
-        console.log(res.codeList, "data");
         setData(res.codeList);
       } catch (error) {
         console.error(error);
