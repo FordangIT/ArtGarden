@@ -4,16 +4,26 @@ const nextConfig = {
   // output: "export",
   images: {
     unoptimized: true,
+    domains: ["www.kopis.or.kr"],
     remotePatterns: [
       {
         protocol: "http",
         hostname: "www.kopis.or.kr",
         pathname: "**"
+      },
+      {
+        protocol: "http",
+        hostname: "www.culture.go.kr",
+        pathname: "**"
+      },
+      {
+        protocol: "https",
+        hostname: "scontent.cdninstagram.com",
+        pathname: "**"
       }
     ]
   },
   async rewrites() {
-    console.log("rewrites 함수 입장");
     return {
       beforeFiles: [
         {
