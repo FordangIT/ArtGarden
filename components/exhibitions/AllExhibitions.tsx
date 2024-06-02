@@ -22,7 +22,7 @@ interface Exhibition {
   place: string;
   posterurl: string;
   genre: string;
-  exstatus: string | null;
+  status: string | null;
 }
 
 const AllExhibitions: React.FC = () => {
@@ -49,8 +49,8 @@ const AllExhibitions: React.FC = () => {
   }, [scrollY]);
 
   useEffect(() => {
-    console.log(local, sort, "localadn");
-    console.log(data, "입력 data");
+    console.log(local, sort, "local and sort");
+    console.log(data, "data");
   });
 
   const getPerformanceWithPageInfo = async ({ pageParam = 1 }) => {
@@ -66,8 +66,8 @@ const AllExhibitions: React.FC = () => {
     }
   };
 
-  const { data, fetchNextPage, status } = useInfiniteQuery(
-    ["allExhibitions"],
+  const { data, fetchNextPage, status, refetch } = useInfiniteQuery(
+    ["allExhibitions", local, sort],
     getPerformanceWithPageInfo,
     {
       getNextPageParam: (lastPage) => {
@@ -82,6 +82,10 @@ const AllExhibitions: React.FC = () => {
     let searcher = new Hangul.Searcher(text);
     return searcher.search(text2);
   };
+
+  useEffect(() => {
+    refetch();
+  }, [local, sort, refetch]);
 
   return (
     <>
@@ -128,13 +132,19 @@ const AllExhibitions: React.FC = () => {
                         >
                           <div className="card w-[24rem] h-[30rem] bg-white shadow-xl rounded-none border-2 border-white">
                             <figure>
-                              <Image
-                                src={el.posterurl}
-                                alt="전시회사진"
-                                width={350}
-                                height={100}
-                                className="transition ease-in-out delay-10 hover:-translate-y-1 hover:scale-105 duration-100"
-                              />
+                              {el.posterurl ? (
+                                <Image
+                                  src={el.posterurl}
+                                  alt="전시회사진"
+                                  width={350}
+                                  height={100}
+                                  className="transition ease-in-out delay-10 hover:-translate-y-1 hover:scale-105 duration-100"
+                                />
+                              ) : (
+                                <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                                  <p>Image not available</p>
+                                </div>
+                              )}
                             </figure>
                             <div className="card-body">
                               <div className="flex justify-between">
@@ -150,7 +160,7 @@ const AllExhibitions: React.FC = () => {
                                   {el.genre}
                                 </div>
                                 <div className="badge badge-outline">
-                                  {el.exstatus}
+                                  {el.status}
                                 </div>
                               </div>
                             </div>
