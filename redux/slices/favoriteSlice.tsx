@@ -5,32 +5,25 @@ interface FavoriteState {
 }
 
 const initialState: FavoriteState = {
-  list: [],
+  list: []
 };
-
-if (typeof window !== "undefined") {
-  const favorites = sessionStorage.getItem("favorites");
-  if (favorites) {
-    initialState.list = JSON.parse(favorites);
-  }
-}
 
 export const favoriteSlice = createSlice({
   name: "favorite",
   initialState,
   reducers: {
+    setFavorites: (state, action: PayloadAction<string[]>) => {
+      state.list = action.payload;
+    },
     addToFavorite: (state, action: PayloadAction<string>) => {
-      const updatedList = [...state.list, action.payload];
-      state.list = updatedList;
-      sessionStorage.setItem("favorites", JSON.stringify(updatedList));
+      state.list.push(action.payload);
     },
     removeFromFavorite: (state, action: PayloadAction<string>) => {
-      const updatedList = state.list.filter((id) => id !== action.payload);
-      state.list = updatedList;
-      sessionStorage.setItem("favorites", JSON.stringify(updatedList));
-    },
-  },
+      state.list = state.list.filter((id) => id !== action.payload);
+    }
+  }
 });
 
-export const { addToFavorite, removeFromFavorite } = favoriteSlice.actions;
+export const { setFavorites, addToFavorite, removeFromFavorite } =
+  favoriteSlice.actions;
 export default favoriteSlice.reducer;
