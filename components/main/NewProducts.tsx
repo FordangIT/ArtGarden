@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { truncateText } from "@/lib/components/TruncateText";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Scrollbar, Autoplay, Pagination } from "swiper/modules";
 import SwiperCore from "swiper";
@@ -9,35 +10,19 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "swiper/css/effect-fade";
-interface New_TYPE {
-  id: number;
-  posterurl: string;
-  name: string;
-  place: string;
-  startdate: string;
-  enddate: string;
-  genre: string;
-  rank: string;
-}
-
-interface NewPopup_TYPE {
-  _id: string;
-  name: string;
-  posterurl: string;
-  place: string;
-  date: string;
-  time: string[];
-  images: string[];
-}
+import { New_TYPE, NewExhibit_TYPE, NewPopup_TYPE } from "@/pages";
 
 interface NewProducts_TYPE {
   selectedNew: string;
-  data: (New_TYPE | NewPopup_TYPE)[];
+  data: (New_TYPE | NewPopup_TYPE | NewExhibit_TYPE)[];
 }
 
-const isTypeNew = (item: New_TYPE | NewPopup_TYPE): item is New_TYPE => {
+const isTypeNew = (
+  item: New_TYPE | NewPopup_TYPE | NewExhibit_TYPE
+): item is New_TYPE => {
   return (item as New_TYPE).id !== undefined;
 };
+
 const linkUrl = (selectedNew: string) => {
   switch (selectedNew) {
     case "New공연":
@@ -50,12 +35,9 @@ const linkUrl = (selectedNew: string) => {
       return "/performances"; // 기본값 설정 (필요 시 조정)
   }
 };
+
 const NewProducts: React.FC<NewProducts_TYPE> = ({ selectedNew, data }) => {
   SwiperCore.use([Navigation, Pagination, Autoplay, Scrollbar]);
-
-  const truncateText = (text: string, maxLength: number) => {
-    return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
-  };
 
   return (
     <div className="flex justify-center items-center">
@@ -88,21 +70,23 @@ const NewProducts: React.FC<NewProducts_TYPE> = ({ selectedNew, data }) => {
           }}
         >
           {data.map((el) => (
-            <SwiperSlide key={isTypeNew(el) ? el.id : el._id}>
-              <Link
-                href={`${linkUrl(selectedNew)}/${
-                  isTypeNew(el) ? el.id : el._id
-                }`}
-              >
+            <SwiperSlide key={el.id}>
+              <Link href={`${linkUrl(selectedNew)}/${el.id}`}>
                 <div className="card w-80 border-b-2 shadow-lg ">
                   <figure className="bg-black h-96 md:h-80">
-                    <Image
-                      src={el.posterurl}
-                      alt="new image"
-                      width={300}
-                      height={200}
-                      className="rounded-4xl w-full "
-                    />
+                    {el.posterurl ? (
+                      <Image
+                        src={el.posterurl}
+                        alt="new image"
+                        width={300}
+                        height={200}
+                        className="rounded-4xl w-full "
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                        <p>Image not available</p>
+                      </div>
+                    )}
                   </figure>
                   <div className="card-body text-black rounded-3xl pb-2">
                     <h2 className="card-title text-2xl sm:text-xl">
@@ -112,25 +96,14 @@ const NewProducts: React.FC<NewProducts_TYPE> = ({ selectedNew, data }) => {
                       </div>
                     </h2>
                     <p className="text-lg sm:text-base ">
-                      장소 : {truncateText(el.place, 13)}
+                      장소 : {truncateText(el.area, 13)}
                     </p>
-                    {isTypeNew(el) ? (
-                      <p className="text-lg sm:text-base">
-                        공연 기간: {el.startdate}~{el.enddate}
-                      </p>
-                    ) : (
-                      <p className="text-lg sm:text-base">
-                        공연 기간 : {el.date}
-                      </p>
-                    )}
 
                     <div className="card-actions flex flex-col m-5 items-end ">
                       <div className="badge badge-outline my-1">
-                        {isTypeNew(el) ? el.genre : el.time[0]}
+                        {el.startdate}
                       </div>
-                      <div className="badge badge-outline">
-                        {isTypeNew(el) ? el.genre : el.time[1]}
-                      </div>
+                      <div className="badge badge-outline">{el.enddate}</div>
                     </div>
                   </div>
                 </div>
