@@ -10,7 +10,7 @@ export default function Navbar() {
   const { data: session, status } = useSession();
   const [selected, setSelected] = useState("");
 
-  const handleSelect = (menu) => {
+  const handleSelect = (menu: string) => {
     setSelected(menu);
   };
   return (
@@ -43,7 +43,7 @@ export default function Navbar() {
                     공연
                   </div>
                 </Link>
-                <Link href="exhibitions">
+                <Link href="/exhibitions">
                   <div
                     onClick={() => handleSelect("exhibitions")}
                     className={`hover:text-main-yellow ${
@@ -53,7 +53,7 @@ export default function Navbar() {
                     전시
                   </div>
                 </Link>
-                <Link href="popupstores">
+                <Link href="/popupstores">
                   <div
                     onClick={() => handleSelect("popupstores")}
                     className={`hover:text-main-yellow ${
