@@ -8,6 +8,13 @@ import "swiper/css/autoplay"; // Autoplay 스타일 추가
 import { Keyboard, Scrollbar, Autoplay } from "swiper/modules";
 
 export default function MainBanner() {
+  const images = [
+    "http://www.kopis.or.kr/upload/pfmPoster/PF_PF239553_240419_104424.gif",
+    "http://www.kopis.or.kr/upload/pfmPoster/PF_PF235107_240226_103835.gif",
+    "http://www.kopis.or.kr/upload/pfmPoster/PF_PF238655_240404_103127.gif",
+    "http://www.kopis.or.kr/upload/pfmPoster/PF_PF240728_240509_103444.gif"
+  ];
+
   return (
     <div className="h-full w-full">
       <Swiper
@@ -32,54 +39,27 @@ export default function MainBanner() {
         modules={[Keyboard, Scrollbar, Autoplay]}
         className="mySwiper w-full h-full"
       >
-        <SwiperSlide className="flex justify-center items-center w-1/2 ">
-          <div className="relative w-full h-full flex justify-center items-center">
-            <Image
-              src="http://www.kopis.or.kr/upload/pfmPoster/PF_PF239553_240419_104424.gif"
-              alt="main-banner"
-              layout="intrinsic"
-              width={500}
-              height={300}
-              className="w-full brightness-75"
-            />
-          </div>
-        </SwiperSlide>
-        <SwiperSlide className="flex justify-center items-center w-1/2 ">
-          <div className="relative w-full h-full flex justify-center items-center">
-            <Image
-              src="http://www.kopis.or.kr/upload/pfmPoster/PF_PF235107_240226_103835.gif"
-              alt="main-banner"
-              layout="intrinsic"
-              width={500}
-              height={400}
-              className="w-full brightness-75"
-            />
-          </div>
-        </SwiperSlide>
-        <SwiperSlide className="flex justify-center items-center w-1/2">
-          <div className="relative w-full h-full flex justify-center items-center">
-            <Image
-              src="http://www.kopis.or.kr/upload/pfmPoster/PF_PF238655_240404_103127.gif"
-              alt="main-banner"
-              layout="intrinsic"
-              width={500}
-              height={400}
-              className="w-full brightness-75"
-            />
-          </div>
-        </SwiperSlide>
-        <SwiperSlide className="flex justify-center items-center w-1/2 ">
-          <div className="relative w-full h-full flex justify-center items-center">
-            <Image
-              src="http://www.kopis.or.kr/upload/pfmPoster/PF_PF240728_240509_103444.gif"
-              alt="main-banner"
-              layout="intrinsic"
-              width={500}
-              height={400}
-              className="w-full brightness-75"
-            />
-          </div>
-        </SwiperSlide>
+        {images.map((src, index) => (
+          <SwiperSlide
+            key={index}
+            className="flex justify-center items-center w-1/2 "
+          >
+            <div className="relative w-full h-full flex justify-center items-center">
+              {src ? (
+                <Image
+                  src={src}
+                  alt={`main-banner-${index}`}
+                  fill
+                  className="w-full brightness-75 object-cover"
+                />
+              ) : (
+                <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                  <p>Image not available</p>
+                </div>
+              )}
+            </div>
+          </SwiperSlide>
+        ))}
       </Swiper>
     </div>
   );
