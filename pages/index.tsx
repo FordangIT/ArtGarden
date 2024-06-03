@@ -15,10 +15,9 @@ import {
   loadNewPopup,
   loadBestPopup
 } from "@/lib/loadData";
-import { useEffect } from "react";
 const inter = Inter({ subsets: ["latin"] });
 
-interface Best_TYPE {
+export interface Best_TYPE {
   id: string;
   name: string;
   posterurl: string;
@@ -28,7 +27,7 @@ interface Best_TYPE {
   genre: string;
   count: string;
 }
-interface New_TYPE {
+export interface New_TYPE {
   id: number;
   posterurl: string;
   name: string;
@@ -38,7 +37,17 @@ interface New_TYPE {
   genre: string;
   rank: string;
 }
-interface BestExhibit_TYPE {
+export interface BestExhibit_TYPE {
+  id: string;
+  name: string;
+  posterurl: string;
+  startdate: string;
+  enddate: string;
+  area: string;
+  genre: string;
+  exstatus: string;
+}
+export interface AllBestExhibit_TYPE {
   data: {
     id: string;
     name: string;
@@ -50,7 +59,17 @@ interface BestExhibit_TYPE {
     exstatus: string;
   }[];
 }
-interface NewExhibit_TYPE {
+export interface NewExhibit_TYPE {
+  id: string;
+  name: string;
+  posterurl: string;
+  startdate: string;
+  enddate: string;
+  area: string;
+  genre: string;
+  exstatus: string;
+}
+export interface AllNewExhibit_TYPE {
   data: {
     id: string;
     name: string;
@@ -62,10 +81,10 @@ interface NewExhibit_TYPE {
     exstatus: string;
   }[];
 }
-interface Review_TYPE {
+export interface Review_TYPE {
   name: string;
   reviewid: string;
-  performid: string;
+  objectid: string;
   content: string;
   rate: number;
   regdt: string;
@@ -74,11 +93,26 @@ interface Review_TYPE {
   posterurl: string;
 }
 
-interface BestPopup_TYPE {
-  _id: string;
+export interface BestPopup_TYPE {
+  id: string;
   name: string;
-  img: string;
+  posterurl: string;
   area: string;
+  place: string;
+  startdate: string;
+  enddate: string;
+  time: string[];
+  images: string[];
+}
+
+export interface NewPopup_TYPE {
+  id: string;
+  name: string;
+  posterurl: string;
+  area: string;
+  place: string;
+  startdate: string;
+  enddate: string;
   date: string;
   time: string[];
   images: string[];
@@ -87,9 +121,9 @@ interface Performance_TYPE {
   best: Best_TYPE[];
   new: New_TYPE[];
   review: Review_TYPE[];
-  bestExhibit: BestExhibit_TYPE;
-  newExhibit: NewExhibit_TYPE;
-  newPopup: BestPopup_TYPE[];
+  bestExhibit: AllBestExhibit_TYPE;
+  newExhibit: AllNewExhibit_TYPE;
+  newPopup: NewPopup_TYPE[];
   bestPopup: BestPopup_TYPE[];
 }
 export default function Home(props: Performance_TYPE) {
@@ -106,9 +140,6 @@ export default function Home(props: Performance_TYPE) {
   const handleSelectNew = (text: string) => {
     dispatch(updateNew(text));
   };
-  useEffect(() => {
-    console.log(props.bestExhibit);
-  });
   const bestData = (() => {
     switch (selectedBest) {
       case "Best공연":
@@ -243,11 +274,6 @@ export default function Home(props: Performance_TYPE) {
             <div className="text-black text-5xl font-extrabold sm:px-12">
               Authentic Reviews
             </div>
-            <div className="flex text-gray-400 text-3xl font-bold grid-rows-3 gap-4">
-              <div className="hover:text-black">공연</div>
-              <div className="hover:text-black">전시</div>
-              <div className="hover:text-black">팝업스토어</div>
-            </div>
           </div>
           <div className="flex justify-center items-center text-xl text-gray-500 font-medium pt-4 pb-10">
             관객들이 전하는 진솔한 후기
@@ -273,11 +299,11 @@ export async function getStaticProps() {
     props: {
       best: bestData,
       new: newData,
-      review: reviewData,
       bestExhibit: bestExhibit,
       newExhibit: newExhibit,
       newPopup: newPopup,
-      bestPopup: bestPopup
+      bestPopup: bestPopup,
+      review: reviewData
     }
   };
 }
