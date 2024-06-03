@@ -79,11 +79,7 @@ function DetailPage(props: DetailPage_TYPE) {
   const onClick = () => {
     const { Kakao, location } = window;
     Kakao.Link.sendScrap({
-      objectType: "text",
-      text: `나의 시네필 평점은?`,
-      link: {
-        webUrl: "https://artgarden.co.kr"
-      }
+      requestUrl: location.href
     });
   };
   return (
