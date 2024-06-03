@@ -20,7 +20,7 @@ interface DetailExhibition_TYPE {
   area: string;
   place: string;
   genre: string;
-  exstate: string;
+  status: string;
 }
 export interface DetailReview_TYPE {
   data: {
@@ -63,7 +63,7 @@ function DetailPage(props: DetailPage_TYPE) {
   const id = props.exhibitId;
   const data = props.data;
   useEffect(() => {
-    console.log();
+    console.log(id, data, reviews);
   });
   const [reviews, setReviews] = useState(props.reviews);
 
@@ -87,7 +87,9 @@ function DetailPage(props: DetailPage_TYPE) {
               {data && (
                 <div className="text-black w-full">
                   <div className="flex justify-end items-center my-4">
-                    <FavoriteButton item={id} />
+                    <div className="border-[1px] border-black p-2 ">
+                      <FavoriteButton item={id} />
+                    </div>
                     <div className="border-[1px] p-2 border-black ml-1">
                       <MdShare className="w-8 h-8 font-light text-black" />
                     </div>
@@ -112,6 +114,10 @@ function DetailPage(props: DetailPage_TYPE) {
                       <div className="mb-4">
                         <span className=" font-semibold">장르 : </span>
                         {data.genre}
+                      </div>
+                      <div className="mb-4">
+                        <span className=" font-semibold">상태 : </span>
+                        {data.status}
                       </div>
                     </div>
                   </div>
