@@ -9,7 +9,7 @@ export interface ReviewData {
 }
 
 interface ReviewCreate_TYPE {
-  performid: string;
+  objectid: string;
   content: string;
   rate: number;
   memberid: string;
@@ -42,6 +42,27 @@ export const fetchDetailPerformanceReview = async (
   };
 };
 
+//상세 전시회 페이지 리뷰 (수정해야함)
+export const fetchDetailExhibitionReview = async (
+  id: string,
+  pageNum: number
+): Promise<{
+  pageNo: number;
+  data: ReviewData[];
+  totalPages: number;
+  hasNext: boolean;
+}> => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/reviewList/${id}?page=${pageNum}&size=5`
+  );
+  const result = await res.json();
+  return {
+    pageNo: result.pageNo,
+    data: result.data,
+    totalPages: result.totalPages,
+    hasNext: result.hasNext
+  };
+};
 //상세페이지 리뷰 create
 export const createReview = async (reviewData: ReviewCreate_TYPE) => {
   const res = await axios.post(

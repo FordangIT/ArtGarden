@@ -24,7 +24,13 @@ export default function CreateReviewForm({ id }: PropsType) {
       return { previousReviews };
     },
     onError: (err, newReview, context) => {
-      queryClient.setQueryData(["reviews", id], context.previousReviews);
+      if (context && context.previousReviews) {
+        queryClient.setQueryData(["reviews", id], context.previousReviews);
+      } else {
+        console.error(
+          "Failed to roll back to previous state due to missing context"
+        );
+      }
     },
     onSettled: () => {
       queryClient.invalidateQueries(["reviews", id]);
@@ -38,7 +44,7 @@ export default function CreateReviewForm({ id }: PropsType) {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     mutation.mutate({
-      performid: String(id),
+      objectid: String(id),
       content,
       rate: Number(rate),
       memberid: "asdf"

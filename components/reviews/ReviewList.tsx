@@ -13,7 +13,7 @@ interface ReviewList_TYPE {
 
 const fetchReviews = async (performId: string, pageNo: number) => {
   const res = await axios.get(
-    `${process.env.NEXT_PUBLIC_ClientSide_BACKEND_URL}/reviewList/${performId}?page=${pageNo}&size=4`
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/reviewList/${performId}?page=${pageNo}&size=4`
   );
   return res.data;
 };
