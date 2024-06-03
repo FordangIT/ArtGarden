@@ -18,7 +18,7 @@ export default async function handler(
 ): Promise<void> {
   try {
     const response = await axios.get<string>(
-      `${process.env.KOPIS_URL}/pblprfr?service=${process.env.KOPIS_KEY}&stdate=20240501&eddate=20240514&rows=9&cpage=1&newsql=Y`
+      `${process.env.KOPIS_URL}/pblprfr?service=${process.env.KOPIS_KEY}&stdate=20240520&eddate=20240601&rows=9&cpage=1&newsql=Y`
     );
 
     const xmlData = response.data;
