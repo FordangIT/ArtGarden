@@ -17,116 +17,107 @@ import {
 } from "@/lib/loadData";
 const inter = Inter({ subsets: ["latin"] });
 
-export interface Best_TYPE {
+//공연 best, new
+export interface Performance_TYPE {
   id: string;
   name: string;
-  posterurl: string;
   startdate: string;
   enddate: string;
-  area: string;
-  genre: string;
-  count: string;
-}
-export interface New_TYPE {
-  id: number;
+  place: string;
+  price: string;
   posterurl: string;
-  name: string;
-  area: string;
-  startdate: string;
-  enddate: string;
   genre: string;
-  rank: string;
+  status: string;
+  visitcnt: number;
+  scrapcnt: number;
+  area: string;
 }
-export interface BestExhibit_TYPE {
+
+export interface Exhibition_TYPE {
   id: string;
   name: string;
-  posterurl: string;
   startdate: string;
   enddate: string;
-  area: string;
   genre: string;
-  exstatus: string;
+  area: string;
+  place: string;
+  status: string;
+  posterurl: string;
+  visitcnt: number;
+  scrapcnt: number;
 }
-export interface AllBestExhibit_TYPE {
-  data: {
-    id: string;
-    name: string;
-    posterurl: string;
-    startdate: string;
-    enddate: string;
-    area: string;
-    genre: string;
-    exstatus: string;
-  }[];
-}
-export interface NewExhibit_TYPE {
+
+export interface PopupStore_TYPE {
   id: string;
   name: string;
-  posterurl: string;
   startdate: string;
   enddate: string;
-  area: string;
   genre: string;
-  exstatus: string;
+  area: string;
+  place: string;
+  status: string;
+  posterurl: string;
+  time: string[];
+  images: string[];
 }
-export interface AllNewExhibit_TYPE {
-  data: {
-    id: string;
-    name: string;
-    posterurl: string;
-    startdate: string;
-    enddate: string;
-    area: string;
-    genre: string;
-    exstatus: string;
-  }[];
+export interface AllPerformance_TYPE {
+  pageNo: number;
+  pageSize: number;
+  totalPages: number;
+  totalElements: number;
+  hasNext: boolean;
+  data: Performance_TYPE[];
+}
+export interface AllExhibition_TYPE {
+  pageNo: number;
+  pageSize: number;
+  totalPages: number;
+  totalElements: number;
+  hasNext: boolean;
+  data: Exhibition_TYPE[];
+}
+
+export interface AllPopupStore_TYPE {
+  pageNo: number;
+  pageSize: number;
+  totalPages: number;
+  totalElements: number;
+  hasNext: boolean;
+  data: PopupStore_TYPE[];
 }
 export interface Review_TYPE {
   name: string;
-  reviewid: string;
-  objectid: string;
   content: string;
   rate: number;
-  regdt: string;
   membierid: string;
+  reviewid: string;
+  objectid: string;
   genre: string;
+  regdt: string;
+  regid: null;
   posterurl: string;
+  updid: string;
+  upddt: string;
+}
+export interface AllReview_TYPE {
+  pageNo: number;
+  pageSize: number;
+  totalPages: number;
+  totalElements: number;
+  hasNext: boolean;
+  data: Review_TYPE[];
 }
 
-export interface BestPopup_TYPE {
-  id: string;
-  name: string;
-  posterurl: string;
-  area: string;
-  place: string;
-  startdate: string;
-  enddate: string;
-  time: string[];
-  images: string[];
+interface AllData_TYPE {
+  best: AllPerformance_TYPE;
+  new: AllPerformance_TYPE;
+  bestExhibit: AllExhibition_TYPE;
+  newExhibit: AllExhibition_TYPE;
+  bestPopup: PopupStore_TYPE[];
+  newPopup: PopupStore_TYPE[];
+  review: AllReview_TYPE;
 }
-
-export interface NewPopup_TYPE {
-  id: string;
-  name: string;
-  posterurl: string;
-  area: string;
-  place: string;
-  startdate: string;
-  enddate: string;
-  date: string;
-  time: string[];
-  images: string[];
-}
-interface Performance_TYPE {
-  best: Best_TYPE[];
-  new: New_TYPE[];
-  review: Review_TYPE[];
-  bestExhibit: AllBestExhibit_TYPE;
-  newExhibit: AllNewExhibit_TYPE;
-  newPopup: NewPopup_TYPE[];
-  bestPopup: BestPopup_TYPE[];
-}
-export default function Home(props: Performance_TYPE) {
+export default function Home(props: AllData_TYPE) {
   const dispatch = useDispatch();
   const selectedBest = useSelector(
     (state: RootState) => state.selected.best || ""
@@ -145,7 +136,7 @@ export default function Home(props: Performance_TYPE) {
       case "Best공연":
         return props.best;
       case "Best전시":
-        return props.bestExhibit.data;
+        return props.bestExhibit;
       case "Best팝업스토어":
         return props.bestPopup;
       default:
@@ -158,7 +149,7 @@ export default function Home(props: Performance_TYPE) {
       case "New공연":
         return props.new;
       case "New전시":
-        return props.newExhibit.data;
+        return props.newExhibit;
       case "New팝업스토어":
         return props.newPopup;
       default:
@@ -288,22 +279,23 @@ export default function Home(props: Performance_TYPE) {
 }
 
 export async function getStaticProps() {
-  const newData = await loadNew();
   const bestData = await loadBest();
-  const reviewData = await loadReview();
+  const newData = await loadNew();
   const bestExhibit = await loadBestExhibit();
   const newExhibit = await loadNewExhibit();
-  const newPopup = await loadNewPopup();
   const bestPopup = await loadBestPopup();
+  const newPopup = await loadNewPopup();
+  const reviewData = await loadReview();
+  console.log(bestData, "bestData");
   return {
     props: {
-      best: bestData,
-      new: newData,
-      bestExhibit: bestExhibit,
-      newExhibit: newExhibit,
-      newPopup: newPopup,
+      best: bestData.data,
+      new: newData.data,
+      bestExhibit: bestExhibit.data,
+      newExhibit: newExhibit.data,
       bestPopup: bestPopup,
-      review: reviewData
+      newPopup: newPopup,
+      review: reviewData.data
     }
   };
 }
