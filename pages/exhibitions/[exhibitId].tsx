@@ -4,13 +4,9 @@ import { GetServerSidePropsContext } from "next";
 import { MdShare } from "react-icons/md";
 import { fetchExhibitionDetails } from "@/lib/api/datailpage";
 import { fetchDetailExhibitionReview } from "@/lib/api/reviews";
-import DetailSection, {
-  DetailSection2
-} from "@/components/reviews/DetailSection";
 import DetailReview from "@/components/reviews/DetailReview";
-import axios from "axios";
+
 import { FavoriteButton } from "@/lib/components/FavoriteButton";
-import Link from "next/link";
 interface DetailExhibition_TYPE {
   id: string;
   name: string;
@@ -62,9 +58,6 @@ export interface ReviewCreate_TYPE {
 function DetailPage(props: DetailPage_TYPE) {
   const id = props.exhibitId;
   const data = props.data;
-  useEffect(() => {
-    console.log(id, data, reviews);
-  });
   const [reviews, setReviews] = useState(props.reviews);
 
   return (
@@ -126,24 +119,6 @@ function DetailPage(props: DetailPage_TYPE) {
             </div>
           </div>
         </div>
-        {/* <DetailSection />
-        <section id="detail">
-          <div className="flex justify-center items-center w-4/7 min-h">
-            <div className="flex-col">
-              {data &&
-                data.posterurl.map((el: any, idx: number) => (
-                  <Image
-                    key={idx}
-                    src={el}
-                    alt={`image ${idx}`}
-                    width={940}
-                    height={400}
-                  />
-                ))}
-            </div>
-          </div>
-        </section>
-        <DetailSection2 /> */}
         <DetailReview id={id} reviews={reviews} />
       </div>
     </div>
