@@ -48,11 +48,6 @@ const AllExhibitions: React.FC = () => {
     if (scrollY !== 0) window.scrollTo(0, Number(scrollY));
   }, [scrollY]);
 
-  useEffect(() => {
-    console.log(local, sort, "local and sort");
-    console.log(data, "data");
-  });
-
   const getPerformanceWithPageInfo = async ({ pageParam = 1 }) => {
     try {
       const areaParams = local.map((area) => `searchAreaArr=${area}`).join("&");

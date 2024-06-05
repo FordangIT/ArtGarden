@@ -63,7 +63,6 @@ export default function Condition() {
     const fetchData = async () => {
       try {
         const res = await getRegionNames();
-        console.log(res.codeList, "data");
         setData(res.codeList);
       } catch (error) {
         console.error(error);
