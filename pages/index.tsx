@@ -15,6 +15,7 @@ import {
   loadNewPopup,
   loadBestPopup
 } from "@/lib/loadData";
+import { useEffect } from "react";
 const inter = Inter({ subsets: ["latin"] });
 
 //공연 best, new
@@ -100,24 +101,27 @@ export interface Review_TYPE {
   upddt: string;
 }
 export interface AllReview_TYPE {
-  pageNo: number;
-  pageSize: number;
-  totalPages: number;
-  totalElements: number;
-  hasNext: boolean;
+  pageNo?: number;
+  pageSize?: number;
+  totalPages?: number;
+  totalElements?: number;
+  hasNext?: boolean;
   data: Review_TYPE[];
 }
 
 interface AllData_TYPE {
-  best: AllPerformance_TYPE;
-  new: AllPerformance_TYPE;
-  bestExhibit: AllExhibition_TYPE;
-  newExhibit: AllExhibition_TYPE;
+  best: Performance_TYPE[];
+  new: Performance_TYPE[];
+  bestExhibit: Exhibition_TYPE[];
+  newExhibit: Exhibition_TYPE[];
   bestPopup: PopupStore_TYPE[];
   newPopup: PopupStore_TYPE[];
-  review: AllReview_TYPE;
+  review: Review_TYPE[];
 }
 export default function Home(props: AllData_TYPE) {
+  useEffect(() => {
+    console.log(props.review);
+  });
   const dispatch = useDispatch();
   const selectedBest = useSelector(
     (state: RootState) => state.selected.best || ""
@@ -131,19 +135,19 @@ export default function Home(props: AllData_TYPE) {
   const handleSelectNew = (text: string) => {
     dispatch(updateNew(text));
   };
-  const bestData = (() => {
-    switch (selectedBest) {
-      case "Best공연":
-        return props.best;
-      case "Best전시":
-        return props.bestExhibit;
-      case "Best팝업스토어":
-        return props.bestPopup;
-      default:
-        return props.best; // 기본값 설정 (필요 시 조정)
-    }
-  })();
-
+  const bestData: (Performance_TYPE | Exhibition_TYPE | PopupStore_TYPE)[] =
+    (() => {
+      switch (selectedBest) {
+        case "Best공연":
+          return props.best;
+        case "Best전시":
+          return props.bestExhibit;
+        case "Best팝업스토어":
+          return props.bestPopup;
+        default:
+          return props.best; // 기본값 설정 (필요 시 조정)
+      }
+    })();
   const newData = (() => {
     switch (selectedNew) {
       case "New공연":
@@ -286,7 +290,6 @@ export async function getStaticProps() {
   const bestPopup = await loadBestPopup();
   const newPopup = await loadNewPopup();
   const reviewData = await loadReview();
-  console.log(bestData, "bestData");
   return {
     props: {
       best: bestData.data,

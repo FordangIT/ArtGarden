@@ -26,7 +26,6 @@ export default function ReviewList({ id, props }: ReviewList_TYPE) {
   );
 
   const reviews = data?.data || [];
-
   useEffect(() => {
     if (pageNo < props.totalPages) {
       queryClient.prefetchQuery(["reviews", id, pageNo + 1], () =>
@@ -58,7 +57,12 @@ export default function ReviewList({ id, props }: ReviewList_TYPE) {
         return { previousReviews };
       },
       onError: (err, updatedReview, context) => {
-        queryClient.setQueryData(["reviews", id], context.previousReviews);
+        if (context?.previousReviews) {
+          queryClient.setQueryData(["reviews", id], context.previousReviews);
+        } else {
+          // context가 유효하지 않을 경우의 에러 처리
+          console.error("Error: Missing context with previous review data");
+        }
       },
       onSettled: () => {
         queryClient.invalidateQueries(["reviews", id]);
@@ -112,7 +116,7 @@ export default function ReviewList({ id, props }: ReviewList_TYPE) {
       <div className="flex justify-center bg-blue-500 w-full ">
         <div className="bg-black w-full">
           {reviews &&
-            reviews.map((el) => {
+            reviews.map((el: any) => {
               const isEditing =
                 editingReview && editingReview.reviewid === el.reviewid;
               return (

@@ -10,18 +10,12 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "swiper/css/effect-fade";
-import { New_TYPE, NewExhibit_TYPE, NewPopup_TYPE } from "@/pages";
+import { Performance_TYPE, Exhibition_TYPE, PopupStore_TYPE } from "@/pages";
 
 interface NewProducts_TYPE {
   selectedNew: string;
-  data: (New_TYPE | NewPopup_TYPE | NewExhibit_TYPE)[];
+  data: (Performance_TYPE | Exhibition_TYPE | PopupStore_TYPE)[];
 }
-
-const isTypeNew = (
-  item: New_TYPE | NewPopup_TYPE | NewExhibit_TYPE
-): item is New_TYPE => {
-  return (item as New_TYPE).id !== undefined;
-};
 
 const linkUrl = (selectedNew: string) => {
   switch (selectedNew) {
@@ -37,6 +31,7 @@ const linkUrl = (selectedNew: string) => {
 };
 
 const NewProducts: React.FC<NewProducts_TYPE> = ({ selectedNew, data }) => {
+  const word = selectedNew.match(/[가-힣]+/g)?.[0];
   SwiperCore.use([Navigation, Pagination, Autoplay, Scrollbar]);
 
   return (
@@ -96,14 +91,12 @@ const NewProducts: React.FC<NewProducts_TYPE> = ({ selectedNew, data }) => {
                       </div>
                     </h2>
                     <p className="text-lg sm:text-base ">
-                      장소 : {truncateText(el.area, 13)}
+                      장소 : {truncateText(el.place, 13)}
                     </p>
-
+                    <p className="text-lg sm:text-base ">마감 : {el.enddate}</p>
                     <div className="card-actions flex flex-col m-5 items-end ">
-                      <div className="badge badge-outline my-1">
-                        {el.startdate}
-                      </div>
-                      <div className="badge badge-outline">{el.enddate}</div>
+                      <div className="badge badge-outline my-1">{el.genre}</div>
+                      <div className="badge badge-outline">{el.status}</div>
                     </div>
                   </div>
                 </div>
@@ -111,9 +104,9 @@ const NewProducts: React.FC<NewProducts_TYPE> = ({ selectedNew, data }) => {
             </SwiperSlide>
           ))}
           <div className="flex justify-end mt-12 mr-6">
-            <Link href={`/performances`}>
+            <Link href={`${linkUrl(selectedNew)}`}>
               <div className="text-black font-bold text-xl hover:text-main-pink">
-                더 많은 공연 보러 가기
+                {`더 많은 ${word} 보러 가기`}
               </div>
             </Link>
           </div>
