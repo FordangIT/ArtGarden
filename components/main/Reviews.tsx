@@ -1,23 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Review_TYPE, AllReview_TYPE } from "@/pages";
 
-interface ReviewData {
-  name: string;
-  reviewid: string;
-  objectid: string;
-  content: string;
-  rate: number;
-  regdt: string;
-  membierid: string;
-  genre: string;
-  posterurl: string;
-}
-
-interface REVIEW_TYPE {
-  data: ReviewData[];
-}
-
-const Reviews = (data: REVIEW_TYPE) => {
+const Reviews = (data: AllReview_TYPE) => {
   const truncateText = (text: string, maxLength: number) => {
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
   };
@@ -38,7 +23,7 @@ const Reviews = (data: REVIEW_TYPE) => {
     <div className="flex justify-center ">
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-8 ">
         {data &&
-          data.data.map((el: ReviewData) => (
+          data?.data.map((el: Review_TYPE) => (
             <Link href={generateLinkHref(el.objectid)} key={el.reviewid}>
               <div
                 key={el.reviewid}
