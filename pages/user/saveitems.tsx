@@ -50,8 +50,8 @@ export default function FavoritesPage() {
       if (favoriteIds.length) {
         try {
           // EX와 PE로 시작하는 ID를 분류
-          const exIds = favoriteIds.filter((id) => id.startsWith("EX"));
-          const peIds = favoriteIds.filter((id) => id.startsWith("PF"));
+          const exIds = favoriteIds.filter((id: string) => id.startsWith("EX"));
+          const peIds = favoriteIds.filter((id: string) => id.startsWith("PF"));
 
           // 공연 정보를 가져오는 요청
           const peResponse = await axios.post("/api/user/saveitems", {
@@ -60,7 +60,7 @@ export default function FavoritesPage() {
           setPerformances(peResponse.data);
 
           // 전시회 정보를 개별 GET 요청으로 가져오기
-          const exRequests = exIds.map((id) =>
+          const exRequests = exIds.map((id: string) =>
             axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/exhibits/${id}`)
           );
           const exResponses = await Promise.all(exRequests);
