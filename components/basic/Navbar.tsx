@@ -18,15 +18,17 @@ export default function Navbar() {
       <Sidebar />
       <div className="fixed top-0 bg-main-pink flex justify-center items-center h-16 lg:h-20 w-full z-40">
         <div className="flex justify-between items-center w-2/3">
-          <Link href="/" className="w-full h-full">
-            <Image
-              src="/logo.png"
-              alt="logo of artgarden"
-              width={200}
-              height={40}
-              className="w-36 lg:w-48"
-            ></Image>
-          </Link>
+          <Image
+            src="/logo.png"
+            alt="logo of artgarden"
+            width={200}
+            height={40}
+            className="w-36 lg:w-48"
+          >
+            <Link href="/">
+              <a className="w-full h-full"></a>
+            </Link>
+          </Image>
           <div className="lg:hidden">
             <Smallbar />
           </div>
