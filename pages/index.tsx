@@ -119,9 +119,6 @@ interface AllData_TYPE {
   review: Review_TYPE[];
 }
 export default function Home(props: AllData_TYPE) {
-  useEffect(() => {
-    console.log(props.review);
-  });
   const dispatch = useDispatch();
   const selectedBest = useSelector(
     (state: RootState) => state.selected.best || ""
@@ -182,8 +179,8 @@ export default function Home(props: AllData_TYPE) {
               <div
                 className={
                   selectedBest === "Best공연"
-                    ? "text-main-pink"
-                    : "text-gray-400"
+                    ? "text-main-pink cursor-pointer"
+                    : "text-gray-400 cursor-pointer"
                 }
                 onClick={() => handleSelectBest("Best공연")}
               >
@@ -192,8 +189,8 @@ export default function Home(props: AllData_TYPE) {
               <div
                 className={
                   selectedBest === "Best전시"
-                    ? "text-main-pink"
-                    : "text-gray-400"
+                    ? "text-main-pink cursor-pointer"
+                    : "text-gray-400 cursor-pointer"
                 }
                 onClick={() => handleSelectBest("Best전시")}
               >
@@ -202,8 +199,8 @@ export default function Home(props: AllData_TYPE) {
               <div
                 className={
                   selectedBest === "Best팝업스토어"
-                    ? "text-main-pink "
-                    : "text-gray-400"
+                    ? "text-main-pink cursor-pointer"
+                    : "text-gray-400 cursor-pointer"
                 }
                 onClick={() => handleSelectBest("Best팝업스토어")}
               >
@@ -229,7 +226,9 @@ export default function Home(props: AllData_TYPE) {
             <div className="flex text-black text-3xl font-bold grid-rows-3 gap-4">
               <div
                 className={
-                  selectedNew === "New공연" ? "text-main-pink" : "text-gray-400"
+                  selectedNew === "New공연"
+                    ? "text-main-pink cursor-pointer"
+                    : "text-gray-400 cursor-pointer"
                 }
                 onClick={() => handleSelectNew("New공연")}
               >
@@ -238,8 +237,8 @@ export default function Home(props: AllData_TYPE) {
               <div
                 className={
                   selectedNew === "New전시"
-                    ? "text-main-pink "
-                    : "text-gray-400"
+                    ? "text-main-pink cursor-pointer"
+                    : "text-gray-400 cursor-pointer"
                 }
                 onClick={() => handleSelectNew("New전시")}
               >
@@ -248,8 +247,8 @@ export default function Home(props: AllData_TYPE) {
               <div
                 className={
                   selectedNew === "New팝업스토어"
-                    ? "text-main-pink"
-                    : "text-gray-400"
+                    ? "text-main-pink cursor-pointer"
+                    : "text-gray-400 cursor-pointer"
                 }
                 onClick={() => handleSelectNew("New팝업스토어")}
               >
