@@ -73,15 +73,7 @@ function DetailPage(props: DetailPage_TYPE) {
   const id = props.id;
   const data = props.data[0];
   const [reviews, setReviews] = useState(props.reviews);
-  useEffect(() => {
-    console.log(reviews);
-  });
-  const onClick = () => {
-    const { Kakao, location } = window;
-    Kakao.Link.sendScrap({
-      requestUrl: location.href
-    });
-  };
+
   return (
     <div className="flex justify-center items-center">
       <div className="w-full px-2 sm:w-2/3 ">
@@ -105,10 +97,7 @@ function DetailPage(props: DetailPage_TYPE) {
                     <div className="border-[1px] border-black p-2 ">
                       <FavoriteButton item={id} />
                     </div>
-                    <div
-                      className="border-[1px] p-2 border-black ml-1"
-                      onClick={onClick}
-                    >
+                    <div className="border-[1px] p-2 border-black ml-1">
                       <MdShare className="w-8 h-8 font-light text-black" />
                     </div>
                   </div>

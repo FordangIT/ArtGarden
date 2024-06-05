@@ -4,10 +4,10 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
-        <script
+        {/* <script
           defer
           src="https://developers.kakao.com/sdk/js/kakao.min.js"
-        ></script>
+        ></script> */}
         <link rel="icon" href="/artgarden.png" sizes="any" />
       </Head>
       <body>

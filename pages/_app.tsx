@@ -8,11 +8,11 @@ import Layout from "@/components/basic/Layout";
 import { Provider } from "react-redux";
 import store from "@/redux/store";
 import Head from "next/head";
-declare global {
-  interface Window {
-    Kakao: any;
-  }
-}
+// declare global {
+//   interface Window {
+//     Kakao: any;
+//   }
+// }
 export default function App({
   Component,
   pageProps: { session, ...pageProps }
