@@ -8,7 +8,6 @@ import DetailSection, {
   DetailSection2
 } from "@/components/reviews/DetailSection";
 import DetailReview from "@/components/reviews/DetailReview";
-import axios from "axios";
 import { FavoriteButton } from "@/lib/components/FavoriteButton";
 import Link from "next/link";
 interface DetailPerformance_TYPE {
@@ -122,9 +121,7 @@ function DetailPage(props: DetailPage_TYPE) {
                         <span className=" font-semibold">{data.prfstate}</span>
                       </div>
                       <div className="mb-4">
-                        <span className=" font-semibold">
-                          공연 소요시간 :{}
-                        </span>
+                        <span className=" font-semibold">공연 소요시간 :</span>
                         {data.runtime}
                       </div>
                       <div className="mb-4">
