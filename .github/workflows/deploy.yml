@@ -29,11 +29,13 @@ jobs:
         run: |
           echo "KOPIS_URL=$KOPIS_URL" >> .env
           echo "KOPIS_KEY=$KOPIS_KEY" >> .env
+          echo "NEXT_PUBLIC_FRONTEND_URL=$NEXT_PUBLIC_FRONTEND_URL" >> .env
           echo "NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL" >> .env
           echo "MONGODB_URI=$MONGODB_URI" >> .env
         env:
           KOPIS_URL: ${{secrets.KOPIS_URL}}
           KOPIS_KEY: ${{secrets.KOPIS_KEY}}
+          NEXT_PUBLIC_FRONTEND_URL: ${{ secrets.NEXT_PUBLIC_FRONTEND_URL }}
           NEXT_PUBLIC_BACKEND_URL: ${{ secrets.NEXT_PUBLIC_BACKEND_URL }}
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
 
