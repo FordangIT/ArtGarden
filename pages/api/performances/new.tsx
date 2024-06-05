@@ -9,7 +9,7 @@ interface NewProducts {
   startdate: string;
   enddate: string;
   genre: string;
-  rank: string;
+  status: string;
 }
 
 export default async function handler(
@@ -34,7 +34,7 @@ export default async function handler(
         startdate: item.prfpdfrom?.[0],
         enddate: item.prfpdto?.[0],
         genre: item.genrenm?.[0],
-        rank: item.prfstate?.[0]
+        status: item.prfstate?.[0]
       }));
       if (!jsonData) {
         return res.status(500).json({ error: "data format error" });
