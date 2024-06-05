@@ -6,9 +6,11 @@ interface LayoutProps {
   children: ReactNode;
 }
 export default function Layout({ children }: LayoutProps): JSX.Element {
-  useEffect(() => {
-    window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
-  }, []);
+  // useEffect(() => {
+  //   if (!window.Kakao.isInitialized()) {
+  //     window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
+  //   }
+  // }, []);
   return (
     <div className="flex-col justify-center items-center">
       <Navbar />
