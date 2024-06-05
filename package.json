@@ -16,7 +16,6 @@
     "@mui/icons-material": "^5.15.6",
     "@mui/material": "^5.15.6",
     "@reduxjs/toolkit": "^2.2.3",
-    "@types/swiper": "^6.0.0",
     "axios": "^1.6.7",
     "bcryptjs": "^2.4.3",
     "hangul-js": "^0.2.6",
