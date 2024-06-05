@@ -4,19 +4,39 @@ const nextConfig = {
   // output: "export",
   images: {
     unoptimized: true,
+    domains: ["www.kopis.or.kr"],
     remotePatterns: [
       {
         protocol: "http",
         hostname: "www.kopis.or.kr",
-        pathname: "**",
+        pathname: "**"
       },
-    ],
+      {
+        protocol: "http",
+        hostname: "www.culture.go.kr",
+        pathname: "**"
+      },
+      {
+        protocol: "https",
+        hostname: "scontent.cdninstagram.com",
+        pathname: "**"
+      }
+    ]
   },
-  env: {
-    KOPIS_URL: process.env.KOPIS_URL,
-    KOPIS_KEY: process.env.KOPIS_KEY,
-    BACKEND_URL: process.env.BACKEND_URL,
-  },
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: "/clientside/:path*",
+          destination: "https://artgarden.site/:path*"
+        },
+        {
+          source: "/client",
+          destination: "https://artgarden.site"
+        }
+      ]
+    };
+  }
 };
 
 export default nextConfig;

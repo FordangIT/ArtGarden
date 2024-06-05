@@ -1,26 +1,19 @@
 version: 0.0
 os: linux
+
 files:
-  source: /
-  destination: /home/ubuntu
-  overwrite: yes
+  - source: /
+    destination: /home/ubuntu/artgarden
+    overwrite: yes
 
 permissions:
-  - object: /home/ubuntu
+  - object: /home/ubuntu/artgarden
     owner: ubuntu
     group: ubuntu
     mode: 755
 
 hooks:
-  BeforeInstall:
-    - location: scripts/before-install.sh
-      timeout: 300
-      runas: root
-  AfterInstall:
-    - location: scripts/after-install.sh
-      timeout: 300
-      runas: root
   ApplicationStart:
-    - location: scripts/application-start.sh
-      timeout: 300
+    - location: deploy.sh
+      timeout: 500
       runas: root

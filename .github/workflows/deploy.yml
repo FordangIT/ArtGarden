@@ -1,4 +1,4 @@
-name: deploy to S3
+name: CI/CD
 
 on:
   push:
@@ -13,23 +13,23 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [21.7.2]
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: "npm"
+          node-version: 20
 
-      - name: .env setting
+      - name: Generate Environment Variables File
         run: |
-          echo "KOPIS_URL=${{ secrets.KOPIS_URL }}" >> .env
-          echo "KOPIS_KEY=${{ secrets.KOPIS_KEY }}" >> .env
-          echo "BACKEND_URL=${{ secrets.BACKEND_URL }}" >> .env
+          echo "KOPIS_URL=$KOPIS_URL" >> .env
+          echo "KOPIS_KEY=$KOPIS_KEY" >> .env
+          echo "BACKEND_URL=$BACKEND_URL" >> .env
+        env:
+          KOPIS_URL: ${{secrets.KOPIS_URL}}
+          KOPIS_KEY: ${{secrets.KOPIS_KEY}}
+          BACKEND_URL: ${{secrets.BACKEND_URL}}
 
       - name: Install dependencies
         run: npm install
@@ -39,21 +39,22 @@ jobs:
 
       - name: Make zip file
         run: zip -qq -r ./artgarden.zip . -x "node_modules/*"
+        shell: bash
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v3-node20
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
       - name: Upload to S3
-        run: aws s3 cp --region ap-northeast-2 ./artgarden.zip s3://$S3_BUCKET_NAME/artgarden.zip
-
-      - name: Code Deploy
+        run: |
+          aws s3 cp --region ap-northeast-2 ./artgarden.zip s3://artgarden/artgarden.zip
+      - name: Deploy For Development
         run: |
           aws deploy create-deployment \
-          --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
           --deployment-config-name CodeDeployDefault.AllAtOnce \
+          --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
           --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} \
-          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=artgarden.zip
+          --s3-location bucket=artgarden,bundleType=zip,key=artgarden.zip

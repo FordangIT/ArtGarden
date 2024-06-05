@@ -1,13 +1,13 @@
 import { Html, Head, Main, NextScript } from "next/document";
 
-export const metadata = {
-  title: "artgarden",
-  description: "공연/전시/팝업스토어 정보 공유 웹사이트",
-};
 export default function Document() {
   return (
     <Html lang="en">
       <Head>
+        {/* <script
+          defer
+          src="https://developers.kakao.com/sdk/js/kakao.min.js"
+        ></script> */}
         <link rel="icon" href="/artgarden.png" sizes="any" />
       </Head>
       <body>

@@ -2,17 +2,126 @@ import { Inter } from "next/font/google";
 import BestProducts from "@/components/main/BestProducts";
 import NewProducts from "@/components/main/NewProducts";
 import Reviews from "@/components/main/Reviews";
-import MainCarousel from "@/components/main/MainCarousel";
+import MainBanner from "@/components/main/MainBanner";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  updateBest,
-  updateNew,
-  updateReview,
-} from "@/redux/slices/selectSlice";
+import { updateBest, updateNew } from "@/redux/slices/selectSlice";
 import { RootState } from "@/redux/store";
+import {
+  loadNew,
+  loadBest,
+  loadReview,
+  loadBestExhibit,
+  loadNewExhibit,
+  loadNewPopup,
+  loadBestPopup
+} from "@/lib/loadData";
+import { useEffect } from "react";
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+//공연 best, new
+export interface Performance_TYPE {
+  id: string;
+  name: string;
+  startdate: string;
+  enddate: string;
+  place: string;
+  price: string;
+  posterurl: string;
+  genre: string;
+  status: string;
+  visitcnt: number;
+  scrapcnt: number;
+  area: string;
+}
+
+export interface Exhibition_TYPE {
+  id: string;
+  name: string;
+  startdate: string;
+  enddate: string;
+  genre: string;
+  area: string;
+  place: string;
+  status: string;
+  posterurl: string;
+  visitcnt: number;
+  scrapcnt: number;
+}
+
+export interface PopupStore_TYPE {
+  id: string;
+  name: string;
+  startdate: string;
+  enddate: string;
+  genre: string;
+  area: string;
+  place: string;
+  status: string;
+  posterurl: string;
+  time: string[];
+  images: string[];
+}
+export interface AllPerformance_TYPE {
+  pageNo: number;
+  pageSize: number;
+  totalPages: number;
+  totalElements: number;
+  hasNext: boolean;
+  data: Performance_TYPE[];
+}
+export interface AllExhibition_TYPE {
+  pageNo: number;
+  pageSize: number;
+  totalPages: number;
+  totalElements: number;
+  hasNext: boolean;
+  data: Exhibition_TYPE[];
+}
+
+export interface AllPopupStore_TYPE {
+  pageNo: number;
+  pageSize: number;
+  totalPages: number;
+  totalElements: number;
+  hasNext: boolean;
+  data: PopupStore_TYPE[];
+}
+export interface Review_TYPE {
+  name: string;
+  content: string;
+  rate: number;
+  membierid: string;
+  reviewid: string;
+  objectid: string;
+  genre: string;
+  regdt: string;
+  regid: null;
+  posterurl: string;
+  updid: string;
+  upddt: string;
+}
+export interface AllReview_TYPE {
+  pageNo?: number;
+  pageSize?: number;
+  totalPages?: number;
+  totalElements?: number;
+  hasNext?: boolean;
+  data: Review_TYPE[];
+}
+
+interface AllData_TYPE {
+  best: Performance_TYPE[];
+  new: Performance_TYPE[];
+  bestExhibit: Exhibition_TYPE[];
+  newExhibit: Exhibition_TYPE[];
+  bestPopup: PopupStore_TYPE[];
+  newPopup: PopupStore_TYPE[];
+  review: Review_TYPE[];
+}
+export default function Home(props: AllData_TYPE) {
+  useEffect(() => {
+    console.log(props.review);
+  });
   const dispatch = useDispatch();
   const selectedBest = useSelector(
     (state: RootState) => state.selected.best || ""
@@ -20,115 +129,176 @@ export default function Home() {
   const selectedNew = useSelector(
     (state: RootState) => state.selected.new || ""
   );
-  const selectedReview = useSelector(
-    (state: RootState) => state.selected.review || ""
-  );
   const handleSelectBest = (text: string) => {
     dispatch(updateBest(text));
-    console.log(text, "선택한 text");
   };
   const handleSelectNew = (text: string) => {
     dispatch(updateNew(text));
-    console.log(text, "선택한 text");
   };
-  const handleSelectReview = (text: string) => {
-    dispatch(updateReview(text));
-    console.log(text, "선택한 text");
-  };
+  const bestData: (Performance_TYPE | Exhibition_TYPE | PopupStore_TYPE)[] =
+    (() => {
+      switch (selectedBest) {
+        case "Best공연":
+          return props.best;
+        case "Best전시":
+          return props.bestExhibit;
+        case "Best팝업스토어":
+          return props.bestPopup;
+        default:
+          return props.best; // 기본값 설정 (필요 시 조정)
+      }
+    })();
+  const newData = (() => {
+    switch (selectedNew) {
+      case "New공연":
+        return props.new;
+      case "New전시":
+        return props.newExhibit;
+      case "New팝업스토어":
+        return props.newPopup;
+      default:
+        return props.new; // 기본값 설정 (필요 시 조정)
+    }
+  })();
+
   return (
-    <>
-      <MainCarousel />
-      <main
-        className={`flex min-h-screen flex-col items-center bg-black pt-20 z-10 ${inter.className}`}
-      >
-        <div className="flex">
-          <div className="text-main-pink text-5xl py-10 pl-20 font-extrabold w-80">
-            RANKING
+    <div className="flex justify-center items-center">
+      <div className="w-full">
+        <main
+          className={`flex min-h-screen flex-col items-center z-10 ${inter.className}`}
+        >
+          <div className="flex justify-center items-center w-full bg-black">
+            <div className="w-2/3 h-[32rem] ">
+              <MainBanner />
+            </div>
           </div>
-          <div className="flex text-white text-3xl py-12 px-16 font-bold grid-rows-3 gap-4">
-            <div
-              className={
-                selectedBest === "Best공연" ? "text-main-pink" : "text-white"
-              }
-              onClick={() => handleSelectBest("Best공연")}
-            >
-              공연
+          <div className="flex-col sm:flex sm:flex-row justify-center sm:justify-around items-center mt-16 lg:mt-20 py-3">
+            <div className="text- text-5xl font-extrabold sm:px-16">
+              <div className="flex justify-center items-center gap-x-2">
+                <span className="text-black">Top Picks</span>
+              </div>
             </div>
-            <div
-              className={
-                selectedBest === "Best전시" ? "text-main-pink" : "text-white "
-              }
-              onClick={() => handleSelectBest("Best전시")}
-            >
-              전시
+            <div className="flex text-3xl font-bold grid-rows-3 gap-4">
+              <div
+                className={
+                  selectedBest === "Best공연"
+                    ? "text-main-pink"
+                    : "text-gray-400"
+                }
+                onClick={() => handleSelectBest("Best공연")}
+              >
+                공연
+              </div>
+              <div
+                className={
+                  selectedBest === "Best전시"
+                    ? "text-main-pink"
+                    : "text-gray-400"
+                }
+                onClick={() => handleSelectBest("Best전시")}
+              >
+                전시
+              </div>
+              <div
+                className={
+                  selectedBest === "Best팝업스토어"
+                    ? "text-main-pink "
+                    : "text-gray-400"
+                }
+                onClick={() => handleSelectBest("Best팝업스토어")}
+              >
+                팝업스토어
+              </div>
             </div>
-            <div
-              className={
-                selectedBest === "Best팝업스토어"
-                  ? "text-main-pink "
-                  : "text-white "
-              }
-              onClick={() => handleSelectBest("Best팝업스토어")}
-            >
-              팝업스토어
+          </div>
+          <div className="text-xl text-gray-500 font-medium pt-2 pb-12">
+            많은 사람에게 사랑받는 인기 급상승 {selectedBest}
+          </div>
+          <div className="flex justify-center items-center">
+            <BestProducts selectedBest={selectedBest} data={bestData} />
+          </div>
+        </main>
+        <div className="flex-col">
+          <div className=" flex-col sm:flex sm:flex-row justify-center items-center pt-20 pb-3">
+            <div className="text-5xl font-extrabold sm:px-16">
+              <div className="flex justify-center items-center text-black">
+                New Arrivals
+              </div>
             </div>
+
+            <div className="flex text-black text-3xl font-bold grid-rows-3 gap-4">
+              <div
+                className={
+                  selectedNew === "New공연" ? "text-main-pink" : "text-gray-400"
+                }
+                onClick={() => handleSelectNew("New공연")}
+              >
+                공연
+              </div>
+              <div
+                className={
+                  selectedNew === "New전시"
+                    ? "text-main-pink "
+                    : "text-gray-400"
+                }
+                onClick={() => handleSelectNew("New전시")}
+              >
+                전시
+              </div>
+              <div
+                className={
+                  selectedNew === "New팝업스토어"
+                    ? "text-main-pink"
+                    : "text-gray-400"
+                }
+                onClick={() => handleSelectNew("New팝업스토어")}
+              >
+                팝업스토어
+              </div>
+            </div>
+          </div>
+          <div className="flex justify-center items-center text-xl text-gray-500 font-medium pt-2 pb-12">
+            갓 공개된 따끈따끈한 {selectedNew}
+          </div>
+          <div className="bg-white z-20r">
+            <NewProducts selectedNew={selectedNew} data={newData} />
           </div>
         </div>
-        <div className="flex justify-center items-center">
-          <BestProducts />
-        </div>
-        <div className="flex mt-20">
-          <div className="text-white text-5xl pt-10 pl-20 font-extrabold w-80">
-            NEW
-          </div>
-          <div className="flex text-white text-3xl pt-12 px-16 font-bold grid-rows-3 gap-4">
-            <div
-              className={
-                selectedNew === "New공연" ? "text-main-pink" : "text-white"
-              }
-              onClick={() => handleSelectNew("New공연")}
-            >
-              공연
-            </div>
-            <div
-              className={
-                selectedNew === "New전시" ? "text-main-pink " : "text-white"
-              }
-              onClick={() => handleSelectNew("New전시")}
-            >
-              전시
-            </div>
-            <div
-              className={
-                selectedNew === "New팝업스토어"
-                  ? "text-main-pink"
-                  : "text-white"
-              }
-              onClick={() => handleSelectNew("New팝업스토어")}
-            >
-              팝업스토어
+        <div className="flex-col justify-center z-20 py-16">
+          <div className="flex flex-col sm:flex-row justify-center items-center">
+            <div className="text-black text-5xl font-extrabold sm:px-12">
+              Authentic Reviews
             </div>
           </div>
+          <div className="flex justify-center items-center text-xl text-gray-500 font-medium pt-4 pb-10">
+            관객들이 전하는 진솔한 후기
+          </div>
+          <div>
+            <Reviews data={props.review} />
+          </div>
         </div>
-      </main>
-      <div className="bg-black py-20 z-20">
-        <NewProducts />
       </div>
-      <div className="bg-main-pink py-20 z-20 flex-col justify-center">
-        <div className="flex justify-center items-center my-20">
-          <div className="text-white text-5xl pt-10 pl-20 font-extrabold w-80">
-            REVIEW
-          </div>
-          <div className="flex text-white text-3xl pt-12 px-16 font-bold grid-rows-3 gap-4">
-            <div className="hover:text-black w-20">공연</div>
-            <div className="hover:text-black w-20">전시</div>
-            <div className="hover:text-black w-36">팝업스토어</div>
-          </div>
-        </div>
-        <div>
-          <Reviews />
-        </div>
-      </div>
-    </>
+    </div>
   );
+}
+
+export async function getStaticProps() {
+  const bestData = await loadBest();
+  const newData = await loadNew();
+  const bestExhibit = await loadBestExhibit();
+  const newExhibit = await loadNewExhibit();
+  const bestPopup = await loadBestPopup();
+  const newPopup = await loadNewPopup();
+  const reviewData = await loadReview();
+  return {
+    props: {
+      best: bestData.data,
+      new: newData.data,
+      bestExhibit: bestExhibit.data,
+      newExhibit: newExhibit.data,
+      bestPopup: bestPopup,
+      newPopup: newPopup,
+      review: reviewData.data
+    }
+  };
 }

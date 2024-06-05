@@ -1,109 +1,84 @@
 import Image from "next/image";
-import { useState, useEffect } from "react";
 import Link from "next/link";
-import SkeletonBest from "../basic/SkeletonBest";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
-import ReadyBest from "../basic/ReadyBest";
-const BestProducts = () => {
-  const selectedBest = useSelector(
-    (state: RootState) => state.selected.best || ""
-  );
-  useEffect(() => {
-    console.log(selectedBest);
-  }, [selectedBest]);
+import { Performance_TYPE, Exhibition_TYPE, PopupStore_TYPE } from "@/pages";
+
+export interface BestProducts_TYPE {
+  selectedBest: string;
+  data: (Performance_TYPE | Exhibition_TYPE | PopupStore_TYPE)[];
+}
+
+const linkUrl = (selectedBest: string) => {
+  switch (selectedBest) {
+    case "Best공연":
+      return "/performances";
+    case "Best전시":
+      return "/exhibitions";
+    case "Best팝업스토어":
+      return "/popupstores";
+    default:
+      return "/performances"; // 기본값 설정 (필요 시 조정)
+  }
+};
+
+const BestProducts: React.FC<BestProducts_TYPE> = ({ selectedBest, data }) => {
+  const word = selectedBest.match(/[가-힣]+/g)?.[0];
+
   const truncateText = (text: string, maxLength: number) => {
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
   };
-  const [data, setData] = useState<Array<any>>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [ready, setReady] = useState<boolean>(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("/api/performances/best");
-        if (!response.ok) {
-          throw new Error("failed to fetch data");
-        }
-        const result = await response.json();
-        setReady(false);
-        setData(result);
-        setLoading(false);
-        console.log("공연 데이터 호출");
-      } catch (error) {
-        console.error("error fetching datat", error);
-      }
-    };
-    const fetchDataExhibition = async () => {
-      try {
-        setReady(true);
-        setLoading(false);
-      } catch (error) {
-        console.error("error fetching datat", error);
-      }
-    };
-    const fetchDataPopupStore = async () => {
-      try {
-        setReady(true);
-        setLoading(false);
-        console.log("팝업스토어 데이터 호출");
-      } catch (error) {
-        console.error("error fetching datat", error);
-      }
-    };
-    if (selectedBest === "Best공연") {
-      setLoading(true);
-      fetchData();
-    } else if (selectedBest === "Best전시") {
-      setLoading(true);
-      fetchDataExhibition();
-    } else {
-      setLoading(true);
-      fetchDataPopupStore();
-    }
-  }, [selectedBest]);
-
   return (
     <div className="flex-col">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
-        {loading ? (
-          <SkeletonBest cards={8} />
-        ) : ready ? (
-          <ReadyBest cards={8} />
-        ) : (
-          data.map((el) => (
-            <Link href={`/performances/${el.id}`} key={el.id}>
-              <div className="card w-[26rem] h-[30rem] bg-white shadow-xl rounded-none border-2 border-white  transition ease-in-out delay-10 hover:-translate-y-1 hover:scale-105 duration-100">
-                <figure>
-                  <Image src={el.img} alt="공연사진" width={420} height={380} />
-                </figure>
-                <div className="card-body">
-                  <h2 className="card-title">
-                    {truncateText(el.name, 16)}
-                    <div className="badge bg-main-pink text-white">BEST</div>
-                  </h2>
-                  공연기간: {el.date} <p>지역: {el.place}</p>
-                  <div className="card-actions justify-end">
-                    <div className="badge badge-outline">{el.genre}</div>
-                    <div className="badge badge-outline">
-                      공연횟수: {el.count}번
+      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-12">
+        {data &&
+          data.map(
+            (
+              el: Performance_TYPE | Exhibition_TYPE | PopupStore_TYPE,
+              index
+            ) => (
+              <Link
+                href={`${linkUrl(selectedBest)}/${el.id}`}
+                key={el.id || index}
+              >
+                <div className="card w-[24rem] h-[30rem] bg-white shadow-xl rounded-none border-2 border-white transition ease-in-out delay-10 hover:-translate-y-1 hover:scale-105 duration-100">
+                  <figure>
+                    {el.posterurl ? (
+                      <Image
+                        src={el.posterurl}
+                        alt="공연사진"
+                        width={420}
+                        height={380}
+                      />
+                    ) : (
+                      <div className="w-[420px] h-[380px] bg-gray-200 flex items-center justify-center">
+                        <span>No Image Available</span>
+                      </div>
+                    )}
+                  </figure>
+                  <div className="card-body">
+                    <h2 className="card-title">
+                      {truncateText(el.name, 16)}
+                      <div className="badge bg-main-pink text-white">BEST</div>
+                    </h2>
+                    마감:{el.enddate} <p>지역: {el.area}</p>
+                    <div className="card-actions justify-end">
+                      <div className="badge badge-outline">{el.genre}</div>
+                      <div className="badge badge-outline">{el.status}</div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </Link>
-          ))
-        )}
+              </Link>
+            )
+          )}
       </div>
       <div className="flex justify-end mt-8">
-        <Link href={`/performances`}>
-          <div className="text-white font-bold text-2xl hover:text-main-pink">
-            더 많은 BEST 공연 보러 가기
+        <Link href={`${linkUrl(selectedBest)}`}>
+          <div className="text-black font-bold text-xl hover:text-main-pink py-8">
+            {`더 많은 ${word} 보러 가기`}
           </div>
         </Link>
       </div>
     </div>
   );
 };
+
 export default BestProducts;

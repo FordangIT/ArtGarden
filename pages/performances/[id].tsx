@@ -1,129 +1,189 @@
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import CreateReview from "@/components/performances/CreateReview";
 import { GetServerSidePropsContext } from "next";
-interface ReviewFormProps {
-  id: string;
+import { MdShare } from "react-icons/md";
+import { fetchPerformanceDetails } from "@/lib/api/datailpage";
+import { fetchDetailPerformanceReview } from "@/lib/api/reviews";
+import DetailSection, {
+  DetailSection2
+} from "@/components/reviews/DetailSection";
+import DetailReview from "@/components/reviews/DetailReview";
+import axios from "axios";
+import { FavoriteButton } from "@/lib/components/FavoriteButton";
+import Link from "next/link";
+interface DetailPerformance_TYPE {
+  0: {
+    id: string;
+    name: string;
+    img: string;
+    start: string;
+    end: string;
+    place: string;
+    genre: string;
+    state: string;
+    cast: string;
+    runtime: string;
+    age: string;
+    price: string;
+    story: string;
+    prfstate: string;
+    styurls: string[];
+    relates: string;
+  };
 }
 
+export interface DetailReview_TYPE {
+  data: {
+    name: string;
+    content: string;
+    genre: string;
+    memberid: string;
+    performid: string;
+    posterurl: string;
+    rate: number;
+    regdt: string;
+    reviewid: number;
+  }[];
+  hasNext: boolean;
+  pageNo: number;
+  totalPages: number;
+}
+export interface DetailPage_TYPE {
+  id: string;
+  data: DetailPerformance_TYPE;
+  reviews: DetailReview_TYPE;
+}
+
+export interface ReviewData {
+  reviewid: number;
+  content: string;
+  rate: number;
+  memberid: string;
+  regdt: string;
+}
+
+export interface ReviewCreate_TYPE {
+  performid: string;
+  content: string;
+  rate: number;
+  memberid: string;
+}
 //공연 상세 정보 페이지
-function DetailPage(props: ReviewFormProps) {
+function DetailPage(props: DetailPage_TYPE) {
   const id = props.id;
-  //send a request to the backend api
-  const [data, setData] = useState<Array<any>>([]);
-  useEffect(() => {
-    if (id) {
-      const fetchData = async () => {
-        try {
-          const response = await fetch(`/api/performances/${id}`);
-          if (!response.ok) {
-            throw new Error("failed to fetch data");
-          }
-          const result = await response.json();
-          setData(result);
-        } catch (error) {
-          console.error("error fetching datat", error);
-        }
-      };
-      fetchData();
-    }
-  }, [id, data]);
+  const data = props.data[0];
+  const [reviews, setReviews] = useState(props.reviews);
+
   return (
-    <div className="flex justify-center items-center ">
-      <div className="flex-col min-h w-full justify-center items-center">
-        <div className="flex justify-center items-center bg-deep-blue">
-          <div className="flex w-2/3">
-            <div className="w-1/2 flex justify-center items-center">
-              {data[0] && (
+    <div className="flex justify-center items-center">
+      <div className="w-full px-2 sm:w-2/3 ">
+        <div className="flex items-center justify-center w-ful">
+          <div className="flex flex-col h-full lg:flex-row justify-center items-center w-full mt-6">
+            <div className="flex flex-auto justify-center items-center h-full  w-[26rem] lg:pr-10 lg:w-[40rem] lg:h-[30rem]">
+              {data && (
                 <Image
-                  src={data[0].img}
+                  src={data.img}
                   alt="메인 이미지"
                   width={500}
                   height={400}
-                  className="rounded-3xl border-2 my-10"
+                  className="rounded-3xl border-2 w-full h-full"
                 />
               )}
             </div>
-            <div className="flex justify-center w-1/2 mx-12 my-12">
-              <div className="">
-                {data[0] && (
-                  <div className="text-white">
-                    <div className="text-5xl font-bold mt-20 mb-20">
-                      {data[0].name}
+            <div className="flex flex-auto w-full">
+              {data && (
+                <div className="text-black w-full">
+                  <div className="flex justify-end items-center my-4">
+                    <div className="border-[1px] border-black p-2 ">
+                      <FavoriteButton item={id} />
                     </div>
-                    <div className="mt-8">
-                      <div className="text-2xl font-bold mb-20 flex justify-end">
-                        {data[0].start} ~ {data[0].end}
+                    <div className="border-[1px] p-2 border-black ml-1">
+                      <MdShare className="w-8 h-8 font-light text-black" />
+                    </div>
+                  </div>
+                  <div className="text-2xl md:text-3xl lg:text-2xl xl:text-3xl 2xl:text-5xl font-bold mb-4 leading-normal ">
+                    {data.name}
+                  </div>
+                  <div className="w-full h-1 bg-gray-100 mb-7"></div>
+                  <div className=" mb-10 2xl:mb-10 3xl:mb-20">
+                    <div className="xl:text-xl 2xl:text-2xl flex justify-end mb-7">
+                      {data.start} ~ {data.end}
+                    </div>
+                    <div className="mt-10 text-lg 2xl:text-xl">
+                      <div className="mb-4">
+                        <span className=" font-semibold">장소 : </span>
+                        {data.place}
                       </div>
-                      <div className="mt-10 text-lg">
-                        <div className="mb-4">
-                          <span className=" font-semibold">장소 : </span>
-                          {data[0].place}
-                        </div>
-                        <div className="mb-4">
-                          <span className=" font-semibold">장르 : </span>
-                          {data[0].genre}
-                        </div>
-                        <div className="mb-4">
-                          <span className=" font-semibold">
-                            {data[0].prfstate}
-                          </span>
-                        </div>
-                        <div className="mb-4">
-                          <span className=" font-semibold">
-                            공연 소요시간 :{" "}
-                          </span>
-                          {data[0].runtime}
-                        </div>
-                        <div className="mb-4">
-                          <span className=" font-semibold">연령 : </span>
-                          {data[0].age}
-                        </div>
-                        <div>
-                          <span className=" font-semibold">가격 : </span>
-                          {data[0].price}
-                        </div>
+                      <div className="mb-4">
+                        <span className=" font-semibold">장르 : </span>
+                        {data.genre}
+                      </div>
+                      <div className="mb-4">
+                        <span className=" font-semibold">{data.prfstate}</span>
+                      </div>
+                      <div className="mb-4">
+                        <span className=" font-semibold">
+                          공연 소요시간 :{}
+                        </span>
+                        {data.runtime}
+                      </div>
+                      <div className="mb-4">
+                        <span className=" font-semibold">연령 : </span>
+                        {data.age}
+                      </div>
+                      <div>
+                        <span className=" font-semibold">가격 : </span>
+                        {data.price}
                       </div>
                     </div>
                   </div>
-                )}
-              </div>
+                  <Link href={data.relates}>
+                    <div className="bg-deep-blue font-semibold text-xl text-white w-full h-16 flex justify-center items-center">
+                      예매하러 가기
+                    </div>
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>
-        <div className="w-4/7 flex">
-          <CreateReview id={id} />
-        </div>
-        <div className="flex justify-center items-center w-4/7 min-h">
-          <div className="flex-col">
-            {data[0] &&
-              data[0].styurls.map((el: any, idx: number) => (
-                <Image
-                  key={idx}
-                  src={el}
-                  alt={`image ${idx}`}
-                  width={940}
-                  height={400}
-                />
-              ))}
+        <DetailSection />
+        <section id="detail">
+          <div className="flex justify-center items-center w-4/7 min-h">
+            <div className="flex-col">
+              {data &&
+                data.styurls.map((el: any, idx: number) => (
+                  <Image
+                    key={idx}
+                    src={el}
+                    alt={`image ${idx}`}
+                    width={940}
+                    height={400}
+                  />
+                ))}
+            </div>
           </div>
-        </div>
+        </section>
+        <DetailSection2 />
+        <DetailReview id={id} reviews={reviews} />
       </div>
     </div>
   );
 }
 export default DetailPage;
 
-export async function getServerSideProps(
-  context: GetServerSidePropsContext
-): Promise<{ props: ReviewFormProps }> {
-  // 여기에서 공연 ID를 가져옵니다.
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { id } = context.query;
-
+  const detailPerformance = await fetchPerformanceDetails(id);
+  const detailPerformanceReview = await fetchDetailPerformanceReview(
+    id as string,
+    1
+  );
   return {
     props: {
-      id: id as string,
-    },
+      id,
+      data: detailPerformance,
+      reviews: detailPerformanceReview
+    }
   };
 }

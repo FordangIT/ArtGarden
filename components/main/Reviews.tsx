@@ -1,59 +1,89 @@
 import Image from "next/image";
-import { useQuery } from "react-query";
-import axios, { AxiosResponse } from "axios";
+import Link from "next/link";
+import { Review_TYPE, AllReview_TYPE } from "@/pages";
 
-interface Review_Data {
-  id: string;
-  perform_id: string;
-  content: string;
-  rate: number;
-  member_id: number;
-  created_at: string;
-  modified_at: string;
-}
-const Reviews = () => {
-  const { data, isLoading, isError, error } = useQuery<Review_Data[]>(
-    "reviewData",
-    async () => {
-      const res: AxiosResponse<Review_Data[]> = await axios.get(
-        `${process.env.BACKEND_URL}/reviews`
-      );
-      return res.data;
+const Reviews = (data: AllReview_TYPE) => {
+  const truncateText = (text: string, maxLength: number) => {
+    return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+  };
+
+  const generateLinkHref = (objectId: string) => {
+    if (!objectId) {
+      return "/";
     }
-  );
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-  if (isError) {
-    return <div>{(error as Error).message}</div>;
-  }
+    if (objectId.startsWith("EX")) {
+      return `/exhibitions/${objectId}`;
+    } else if (objectId.startsWith("PF")) {
+      return `/performances/${objectId}`;
+    }
+    return `/performances/${objectId}`; // default case if no prefix match
+  };
+
   return (
     <div className="flex justify-center ">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
+      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-8 ">
         {data &&
-          data?.map((el) => (
-            <div
-              key={el.id}
-              className="card w-80 h-96 bg-white shadow-xl rounded-xl border-2 border-white"
-            >
-              <figure>
-                <Image
-                  src={el.perform_id}
-                  alt="review-image"
-                  width={420}
-                  height={380}
-                />
-              </figure>
-              <div className="card-body">
-                <h2 className="card-title">{el.perform_id}</h2>
-                <h3>사용자: {el.member_id}</h3>
-                <h3>별점: {el.rate}</h3>
-                <h3>내용: {el.content}</h3>
+          data?.data.map((el: Review_TYPE) => (
+            <Link href={generateLinkHref(el.objectid)} key={el.reviewid}>
+              <div
+                key={el.reviewid}
+                className="card group w-80 h-96 bg-white shadow-xl rounded-xl border-2 border-white hover:cursor-pointer hover:bg-black hover:transition hover:duration-300 hover:ease-in-out hover:text-white"
+              >
+                <figure>
+                  {el.posterurl ? (
+                    <Image
+                      src={el.posterurl}
+                      alt="review-image"
+                      width={420}
+                      height={400}
+                      className="group-hover:opacity-40"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                      <p>Image not available</p>
+                    </div>
+                  )}
+                </figure>
+                <div className="card-body">
+                  <h2 className="card-title">
+                    {truncateText(`${el.name}`, 14)}
+                  </h2>
+                  <div className="flex justify-between items-center">
+                    <div className="rating">
+                      {[1, 2, 3, 4, 5].map((star, idx) => (
+                        <input
+                          key={idx}
+                          type="radio"
+                          name="rating"
+                          value={star}
+                          checked={star === el.rate}
+                          className="mask mask-star-2 bg-orange-400"
+                          readOnly
+                        />
+                      ))}
+                    </div>
+                    <div className="badge badge-secondary bg-main-yellow border-none text-black font-semibold flex justify-end">
+                      <div> {el.genre}</div>
+                    </div>
+                  </div>
+                  <h3>리뷰: {truncateText(el.content, 15)}</h3>
+                  <div className="flex items-center justify-end">
+                    <div className="text-gray-500 flex justify-end group-hover:text-white">
+                      {new Date(el.regdt).toLocaleDateString("ko-KR", {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric"
+                      })}
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
       </div>
     </div>
   );
 };
+
 export default Reviews;

@@ -1,5 +1,4 @@
 import dynamic from "next/dynamic";
-import SearchCondition from "@/components/performances/SearchCondition";
 const AllPerformances = dynamic(
   import("@/components/performances/AllPerformances")
 );
@@ -8,7 +7,6 @@ const AllPerformances = dynamic(
 function Performances() {
   return (
     <div className="flex-col">
-      <SearchCondition />
       <AllPerformances />
     </div>
   );

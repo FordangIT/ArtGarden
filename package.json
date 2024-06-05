@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3060",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3060",
     "lint": "next lint",
     "test": "jest",
     "test:watch": "jest --watchAll"
@@ -16,10 +16,12 @@
     "@mui/icons-material": "^5.15.6",
     "@mui/material": "^5.15.6",
     "@reduxjs/toolkit": "^2.2.3",
-    "@types/swiper": "^6.0.0",
     "axios": "^1.6.7",
+    "bcryptjs": "^2.4.3",
     "hangul-js": "^0.2.6",
+    "mongodb": "^6.5.0",
     "next": "14.1.0",
+    "next-auth": "^4.24.7",
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^5.0.1",
@@ -38,6 +40,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^14.2.1",
+    "@types/bcryptjs": "^2.4.6",
     "@types/jest": "^29.5.12",
     "@types/node": "^20",
     "@types/react": "^18",

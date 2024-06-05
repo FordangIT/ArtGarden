@@ -25,11 +25,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const kopis_key = process.env.KOPIS_KEY;
   const { productId } = req.query;
   try {
     const response = await axios.get(
-      `http://www.kopis.or.kr/openApi/restful/pblprfr/${productId}?service=${kopis_key}&newsql=Y`
+      `${process.env.KOPIS_URL}/pblprfr/${productId}?service=${process.env.KOPIS_KEY}&newsql=Y`
     );
     const xmlData = response.data;
 
@@ -55,6 +54,7 @@ export default async function handler(
           price: item.pcseguidance?.[0], //가격
           story: item.sty?.[0], //스토리
           styurls: item.styurls?.[0].styurl, //여러 이미지
+          relates: item.relates?.[0].relate[0].relateurl[0] //예매처목록
         }));
         resolve(parsedData);
       });
