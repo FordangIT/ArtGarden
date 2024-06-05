@@ -12,18 +12,7 @@ import { FavoriteButton } from "@/lib/components/FavoriteButton";
 import { truncateText } from "@/lib/components/TruncateText";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-
-interface Performance {
-  id: string;
-  name: string;
-  startDate: string;
-  endDate: string;
-  place: string;
-  price: string;
-  posterUrl: string;
-  genre: string;
-  performStatus: string;
-}
+import { AllPerformance_TYPE, Performance_TYPE } from "@/pages";
 
 const AllPerformances: React.FC = () => {
   const [scrollY, setScrollY] = useLocalStorage("performance_scroll", 0);
@@ -106,7 +95,7 @@ const AllPerformances: React.FC = () => {
               <>
                 {data?.pages?.map((page) => {
                   const performanceList = page.data.data;
-                  return performanceList.map((el: Performance) => {
+                  return performanceList.map((el: Performance_TYPE) => {
                     const searchKeywordInitials = getInitials(
                       searchTerm,
                       el.name
@@ -124,7 +113,7 @@ const AllPerformances: React.FC = () => {
                           <div className="card w-[24rem] h-[30rem] bg-white shadow-xl rounded-none border-2 border-white">
                             <figure>
                               <Image
-                                src={el.posterUrl}
+                                src={el.posterurl}
                                 alt="공연사진"
                                 width={350}
                                 height={100}
@@ -138,14 +127,14 @@ const AllPerformances: React.FC = () => {
                                 </h2>
                                 <FavoriteButton item={el.id} />
                               </div>
-                              공연기간: {el.startDate}~ {el.endDate}{" "}
-                              <p>지역: {truncateText(el.place, 22)}</p>
+                              공연기간: {el.startdate}~ {el.enddate}{" "}
+                              <p>지역: {truncateText(el.area, 22)}</p>
                               <div className="card-actions justify-end">
                                 <div className="badge badge-outline">
                                   {el.genre}
                                 </div>
                                 <div className="badge badge-outline">
-                                  {el.performStatus}
+                                  {el.status}
                                 </div>
                               </div>
                             </div>
