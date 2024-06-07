@@ -12,6 +12,10 @@ export default function Document() {
           crossOrigin="anonymous" // Correct attribute name
         />
         <link rel="icon" href="/artgarden.png" sizes="any" />
+        <meta
+          name="google-adsense-account"
+          content="ca-pub-6499853936822237"
+        ></meta>
       </Head>
       <body>
         <Main />
