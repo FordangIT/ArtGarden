@@ -66,7 +66,7 @@ export async function loadNewExhibit() {
 export async function loadNewPopup() {
   const client = await clientPromise;
   const db = client.db("popupstores");
-  const collections = db.collection("bestPopupstore");
+  const collections = db.collection("allPopupstores");
   const data = await collections.find({}).toArray();
   const bestPopup = data.map((item) => ({
     ...item,
@@ -78,7 +78,7 @@ export async function loadNewPopup() {
 export async function loadBestPopup() {
   const client = await clientPromise;
   const db = client.db("popupstores");
-  const collections = db.collection("bestPopupstore");
+  const collections = db.collection("allPopupstores");
   const data = await collections.find({}).toArray();
   const bestPopup = data.map((item) => ({
     ...item,
