@@ -3,7 +3,7 @@ import clientPromise from "../lib/mongodb";
 export async function loadBest() {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/performances?status=all&days=30&page=1&size=9&orderby=popular`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/ranks/20240607`
     );
     if (!response.ok) {
       throw new Error("failed to fetch data");
