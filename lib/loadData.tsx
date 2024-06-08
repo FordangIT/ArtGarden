@@ -3,7 +3,7 @@ import clientPromise from "../lib/mongodb";
 export async function loadBest() {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/performances?status=all&days=30&page=1&size=9&orderby=popular`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/ranks/20240607`
     );
     if (!response.ok) {
       throw new Error("failed to fetch data");
@@ -66,7 +66,7 @@ export async function loadNewExhibit() {
 export async function loadNewPopup() {
   const client = await clientPromise;
   const db = client.db("popupstores");
-  const collections = db.collection("bestPopupstore");
+  const collections = db.collection("allPopupstores");
   const data = await collections.find({}).toArray();
   const bestPopup = data.map((item) => ({
     ...item,
@@ -78,7 +78,7 @@ export async function loadNewPopup() {
 export async function loadBestPopup() {
   const client = await clientPromise;
   const db = client.db("popupstores");
-  const collections = db.collection("bestPopupstore");
+  const collections = db.collection("allPopupstores");
   const data = await collections.find({}).toArray();
   const bestPopup = data.map((item) => ({
     ...item,

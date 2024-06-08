@@ -6,6 +6,7 @@ import MainBanner from "@/components/main/MainBanner";
 import { useDispatch, useSelector } from "react-redux";
 import { updateBest, updateNew } from "@/redux/slices/selectSlice";
 import { RootState } from "@/redux/store";
+import { StaticImageData } from "next/image";
 import {
   loadNew,
   loadBest,
@@ -15,12 +16,10 @@ import {
   loadNewPopup,
   loadBestPopup
 } from "@/lib/loadData";
-import { useEffect } from "react";
 const inter = Inter({ subsets: ["latin"] });
-
-//공연 best, new
 export interface Performance_TYPE {
   id: string;
+  _id?: string;
   name: string;
   startdate: string;
   enddate: string;
@@ -36,6 +35,7 @@ export interface Performance_TYPE {
 
 export interface Exhibition_TYPE {
   id: string;
+  _id?: string;
   name: string;
   startdate: string;
   enddate: string;
@@ -49,7 +49,8 @@ export interface Exhibition_TYPE {
 }
 
 export interface PopupStore_TYPE {
-  id: string;
+  id?: string;
+  _id: string;
   name: string;
   startdate: string;
   enddate: string;
@@ -57,9 +58,11 @@ export interface PopupStore_TYPE {
   area: string;
   place: string;
   status: string;
-  posterurl: string;
+  link: string;
   time: string[];
-  images: string[];
+  posterurl: string | StaticImageData;
+  posterarray: string[];
+  script: string;
 }
 export interface AllPerformance_TYPE {
   pageNo: number;
@@ -157,7 +160,6 @@ export default function Home(props: AllData_TYPE) {
         return props.new; // 기본값 설정 (필요 시 조정)
     }
   })();
-
   return (
     <div className="flex justify-center items-center">
       <div className="w-full">
@@ -291,8 +293,8 @@ export async function getStaticProps() {
   const reviewData = await loadReview();
   return {
     props: {
-      best: bestData.data,
-      new: newData.data,
+      best: bestData,
+      new: newData.datalist,
       bestExhibit: bestExhibit.data,
       newExhibit: newExhibit.data,
       bestPopup: bestPopup,

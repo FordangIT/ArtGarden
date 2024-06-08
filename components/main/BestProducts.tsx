@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Performance_TYPE, Exhibition_TYPE, PopupStore_TYPE } from "@/pages";
+import { useEffect } from "react";
 
 export interface BestProducts_TYPE {
   selectedBest: string;
@@ -34,40 +35,42 @@ const BestProducts: React.FC<BestProducts_TYPE> = ({ selectedBest, data }) => {
             (
               el: Performance_TYPE | Exhibition_TYPE | PopupStore_TYPE,
               index
-            ) => (
-              <Link
-                href={`${linkUrl(selectedBest)}/${el.id}`}
-                key={el.id || index}
-              >
-                <div className="card w-[24rem] h-[30rem] bg-white shadow-xl rounded-none border-2 border-white transition ease-in-out delay-10 hover:-translate-y-1 hover:scale-105 duration-100">
-                  <figure>
-                    {el.posterurl ? (
-                      <Image
-                        src={el.posterurl}
-                        alt="공연사진"
-                        width={420}
-                        height={380}
-                      />
-                    ) : (
-                      <div className="w-[420px] h-[380px] bg-gray-200 flex items-center justify-center">
-                        <span>No Image Available</span>
+            ) => {
+              const id = el.id || el._id || index;
+              return (
+                <Link href={`${linkUrl(selectedBest)}/${id}`} key={id}>
+                  <div className="card w-[24rem] h-[30rem] bg-white shadow-xl rounded-none border-2 border-white transition ease-in-out delay-10 hover:-translate-y-1 hover:scale-105 duration-100">
+                    <figure>
+                      {el.posterurl ? (
+                        <Image
+                          src={el.posterurl}
+                          alt={selectedBest}
+                          width={420}
+                          height={380}
+                        />
+                      ) : (
+                        <div className="w-[420px] h-[380px] bg-gray-200 flex items-center justify-center">
+                          <span>No Image Available</span>
+                        </div>
+                      )}
+                    </figure>
+                    <div className="card-body">
+                      <h2 className="card-title">
+                        {truncateText(el.name, 16)}
+                        <div className="badge bg-main-pink text-white">
+                          BEST
+                        </div>
+                      </h2>
+                      마감:{el.enddate} <p>지역: {el.area}</p>
+                      <div className="card-actions justify-end">
+                        <div className="badge badge-outline">{el.genre}</div>
+                        <div className="badge badge-outline">{el.status}</div>
                       </div>
-                    )}
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">
-                      {truncateText(el.name, 16)}
-                      <div className="badge bg-main-pink text-white">BEST</div>
-                    </h2>
-                    마감:{el.enddate} <p>지역: {el.area}</p>
-                    <div className="card-actions justify-end">
-                      <div className="badge badge-outline">{el.genre}</div>
-                      <div className="badge badge-outline">{el.status}</div>
                     </div>
                   </div>
-                </div>
-              </Link>
-            )
+                </Link>
+              );
+            }
           )}
       </div>
       <div className="flex justify-end mt-8">

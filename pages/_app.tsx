@@ -33,6 +33,10 @@ export default function App({
                 name="viewport"
                 content="initial-scale=1.0, width=device-width"
               ></meta>
+              <meta
+                name="google-adsense-account"
+                content="ca-pub-6499853936822237"
+              ></meta>
             </Head>
             <Component {...pageProps} />
           </Layout>
