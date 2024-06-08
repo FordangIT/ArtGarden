@@ -94,7 +94,7 @@ const AllPerformances: React.FC = () => {
             {status === "success" && data && (
               <>
                 {data?.pages?.map((page) => {
-                  const performanceList = page.data.data;
+                  const performanceList = page.data.datalist;
                   return performanceList.map((el: Performance_TYPE) => {
                     const searchKeywordInitials = getInitials(
                       searchTerm,
