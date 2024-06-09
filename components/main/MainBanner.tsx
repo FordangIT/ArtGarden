@@ -6,15 +6,13 @@ import "swiper/css/scrollbar";
 import "swiper/css/navigation";
 import "swiper/css/autoplay"; // Autoplay 스타일 추가
 import { Keyboard, Scrollbar, Autoplay } from "swiper/modules";
+import { MainBannerPopupStore_TYPE } from "@/pages";
+import { FaMapMarkerAlt } from "react-icons/fa";
 
-export default function MainBanner() {
-  const images = [
-    "http://www.kopis.or.kr/upload/pfmPoster/PF_PF239553_240419_104424.gif",
-    "http://www.kopis.or.kr/upload/pfmPoster/PF_PF235107_240226_103835.gif",
-    "http://www.kopis.or.kr/upload/pfmPoster/PF_PF238655_240404_103127.gif",
-    "http://www.kopis.or.kr/upload/pfmPoster/PF_PF240728_240509_103444.gif"
-  ];
-
+export interface MainBanner_TYPE {
+  data: MainBannerPopupStore_TYPE[];
+}
+export default function MainBanner({ data }: MainBanner_TYPE) {
   return (
     <div className="h-full w-full">
       <Swiper
@@ -39,16 +37,16 @@ export default function MainBanner() {
         modules={[Keyboard, Scrollbar, Autoplay]}
         className="mySwiper w-full h-full"
       >
-        {images.map((src, index) => (
+        {data.map((el: MainBannerPopupStore_TYPE) => (
           <SwiperSlide
-            key={index}
+            key={el._id}
             className="flex justify-center items-center w-1/2 "
           >
             <div className="relative w-full h-full flex justify-center items-center">
-              {src ? (
+              {el.posterurl ? (
                 <Image
-                  src={src}
-                  alt={`main-banner-${index}`}
+                  src={el.posterurl}
+                  alt={`main-banner-${el._id}`}
                   fill
                   className="w-full brightness-75 object-cover"
                 />
@@ -57,6 +55,16 @@ export default function MainBanner() {
                   <p>Image not available</p>
                 </div>
               )}
+              <div className="absolute bottom-8 left-7 flex-col text-white font-semibold">
+                <div className="text-2xl">{el.name}</div>
+                <div className="flex items-center text-md">
+                  <FaMapMarkerAlt className="mr-2" />
+                  지역: {el.area}
+                </div>
+                <div className="text-md">
+                  {el.startdate} - {el.enddate}
+                </div>
+              </div>
             </div>
           </SwiperSlide>
         ))}
