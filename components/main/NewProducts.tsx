@@ -66,7 +66,7 @@ const NewProducts: React.FC<NewProducts_TYPE> = ({ selectedNew, data }) => {
         >
           {data.map((el) => (
             <SwiperSlide key={el.id}>
-              <Link href={`${linkUrl(selectedNew)}/${el.id}`}>
+              <Link href={`${linkUrl(selectedNew)}/${el.id}`} key={el.id}>
                 <div className="card w-80 border-b-2 shadow-lg ">
                   <figure className="bg-black h-96 md:h-80">
                     {el.posterurl ? (
