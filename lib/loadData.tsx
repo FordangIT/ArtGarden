@@ -102,3 +102,15 @@ export async function loadReview() {
     throw new Error("failed to fetch data");
   }
 }
+
+export async function loadMainBannerPopup() {
+  const client = await clientPromise;
+  const db = client.db("popupstores");
+  const collections = db.collection("mainBannerPopupstore");
+  const data = await collections.find({}).toArray();
+  const bestPopup = data.map((item) => ({
+    ...item,
+    _id: item._id.toString()
+  }));
+  return bestPopup;
+}
