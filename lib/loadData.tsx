@@ -1,5 +1,5 @@
 import clientPromise from "../lib/mongodb";
-
+import { ObjectId } from "mongodb";
 export async function loadBest() {
   try {
     const response = await fetch(
@@ -113,4 +113,43 @@ export async function loadMainBannerPopup() {
     _id: item._id.toString()
   }));
   return bestPopup;
+}
+
+export async function loadAllPopupStore() {
+  const client = await clientPromise;
+  const db = client.db("popupstores");
+  const collections = db.collection("allPopupstores");
+  const data = await collections.find({}).toArray();
+  const allPopup = data.map((item) => ({
+    ...item,
+    _id: item._id.toString()
+  }));
+  return allPopup;
+}
+
+export async function loadDetailPopupStore(id: string) {
+  try {
+    const client = await clientPromise;
+    const db = client.db("popupstores");
+    const collection = db.collection("allPopupstores");
+
+    // ObjectId를 사용하여 특정 id의 문서를 찾음
+    const objectId = new ObjectId(id);
+    const document = await collection.findOne({ _id: objectId });
+
+    if (!document) {
+      throw new Error(`Document with id ${id} not found`);
+    }
+
+    // ObjectId를 문자열로 변환
+    const detailPopupStore = {
+      ...document,
+      _id: document._id.toString()
+    };
+
+    return detailPopupStore;
+  } catch (error) {
+    console.error("Failed to fetch detail popup store from MongoDB:", error);
+    throw error;
+  }
 }
