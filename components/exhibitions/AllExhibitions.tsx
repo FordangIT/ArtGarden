@@ -109,7 +109,7 @@ const AllExhibitions: React.FC = () => {
             {status === "success" && data && (
               <>
                 {data?.pages?.map((page) => {
-                  const exhibitionsList = page.data.data;
+                  const exhibitionsList = page.data.datalist;
                   return exhibitionsList.map((el: Exhibition) => {
                     const searchKeywordInitials = getInitials(
                       searchTerm,
