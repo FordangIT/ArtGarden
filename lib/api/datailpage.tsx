@@ -1,4 +1,3 @@
-import axios from "axios";
 interface PerformanceDetail {
   id: string;
   name: string;
@@ -17,7 +16,7 @@ interface PerformanceDetail {
 // 공연 상세 정보를 가져오는 함수
 export const fetchPerformanceDetails = async (
   id: string | string[] | undefined
-): Promise<PerformanceDetail[]> => {
+) => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/performances/${id}`
   );
