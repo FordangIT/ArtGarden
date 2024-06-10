@@ -83,11 +83,11 @@ export interface AllExhibition_TYPE {
 }
 
 export interface AllPopupStore_TYPE {
-  pageNo: number;
-  pageSize: number;
-  totalPages: number;
-  totalElements: number;
-  hasNext: boolean;
+  pageNo?: number;
+  pageSize?: number;
+  totalPages?: number;
+  totalElements?: number;
+  hasNext?: boolean;
   data: PopupStore_TYPE[];
 }
 export interface Review_TYPE {
@@ -120,6 +120,7 @@ export interface MainBannerPopupStore_TYPE {
   area: string;
   posterurl: string | StaticImageData;
 }
+
 interface AllData_TYPE {
   best: Performance_TYPE[];
   new: Performance_TYPE[];
@@ -306,8 +307,8 @@ export async function getStaticProps() {
     props: {
       best: bestData,
       new: newData.datalist,
-      bestExhibit: bestExhibit.data,
-      newExhibit: newExhibit.data,
+      bestExhibit: bestExhibit.datalist,
+      newExhibit: newExhibit.datalist,
       bestPopup: bestPopup,
       newPopup: newPopup,
       review: reviewData.data,
