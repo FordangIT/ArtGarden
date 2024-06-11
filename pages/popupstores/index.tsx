@@ -11,7 +11,7 @@ function PopupStores(props: AllPopupStore_TYPE) {
         <title>팝업스토어</title>
         <meta name="description" content="유명한 핫한 팝업스토어"></meta>
       </Head>
-      <div className="flex-col ">
+      <div className="flex-col my-10">
         <AllPopupStores data={props.data} />
       </div>
     </Fragment>

@@ -108,7 +108,12 @@ export default function FavoritesPage() {
     loadFavorites();
   }, [session]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center w-full h-96">
+        <div className="loading loading-dots loading-lg"></div>
+      </div>
+    );
   if (error) return <div>Error loading data: {error}</div>;
 
   return (

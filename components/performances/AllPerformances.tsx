@@ -87,10 +87,14 @@ const AllPerformances: React.FC = () => {
             <Condition />
           </div>
         </div>
+        {status === "loading" && (
+          <div className="flex justify-center items-center w-full h-96">
+            <div className="loading loading-dots loading-lg"></div>
+          </div>
+        )}
+        {status === "error" && <p>불러오기 실패</p>}
         <div className="flex items-center justify-center">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 ">
-            {status === "loading" && <div>로딩중</div>}
-            {status === "error" && <p>불러오기 실패</p>}
             {status === "success" && data && (
               <>
                 {data?.pages?.map((page) => {
