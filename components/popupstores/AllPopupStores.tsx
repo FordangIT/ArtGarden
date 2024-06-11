@@ -7,7 +7,7 @@ import { PopupStore_TYPE, AllPopupStore_TYPE } from "@/pages";
 const AllPopupStores = ({ data }: AllPopupStore_TYPE) => {
   return (
     <div className="flex-col">
-      <div className="flex justify-center items-center mx-16 py-16"></div>
+      <div className="flex justify-center items-center mx-16"></div>
       <div className="flex items-center justify-center">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12">
           {data.map((el: PopupStore_TYPE) => (
