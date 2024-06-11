@@ -1,4 +1,3 @@
-import { Inter } from "next/font/google";
 import BestProducts from "@/components/main/BestProducts";
 import NewProducts from "@/components/main/NewProducts";
 import Reviews from "@/components/main/Reviews";
@@ -17,7 +16,6 @@ import {
   loadBestPopup,
   loadMainBannerPopup
 } from "@/lib/loadData";
-const inter = Inter({ subsets: ["latin"] });
 export interface Performance_TYPE {
   id: string;
   _id?: string;
@@ -173,9 +171,7 @@ export default function Home(props: AllData_TYPE) {
   return (
     <div className="flex justify-center items-center">
       <div className="w-full">
-        <main
-          className={`flex min-h-screen flex-col items-center z-10 ${inter.className}`}
-        >
+        <div className={`flex min-h-screen flex-col items-center z-10`}>
           <div className="flex justify-center items-center w-full bg-white my-8">
             <div className="w-2/3 h-[30rem] ">
               <MainBanner data={props.mainBanner} />
@@ -226,7 +222,7 @@ export default function Home(props: AllData_TYPE) {
           <div className="flex justify-center items-center">
             <BestProducts selectedBest={selectedBest} data={bestData} />
           </div>
-        </main>
+        </div>
 
         <div className="flex-col">
           <div className=" flex-col sm:flex sm:flex-row justify-center items-center pt-20 pb-3">

@@ -4,6 +4,19 @@
 @import "~slick-carousel/slick/slick.css";
 @import "~slick-carousel/slick/slick-theme.css";
 
+@font-face {
+  font-family: "DoHyeon";
+  src: url("/fonts/DoHyeon/DoHyeon-Regular.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+}
+@font-face {
+  font-family: "GowunDodum";
+  src: url("/fonts/GowunDodum/GowunDodum-Regular.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+}
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -20,10 +33,15 @@
 
 body {
   margin: 0;
+  font-family: "GowunDodum", sans-serif;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+.gowun-text {
+  font-family: "DoHyeon", sans-serif;
 }

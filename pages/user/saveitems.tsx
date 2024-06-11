@@ -6,6 +6,7 @@ import { truncateText } from "@/lib/components/TruncateText";
 import { FavoriteButton } from "@/lib/components/FavoriteButton";
 import { useSession } from "next-auth/react";
 import { Session } from "next-auth";
+import { PopupStore_TYPE } from "..";
 
 interface SaveItems {
   id: string;
@@ -30,10 +31,21 @@ interface ExSaveItems {
   posterurl: string;
 }
 
+// 로컬 스토리지 또는 세션 스토리지에서 찜한 목록을 가져오는 함수
 const getFavorites = (session: Session | null) => {
   const storage = session ? localStorage : sessionStorage;
   const favorites = storage.getItem("favorites");
-  return favorites ? JSON.parse(favorites) : [];
+  if (!favorites) return [];
+  try {
+    const parsedFavorites = JSON.parse(favorites);
+    if (Array.isArray(parsedFavorites)) {
+      return parsedFavorites.filter((id) => id !== null); // null 값 필터링
+    }
+    return [];
+  } catch (error) {
+    console.error("Failed to parse favorites:", error);
+    return [];
+  }
 };
 
 export default function FavoritesPage() {
@@ -41,33 +53,52 @@ export default function FavoritesPage() {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [performances, setPerformances] = useState<SaveItems[]>([]);
   const [exhibitions, setExhibitions] = useState<ExSaveItems[]>([]);
+  const [popupstores, setPopupstores] = useState<PopupStore_TYPE[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const loadFavorites = async () => {
       const favoriteIds = getFavorites(session);
       if (favoriteIds.length) {
         try {
-          // EX와 PE로 시작하는 ID를 분류
-          const exIds = favoriteIds.filter((id: string) => id.startsWith("EX"));
-          const peIds = favoriteIds.filter((id: string) => id.startsWith("PF"));
-
-          // 공연 정보를 가져오는 요청
-          const peResponse = await axios.post("/api/user/saveitems", {
-            ids: peIds
-          });
-          setPerformances(peResponse.data);
-
-          // 전시회 정보를 개별 GET 요청으로 가져오기
-          const exRequests = exIds.map((id: string) =>
-            axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/exhibits/${id}`)
+          const validFavoriteIds = favoriteIds.filter((id) => id !== null); // null 값 필터링
+          // EX와 PF로 시작하는 ID를 분류
+          const exIds = validFavoriteIds.filter((id: string) =>
+            id.startsWith("EX")
           );
-          const exResponses = await Promise.all(exRequests);
+          const peIds = validFavoriteIds.filter((id: string) =>
+            id.startsWith("PF")
+          );
+          const popIds = validFavoriteIds.filter((id: string) =>
+            /^[0-9]+/.test(id)
+          );
+
+          // API 호출 및 데이터 설정
+          const [peResponse, popResponse, ...exResponses] = await Promise.all([
+            axios.post("/api/user/saveitems", { ids: peIds }),
+            axios.post("/api/user/saveitemsPop", { ids: popIds }),
+            ...exIds.map((id: string) =>
+              axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/exhibits/${id}`)
+            )
+          ]);
+
+          setPerformances(peResponse.data);
+          setPopupstores(popResponse.data);
+
           const exData = exResponses.map((response) => response.data);
           setExhibitions(exData);
         } catch (error) {
-          setIsError(true);
+          if (axios.isAxiosError(error)) {
+            // Axios 에러인 경우
+            setError(error.response?.data?.message || error.message);
+          } else if (error instanceof Error) {
+            // 일반 에러인 경우
+            setError(error.message);
+          } else {
+            // 에러가 객체인 경우
+            setError("An unknown error occurred");
+          }
         }
       }
       setIsLoading(false);
@@ -78,7 +109,7 @@ export default function FavoritesPage() {
   }, [session]);
 
   if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error loading performances and exhibitions</div>;
+  if (error) return <div>Error loading data: {error}</div>;
 
   return (
     <div className="flex-col">
@@ -142,6 +173,40 @@ export default function FavoritesPage() {
                           {truncateText(el.name, 16)}
                         </h2>
                         <FavoriteButton item={el.id} />
+                      </div>
+                      전시기간: {el.startdate}~ {el.enddate}
+                      <p>지역: {truncateText(el.area, 22)}</p>
+                      <div className="card-actions justify-end">
+                        <div className="badge badge-outline">{el.genre}</div>
+                        <div className="badge badge-outline">{el.status}</div>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </>
+          )}
+          {popupstores.length > 0 && (
+            <>
+              <div className="col-span-full text-2xl font-bold">팝업스토어</div>
+              {popupstores.map((el: PopupStore_TYPE) => (
+                <Link href={`/popupstores/${el._id}`} key={el._id}>
+                  <div className="card w-[24rem] h-[30rem] bg-white shadow-xl rounded-none border-2 border-white">
+                    <figure>
+                      <Image
+                        src={el.posterurl}
+                        alt="전시사진"
+                        width={350}
+                        height={100}
+                        className="transition ease-in-out delay-10 hover:-translate-y-1 hover:scale-105 duration-100"
+                      />
+                    </figure>
+                    <div className="card-body">
+                      <div className="flex justify-between">
+                        <h2 className="card-title">
+                          {truncateText(el.name, 16)}
+                        </h2>
+                        <FavoriteButton item={el._id} />
                       </div>
                       전시기간: {el.startdate}~ {el.enddate}
                       <p>지역: {truncateText(el.area, 22)}</p>
