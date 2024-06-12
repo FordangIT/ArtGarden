@@ -16,8 +16,8 @@ export default function Navbar() {
   return (
     <>
       <Sidebar />
-      <div className="fixed top-0 bg-main-pink flex justify-center items-center h-16 lg:h-20 w-full z-40">
-        <div className="flex justify-between items-center w-2/3">
+      <div className="fixed top-0 bg-main-pink flex justify-between lg:justify-center items-center h-16 lg:h-20 w-full z-40">
+        <div className="flex justify-between items-center w-full mx-5 lg:w-2/3">
           <Link href="/" className="w-36 h-full">
             <Image
               src="/logo.png"

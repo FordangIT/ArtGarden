@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Performance_TYPE, Exhibition_TYPE, PopupStore_TYPE } from "@/pages";
-import { useEffect } from "react";
-
+import { truncateText } from "@/lib/components/TruncateText";
 export interface BestProducts_TYPE {
   selectedBest: string;
   data: (Performance_TYPE | Exhibition_TYPE | PopupStore_TYPE)[];
@@ -24,12 +23,9 @@ const linkUrl = (selectedBest: string) => {
 const BestProducts: React.FC<BestProducts_TYPE> = ({ selectedBest, data }) => {
   const word = selectedBest.match(/[가-힣]+/g)?.[0];
 
-  const truncateText = (text: string, maxLength: number) => {
-    return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
-  };
   return (
     <div className="flex-col">
-      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-12">
+      <div className="grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-2 md:gap-12">
         {data &&
           data.map(
             (
@@ -39,8 +35,8 @@ const BestProducts: React.FC<BestProducts_TYPE> = ({ selectedBest, data }) => {
               const id = el.id || el._id || index;
               return (
                 <Link href={`${linkUrl(selectedBest)}/${id}`} key={id}>
-                  <div className="card w-[24rem] h-[30rem] bg-white shadow-xl rounded-none border-2 border-white transition ease-in-out delay-10 hover:-translate-y-1 hover:scale-105 duration-100">
-                    <figure>
+                  <div className="card w-48 h-80 sm:w-[24rem] sm:h-[30rem] bg-white shadow-xl rounded-none border-2 border-white transition ease-in-out delay-10 hover:-translate-y-1 hover:scale-105 duration-100">
+                    <figure className="">
                       {el.posterurl ? (
                         <Image
                           src={el.posterurl}
@@ -54,17 +50,22 @@ const BestProducts: React.FC<BestProducts_TYPE> = ({ selectedBest, data }) => {
                         </div>
                       )}
                     </figure>
-                    <div className="card-body">
-                      <h2 className="card-title">
+                    <div className="card-body p-3 sm:p-6">
+                      <h2 className="card-title text-sm sm:text-2xl">
                         {truncateText(el.name, 16)}
-                        <div className="badge bg-main-pink text-white">
+                        <div className="badge bg-main-pink text-white text-xs sm:text-base">
                           BEST
                         </div>
                       </h2>
-                      마감:{el.enddate} <p>지역: {el.area}</p>
-                      <div className="card-actions justify-end">
-                        <div className="badge badge-outline">{el.genre}</div>
-                        <div className="badge badge-outline">{el.status}</div>
+                      <p className="text-xs sm:text-base">마감: {el.enddate}</p>
+                      <p className="text-xs sm:text-base">지역: {el.area}</p>
+                      <div className="card-actions justify-end mt-2 sm:mt-4">
+                        <div className="badge badge-outline text-xs sm:text-sm">
+                          {el.genre}
+                        </div>
+                        <div className="badge badge-outline text-xs sm:text-sm">
+                          {el.status}
+                        </div>
                       </div>
                     </div>
                   </div>
