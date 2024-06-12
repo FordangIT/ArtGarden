@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { GetServerSidePropsContext } from "next";
 import { MdShare } from "react-icons/md";
@@ -72,9 +72,7 @@ function DetailPage(props: DetailPage_TYPE) {
   const id = props.id;
   const data = props.data[0];
   const [reviews, setReviews] = useState(props.reviews);
-  useEffect(() => {
-    console.log(props, "data");
-  });
+
   return (
     <div className="flex justify-center items-center">
       <div className="w-full px-2 sm:w-2/3 ">

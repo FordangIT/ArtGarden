@@ -14,7 +14,7 @@ export default async function handler(
 
   try {
     const { ids } = req.body; // 클라이언트에서 받은 ID 배열
-    console.log(ids, "팝업 ids 확인");
+
     if (!Array.isArray(ids) || ids.length === 0) {
       res.status(400).json({ message: "Invalid ID array" });
       return;
@@ -35,18 +35,18 @@ export default async function handler(
         }
       })
       .filter((id) => id !== null) as ObjectId[]; // 유효한 ObjectId만 필터링
-    console.log(objectIds, "변형 ids");
+
     // 해당 ObjectId로 문서 검색
     const documents = await collection
       .find({ _id: { $in: objectIds } })
       .toArray();
-    console.log(documents, "documents");
+
     // _id를 문자열로 변환
     const result = documents.map((doc) => ({
       ...doc,
       _id: doc._id.toString()
     }));
-    console.log(result, "check");
+
     res.status(200).json(result);
   } catch (error) {
     console.error("Failed to fetch popup stores from MongoDB:", error);
