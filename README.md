@@ -18,7 +18,7 @@
 
 ### 배포 주소
 
-| **프론트 주소** https://artgarden.co.kr (현재 서버 에러)
+| **프론트 주소** https://artgarden.co.kr
 </br>
 | **벡엔드 주소** https://artgarden.site (외부인 접근 제한)
 
