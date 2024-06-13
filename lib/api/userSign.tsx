@@ -5,7 +5,7 @@ export const postUserId = async (userId: number | string) => {
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/oauthLoginProcess`,
       {
-        userId: String(userId)
+        id: String(userId)
       }
     );
 

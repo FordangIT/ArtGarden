@@ -23,6 +23,7 @@ export const getScrap = async () => {
 //사용자 찜 목록 추가하기
 export const postScrap = async (item: string) => {
   try {
+    console.log(typeof item, "item확인");
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/scraps`,
       {

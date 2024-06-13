@@ -42,6 +42,7 @@ export const FavoriteButton: React.FC<FavoriteButtonProps> = ({ item }) => {
 
     if (session) {
       try {
+        console.log(item, "check11");
         await postScrap(item);
       } catch (error) {
         console.error("Failed to post scrap data:", error);
