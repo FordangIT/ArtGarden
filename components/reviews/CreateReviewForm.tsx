@@ -2,13 +2,17 @@ import { ReviewCreate_TYPE } from "@/pages/performances/[id]";
 import { useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { createReview } from "@/lib/api/reviews";
+import { useSession } from "next-auth/react";
+import { Modal } from "@/lib/components/Modal";
 interface PropsType {
   id: string;
 }
 export default function CreateReviewForm({ id }: PropsType) {
+  const { data: session } = useSession();
   const queryClient = useQueryClient();
   const [rate, setRate] = useState(5);
   const [content, setContent] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const mutation = useMutation(createReview, {
     onMutate: async (newReview) => {
@@ -43,15 +47,23 @@ export default function CreateReviewForm({ id }: PropsType) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!session) {
+      setIsModalOpen(true);
+      return;
+    }
     mutation.mutate({
       objectid: String(id),
       content,
       rate: Number(rate),
-      memberid: "asdf"
+      memberid: session.user?.name || "guest"
     });
     setContent(""), setRate(5);
   };
-
+  const handleTextareaClick = () => {
+    if (!session) {
+      setIsModalOpen(true);
+    }
+  };
   return (
     <div className="flex justify-start items-center w-full">
       <form onSubmit={handleSubmit} className="flex-col w-full">
@@ -59,6 +71,7 @@ export default function CreateReviewForm({ id }: PropsType) {
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
+            onClick={handleTextareaClick}
             placeholder="리뷰를 작성하세요"
             className="rounded-md h-28 w-full border-2 border-black"
           />
@@ -66,7 +79,7 @@ export default function CreateReviewForm({ id }: PropsType) {
             type="submit"
             className="text-white text-xl border-2 md:px-4 md:py-4 ml-8 rounded-md border-white"
           >
-            submit
+            등록
           </button>
         </div>
         <div className="flex justify-between my-5">
@@ -84,6 +97,12 @@ export default function CreateReviewForm({ id }: PropsType) {
           </div>
         </div>
       </form>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        message="리뷰를 작성하려면 로그인이 필요합니다. 로그인 해주세요."
+        buttonText="로그인 하러가기"
+      />
     </div>
   );
 }

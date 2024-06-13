@@ -31,8 +31,12 @@
   }
 }
 
+html,
 body {
   margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; /* 수평 스크롤 막기 */
   font-family: "GowunDodum", sans-serif;
 }
 

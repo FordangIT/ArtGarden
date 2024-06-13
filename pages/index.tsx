@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateBest, updateNew } from "@/redux/slices/selectSlice";
 import { RootState } from "@/redux/store";
 import { StaticImageData } from "next/image";
+import { useSession } from "next-auth/react";
+import { postUserId } from "@/lib/api/userSign";
 import {
   loadNew,
   loadBest,
@@ -16,6 +18,7 @@ import {
   loadBestPopup,
   loadMainBannerPopup
 } from "@/lib/loadData";
+import { useEffect } from "react";
 export interface Performance_TYPE {
   id: string;
   _id?: string;
@@ -129,7 +132,18 @@ interface AllData_TYPE {
   review: Review_TYPE[];
   mainBanner: MainBannerPopupStore_TYPE[];
 }
+
+interface SessionWithId {
+  user: {
+    id?: string | null;
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+  };
+  expires: string;
+}
 export default function Home(props: AllData_TYPE) {
+  const { data: session, status } = useSession();
   const dispatch = useDispatch();
   const selectedBest = useSelector(
     (state: RootState) => state.selected.best || ""
@@ -168,9 +182,16 @@ export default function Home(props: AllData_TYPE) {
         return props.new; // 기본값 설정 (필요 시 조정)
     }
   })();
+  useEffect(() => {
+    if (session && session.user?.id) {
+      const userId = session.user.id;
+      console.log(userId, "userId post 확인");
+      postUserId(userId);
+    }
+  }, [session]);
   return (
-    <div className="flex justify-center items-center">
-      <div className="w-full">
+    <div className="flex justify-center items-center w-full">
+      <div className="w-full ">
         <div className={`flex min-h-screen w-full flex-col items-center z-10`}>
           <div className="flex justify-center items-center w-full bg-white my-8">
             <div className="w-full h-[28rem] lg:w-2/3 lg:h-[30rem] ">
@@ -224,15 +245,15 @@ export default function Home(props: AllData_TYPE) {
           </div>
         </div>
 
-        <div className="flex-col hidden lg:block">
-          <div className=" flex-col sm:flex sm:flex-row justify-center items-center pt-20 pb-3">
-            <div className="text-4xl sm:text-5xl font-extrabold sm:px-16">
+        <div className="flex-col justify-center items-center w-full">
+          <div className="sm:flex sm:flex-row justify-center items-center pt-20 pb-3 ">
+            <div className="text-4xl sm:text-5xl font-extrabold sm:px-16  ">
               <div className="flex justify-center items-center text-black">
                 New Arrivals
               </div>
             </div>
 
-            <div className="flex text-black text-2xl sm:text-3xl font-bold grid-rows-3 gap-4">
+            <div className="flex justify-center items-center text-2xl sm:text-3xl font-bold grid-rows-3 gap-4 mt-4">
               <div
                 className={
                   selectedNew === "New공연"
@@ -265,20 +286,20 @@ export default function Home(props: AllData_TYPE) {
               </div>
             </div>
           </div>
-          <div className="flex justify-center items-center text-md sm:text-xl text-gray-500 font-medium pt-2 pb-12">
+          <div className="flex justify-center items-center text-md sm:text-xl text-gray-500 font-medium pt-2 pb-12 w-full">
             갓 공개된 따끈따끈한 {selectedNew}
           </div>
-          <div className="bg-white z-20r">
+          <div className="flex justify-center items-center w-full z-20 ">
             <NewProducts selectedNew={selectedNew} data={newData} />
           </div>
         </div>
         <div className="flex-col justify-center z-20 py-16">
           <div className="flex flex-col sm:flex-row justify-center items-center">
-            <div className="text-black text-5xl font-extrabold sm:px-12">
+            <div className="text-black text-4xl sm:text-5xl font-extrabold sm:px-12">
               Authentic Reviews
             </div>
           </div>
-          <div className="flex justify-center items-center text-xl text-gray-500 font-medium pt-4 pb-10">
+          <div className="flex justify-center items-center text-lg sm:text-xl text-gray-500 font-medium pt-4 pb-10">
             관객들이 전하는 진솔한 후기
           </div>
           <div>

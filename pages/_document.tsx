@@ -19,6 +19,11 @@ export default function Document() {
           `
           }}
         />
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6499853936822237"
+          crossOrigin="anonymous"
+        ></script>
       </Head>
       <body>
         <Main />
