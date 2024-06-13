@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateBest, updateNew } from "@/redux/slices/selectSlice";
 import { RootState } from "@/redux/store";
 import { StaticImageData } from "next/image";
+import { useSession } from "next-auth/react";
+import { postUserId } from "@/lib/api/userSign";
 import {
   loadNew,
   loadBest,
@@ -16,6 +18,7 @@ import {
   loadBestPopup,
   loadMainBannerPopup
 } from "@/lib/loadData";
+import { useEffect } from "react";
 export interface Performance_TYPE {
   id: string;
   _id?: string;
@@ -129,7 +132,18 @@ interface AllData_TYPE {
   review: Review_TYPE[];
   mainBanner: MainBannerPopupStore_TYPE[];
 }
+
+interface SessionWithId {
+  user: {
+    id?: string | null;
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+  };
+  expires: string;
+}
 export default function Home(props: AllData_TYPE) {
+  const { data: session, status } = useSession();
   const dispatch = useDispatch();
   const selectedBest = useSelector(
     (state: RootState) => state.selected.best || ""
@@ -168,6 +182,13 @@ export default function Home(props: AllData_TYPE) {
         return props.new; // 기본값 설정 (필요 시 조정)
     }
   })();
+  useEffect(() => {
+    if (session && session.user?.id) {
+      const userId = session.user.id;
+      console.log(userId, "userId post 확인");
+      postUserId(userId);
+    }
+  }, [session]);
   return (
     <div className="flex justify-center items-center">
       <div className="w-full">
