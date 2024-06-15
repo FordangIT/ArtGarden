@@ -36,7 +36,7 @@ const NewProducts: React.FC<NewProducts_TYPE> = ({ selectedNew, data }) => {
 
   return (
     <div className="flex justify-center items-center w-full">
-      <div className="w-full md:w-4/5">
+      <div className="w-4/5 sm:ml-0 md:w-full lg:w-4/5">
         <Swiper
           className="slider-wrapper flex justify-center items-center"
           navigation={{
@@ -48,10 +48,10 @@ const NewProducts: React.FC<NewProducts_TYPE> = ({ selectedNew, data }) => {
           breakpoints={{
             0: {
               slidesPerView: 2,
-              spaceBetween: 10
+              spaceBetween: 20
             },
             640: {
-              slidesPerView: 3,
+              slidesPerView: 2,
               spaceBetween: 20
             },
             768: {
@@ -59,6 +59,10 @@ const NewProducts: React.FC<NewProducts_TYPE> = ({ selectedNew, data }) => {
               spaceBetween: 20
             },
             1024: {
+              slidesPerView: 3,
+              spaceBetween: 20
+            },
+            1500: {
               slidesPerView: 4,
               spaceBetween: 20
             }
@@ -72,7 +76,7 @@ const NewProducts: React.FC<NewProducts_TYPE> = ({ selectedNew, data }) => {
                 className="flex justify-center items-center"
               >
                 <Link href={`${linkUrl(selectedNew)}/${id}`} key={id}>
-                  <div className="card w-44 h-64 sm:w-52 sm:h-96 lg:w-80 lg:h-[27rem] border-b-2 shadow-lg ">
+                  <div className="card w-48 h-64 sm:w-60 sm:h-96 md:w-[16rem] lg:w-60 lg:h-[27rem] xl:w-72 border-b-2 shadow-lg ">
                     <figure className="bg-black">
                       {el.posterurl ? (
                         <Image
