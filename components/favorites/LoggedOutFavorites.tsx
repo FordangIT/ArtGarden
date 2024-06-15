@@ -38,10 +38,7 @@ const getFavorites = () => {
   if (!favorites) return [];
   try {
     const parsedFavorites = JSON.parse(favorites);
-    if (Array.isArray(parsedFavorites)) {
-      return parsedFavorites.filter((id) => id !== null); // null 값 필터링
-    }
-    return [];
+    return Array.isArray(parsedFavorites) ? parsedFavorites : [];
   } catch (error) {
     console.error("Failed to parse favorites:", error);
     return [];
@@ -49,66 +46,64 @@ const getFavorites = () => {
 };
 
 export default function LoggedOutFavorites() {
-  const { data: session } = useSession(); // 세션 데이터를 가져옴
-  const [favorites, setFavorites] = useState<string[]>([]); // 찜한 아이템의 ID를 저장하는 상태
-  const [performances, setPerformances] = useState<SaveItems[]>([]); // 공연 데이터를 저장하는 상태
-  const [exhibitions, setExhibitions] = useState<ExSaveItems[]>([]); // 전시회 데이터를 저장하는 상태
-  const [popupstores, setPopupstores] = useState<PopupStore_TYPE[]>([]); // 팝업스토어 데이터를 저장하는 상태
-  const [isLoading, setIsLoading] = useState(true); // 데이터 로딩 상태를 저장
-  const [error, setError] = useState<string | null>(null); // 에러 메시지를 저장하는 상태
+  const { data: session } = useSession();
+  const [favorites, setFavorites] = useState<string[]>([]);
+  const [performances, setPerformances] = useState<SaveItems[]>([]);
+  const [exhibitions, setExhibitions] = useState<ExSaveItems[]>([]);
+  const [popupstores, setPopupstores] = useState<PopupStore_TYPE[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const loadFavorites = async () => {
       const favoriteIds = getFavorites();
-      if (favoriteIds.length) {
-        try {
-          const validFavoriteIds = favoriteIds.filter((id) => id !== null); // null 값 필터링
-          // EX와 PF로 시작하는 ID를 분류
-          const exIds = validFavoriteIds.filter((id: string) =>
-            id.startsWith("EX")
-          );
-          const peIds = validFavoriteIds.filter((id: string) =>
-            id.startsWith("PF")
-          );
-          const popIds = validFavoriteIds.filter((id: string) =>
-            /^[0-9]+/.test(id)
-          );
-
-          // API 호출 및 데이터 설정
-          const [peResponse, popResponse, ...exResponses] = await Promise.all([
-            axios.post("/api/user/saveitems", { ids: peIds }),
-            axios.post("/api/user/saveitemsPop", { ids: popIds }),
-            ...exIds.map((id: string) =>
-              axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/exhibits/${id}`)
-            )
-          ]);
-
-          setPerformances(peResponse.data); // 공연 데이터를 상태에 설정
-          setPopupstores(popResponse.data); // 팝업스토어 데이터를 상태에 설정
-
-          const exData = exResponses.map((response) => response.data);
-          setExhibitions(exData); // 전시회 데이터를 상태에 설정
-        } catch (error) {
-          if (axios.isAxiosError(error)) {
-            // Axios 에러인 경우
-            setError(error.response?.data?.message || error.message);
-          } else if (error instanceof Error) {
-            // 일반 에러인 경우
-            setError(error.message);
-          } else {
-            // 에러가 객체인 경우
-            setError("An unknown error occurred");
-          }
-        }
+      if (favoriteIds.length === 0) {
+        setIsLoading(false);
+        return;
       }
-      setIsLoading(false); // 로딩 상태를 해제
+
+      try {
+        const validFavoriteIds = favoriteIds.filter(Boolean);
+        const exIds = validFavoriteIds.filter((id) => id.startsWith("EX"));
+        const peIds = validFavoriteIds.filter((id) => id.startsWith("PF"));
+        const popIds = validFavoriteIds.filter((id) => /^[0-9]+/.test(id));
+
+        const [peResponse, popResponse, ...exResponses] = await Promise.all([
+          axios
+            .post("/api/user/saveitems", { ids: peIds })
+            .catch(() => ({ data: [] })),
+          axios
+            .post("/api/user/saveitemsPop", { ids: popIds })
+            .catch(() => ({ data: [] })),
+          ...exIds.map((id) =>
+            axios
+              .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/exhibits/${id}`)
+              .catch(() => ({ data: null }))
+          )
+        ]);
+
+        setPerformances(peResponse.data || []);
+        setPopupstores(popResponse.data || []);
+
+        const exData = exResponses
+          .map((response) => response.data)
+          .filter((data) => data !== null);
+        setExhibitions(exData);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          setError(error.response?.data?.message || error.message);
+        } else {
+          setError("An unknown error occurred");
+        }
+      } finally {
+        setIsLoading(false);
+      }
     };
 
-    setFavorites(getFavorites()); // 찜한 목록을 상태에 설정
-    loadFavorites(); // 찜한 목록 데이터를 로드
-  }, [session]);
+    setFavorites(getFavorites());
+    loadFavorites();
+  }, [session, performances, exhibitions, popupstores]);
 
-  // 데이터 로딩 중일 때 로딩 표시
   if (isLoading)
     return (
       <div className="flex justify-center items-center w-full h-96">
@@ -116,7 +111,6 @@ export default function LoggedOutFavorites() {
       </div>
     );
 
-  // 에러가 발생한 경우 에러 메시지 표시
   if (error) return <div>Error loading data: {error}</div>;
 
   return (
@@ -127,8 +121,7 @@ export default function LoggedOutFavorites() {
         <NosaveItems />
       ) : (
         <div className="flex items-center justify-center pb-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 ">
-            {/* 공연 목록 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12">
             {performances.length > 0 && (
               <>
                 <div className="col-span-full text-2xl font-bold">공연</div>
@@ -164,7 +157,6 @@ export default function LoggedOutFavorites() {
               </>
             )}
 
-            {/* 전시회 목록 */}
             {exhibitions.length > 0 && (
               <>
                 <div className="col-span-full text-2xl font-bold">전시회</div>
@@ -200,7 +192,6 @@ export default function LoggedOutFavorites() {
               </>
             )}
 
-            {/* 팝업스토어 목록 */}
             {popupstores.length > 0 && (
               <>
                 <div className="col-span-full text-2xl font-bold">
