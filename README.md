@@ -36,7 +36,7 @@
 | ----------------- | ----------------------------------------------------------------------------------------------- |
 | 반응형 웹 디자인 | 다양한 디바이스에서 원활하게 사용 가능하도록 반응형 웹 디자인을 구현하였습니다                         |
 | 목록 상태 관리 | 사용자가 클릭하는 목록의 상태를 redux-toolkit을 이용하여 효율적으로 관리합니다. |
-| 이미지 | ![image](https://github.com/FordangIT/Artgarden/assets/93567754/d0a317a7-b3f8-411e-bf09-0fb92cd68f37) | 
+| 이미지 | <img src="https://github.com/FordangIT/Artgarden/assets/93567754/d0a317a7-b3f8-411e-bf09-0fb92cd68f37" width="600" height="500"/> | 
 
 
 ### [로그인 페이지]
@@ -52,20 +52,20 @@
 | 무한스크롤 | 데이터를 끝없이 불러올 수 있도록 react-query의 무한 스크롤 기능을 적용하였습니다.                             |
 | 조건 검색 | redux-toolkit을 활용하여 다양한 조건으로 데이터를 검색할 수 있습니다. |
 | 실시간 초성 검색 | 사용자가 입력한 초성에 따라 실시간으로 검색 결과를 표시합니다. |
-| 이미지 | <img src="https://github.com/FordangIT/Artgarden/assets/93567754/31b11720-5011-4a35-9e9a-86d8804c8b95" width="400" height="400"/> |
+| 이미지 | <img src="https://github.com/FordangIT/Artgarden/assets/93567754/31b11720-5011-4a35-9e9a-86d8804c8b95" width="600" height="500"/> |
 
 ### [상세 페이지]
 | 기능              | 설명                                                                                            |
 | ----------------- | ----------------------------------------------------------------------------------------------- |
 | 낙관적 업데이트 | react-query의 낙관적 업데이트(optimistic update) 기능을 이용하여 리뷰를 생성, 읽기, 수정, 삭제할 수 있습니다.   |              
-| 이미지 | ![image](https://github.com/FordangIT/Artgarden/assets/93567754/0b22fc61-e656-49ca-88cc-86d6b6699a35) |
+| 이미지 | <img src="https://github.com/FordangIT/Artgarden/assets/93567754/0b22fc61-e656-49ca-88cc-86d6b6699a35" width="600" height="500"/> |
 
 ### [찜 페이지]
 | 기능              | 설명                                                                                            |
 | ----------------- | ----------------------------------------------------------------------------------------------- |
 | 비로그인 회원 찜 목록 | 세션 스토리지를 통해 찜 목록을 관리해 사용자의 로그인을 유도합니다.               |
 | 로그인 회원 찜 목록 | 쿠키를 보냄으로써 백엔드가 유저의 세션 id로 해당 유저의 찜 목록을 관리합니다. |
-| 이미지 | ![image](https://github.com/FordangIT/Artgarden/assets/93567754/4fc62489-8a62-4370-a3e5-9277686dd1d7) |
+| 이미지 | <img src="https://github.com/FordangIT/Artgarden/assets/93567754/4fc62489-8a62-4370-a3e5-9277686dd1d7" width="600" height="500"/> |
 
 
 ### [기타]
