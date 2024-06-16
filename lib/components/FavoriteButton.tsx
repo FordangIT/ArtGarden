@@ -2,62 +2,79 @@ import { RootState } from "@/redux/store";
 import { useSession } from "next-auth/react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import { useQuery } from "react-query";
 import {
   addToFavorite,
   removeFromFavorite,
   setFavorites
 } from "@/redux/slices/favoriteSlice";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-import { postScrap } from "../api/scrap";
+import { getScrap, postScrap } from "../api/scrap";
+
 interface FavoriteButtonProps {
   item: string;
 }
 
 export const FavoriteButton: React.FC<FavoriteButtonProps> = ({ item }) => {
   const dispatch = useDispatch();
-  const favorites = useSelector((state: RootState) => state.favorites.list);
   const { data: session } = useSession();
-  const isFavorite = favorites.includes(item);
+  const favorites = useSelector((state: RootState) => state.favorites.list);
+  const { data: scrapsData } = useQuery(["scraps"], getScrap, {
+    enabled: !!session
+  });
+  const favoriteIds =
+    scrapsData?.myDTOList?.map((el: { objectid: string }) => el.objectid) ?? [];
+
+  const isFavorite = session
+    ? favoriteIds.includes(item)
+    : favorites.includes(item);
 
   useEffect(() => {
-    const savedFavorites = JSON.parse(
-      sessionStorage.getItem("favorites") || "[]"
-    );
-    dispatch(setFavorites(savedFavorites));
+    if (!session) {
+      const savedFavorites = JSON.parse(
+        sessionStorage.getItem("favorites") || "[]"
+      );
+      dispatch(setFavorites(savedFavorites));
+    }
   }, [session, dispatch]);
 
   const handleClick = async (event: React.MouseEvent) => {
     event.preventDefault(); // 기본 동작 방지
     event.stopPropagation(); // 이벤트 전파 방지
 
-    let updatedList;
-
-    if (isFavorite) {
-      updatedList = favorites.filter((favItem) => favItem !== item);
-      dispatch(removeFromFavorite(item));
-    } else {
-      updatedList = [...favorites, item];
-      dispatch(addToFavorite(item));
-    }
-
     if (session) {
       try {
-        console.log(item, "check11");
-        await postScrap(item);
+        if (isFavorite) {
+          await postScrap(item); // 서버에 삭제 요청을 보냅니다.
+          dispatch(removeFromFavorite(item));
+        } else {
+          await postScrap(item); // 서버에 추가 요청을 보냅니다.
+          dispatch(addToFavorite(item));
+        }
       } catch (error) {
-        console.error("Failed to post scrap data:", error);
+        console.error("Failed to update scrap data:", error);
       }
     } else {
+      let updatedList;
+
+      if (isFavorite) {
+        updatedList = favorites.filter((favItem) => favItem !== item);
+        dispatch(removeFromFavorite(item));
+      } else {
+        updatedList = [...favorites, item];
+        dispatch(addToFavorite(item));
+      }
+
       sessionStorage.setItem("favorites", JSON.stringify(updatedList));
     }
   };
 
   return (
-    <div onClick={handleClick} className="">
+    <div onClick={handleClick} className="cursor-pointer">
       {isFavorite ? (
-        <FaHeart className="w-8 h-8 font-light text-main-pink" />
+        <FaHeart className="w-8 h-8 text-main-pink" />
       ) : (
-        <FaRegHeart className="w-8 h-8 font-light" />
+        <FaRegHeart className="w-8 h-8" />
       )}
     </div>
   );

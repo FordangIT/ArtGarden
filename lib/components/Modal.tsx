@@ -1,30 +1,43 @@
 import React from "react";
-interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  message: string;
-  buttonText: string;
-}
+import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { closeModal } from "@/redux/slices/modalSlice";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Button from "@mui/material/Button";
 
-export const Modal: React.FC<ModalProps> = ({
-  isOpen,
-  onClose,
-  message,
-  buttonText
-}) => {
+export const ModalComponent = () => {
+  const dispatch = useDispatch();
+  const { isOpen, message, buttonText, link } = useSelector(
+    (state: RootState) => state.modal
+  );
+  const handleClose = () => {
+    dispatch(closeModal());
+  };
+
   if (!isOpen) return null;
+
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50">
-      <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
-        <div className="modal-box">
-          <p className="py-4">{message}</p>
-          <div className="modal-action">
-            <form method="dialog">
-              <button className="btn">{buttonText}</button>
-            </form>
+    <Modal
+      open={isOpen}
+      onClose={handleClose}
+      aria-labelledby="child-modal-title"
+      aria-describedby="child-modal-description"
+      className="flex justify-center items-center"
+    >
+      <Box className="w-96 h-60 bg-white flex justify-center items-center">
+        <div className="flex-col">
+          <div id="child-modal-title" className="text-lg my-5">
+            {message}
           </div>
+          <Link href={link}>
+            <Button onClick={handleClose} className="flex bg-black w-full">
+              <div className="flex justify-end items-center">{buttonText}</div>
+            </Button>
+          </Link>
         </div>
-      </dialog>
-    </div>
+      </Box>
+    </Modal>
   );
 };

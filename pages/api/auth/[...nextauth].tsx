@@ -3,7 +3,8 @@ import { JWT } from "next-auth/jwt";
 import GoogleProvider from "next-auth/providers/google";
 import KakaoProvider from "next-auth/providers/kakao";
 
-// NextAuth 설정
+const isProduction = process.env.NODE_ENV === "production";
+
 const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
@@ -17,20 +18,50 @@ const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async session({ session, token }: { session: Session; token: JWT }) {
-      // session.user 객체가 정의되어 있는지 확인
       if (session.user) {
-        session.user.id = token.sub as string; // token.sub에서 사용자 ID를 가져와 session.user.id에 할당
+        session.user.id = token.sub as string;
       }
       return session;
     },
     async jwt({ token, user }: { token: JWT; user?: any }) {
       if (user) {
-        token.sub = user.id; // 사용자 ID를 token.sub에 할당
+        token.sub = user.id;
       }
       return token;
     }
   },
-  secret: process.env.NEXTAUTH_SECRET || "your-secret-key"
+  secret: process.env.NEXTAUTH_SECRET,
+  session: {
+    strategy: "jwt" // JWT를 사용한 세션 관리
+  },
+  cookies: {
+    sessionToken: {
+      name: `next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: isProduction
+      }
+    },
+    callbackUrl: {
+      name: `next-auth.callback-url`,
+      options: {
+        sameSite: "lax",
+        path: "/",
+        secure: isProduction
+      }
+    },
+    csrfToken: {
+      name: `next-auth.csrf-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: isProduction
+      }
+    }
+  }
 };
 
 export default NextAuth(authOptions);

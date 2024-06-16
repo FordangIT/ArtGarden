@@ -112,9 +112,9 @@ export default function ReviewList({ id, props }: ReviewList_TYPE) {
   };
 
   return (
-    <div className="flex-col w-full mx-10">
-      <div className="flex justify-center bg-blue-500 w-full ">
-        <div className="bg-black w-full">
+    <div className="flex-col w-full">
+      <div className="flex justify-center w-full ">
+        <div className="w-full ">
           {reviews &&
             reviews.map((el: any) => {
               const isEditing =
@@ -122,10 +122,10 @@ export default function ReviewList({ id, props }: ReviewList_TYPE) {
               return (
                 <div
                   key={el.reviewid}
-                  className="w-full bg-white shadow-xl rounded-xl border-2 border-white mb-4 p-6"
+                  className="w-full bg-white shadow-2xl rounded-xl border-2 border-white mb-4 p-6"
                 >
                   <div className="py-2 flex justify-between items-center">
-                    <div className="text-xl font-semibold">{`비회원**`}</div>
+                    <div className="text-xl font-semibold">{el.memberid}</div>
                     <div className="text-gray-500 flex justify-end group-hover:text-white">
                       {new Date(el.regdt).toLocaleDateString()}
                     </div>
@@ -192,15 +192,15 @@ export default function ReviewList({ id, props }: ReviewList_TYPE) {
           className={pageNo === 1 ? "text-gray-600" : "text-white"}
           disabled={pageNo === 1}
         >
-          <FaArrowAltCircleLeft className=" bg-black w-7 h-5" />
+          <FaArrowAltCircleLeft className=" bg-white w-9 h-6" />
         </button>
-        <span className="text-white font-semibold">Page {pageNo}</span>
+        <span className="text-black font-semibold">Page {pageNo}</span>
         <button
           onClick={() => setPageNo((prev) => prev + 1)}
           className={props.hasNext ? "text-red-500" : "text-gray-600"}
           disabled={pageNo >= props.totalPages}
         >
-          <FaArrowAltCircleRight className=" bg-black w-7 h-5" />
+          <FaArrowAltCircleRight className=" bg-white w-9 h-6" />
         </button>
       </div>
     </div>

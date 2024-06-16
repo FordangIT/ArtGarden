@@ -134,7 +134,7 @@ function DetailPage(props: DetailPage_TYPE) {
                       </div>
                     </div>
                   </div>
-                  <Link href={data.relates}>
+                  <Link href={data.relates} target="_blank">
                     <div className="bg-deep-blue font-semibold text-xl text-white w-full h-16 flex justify-center items-center">
                       예매하러 가기
                     </div>
