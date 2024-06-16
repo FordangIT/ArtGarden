@@ -4,7 +4,7 @@
 
 
 
-- **배포URL**: https://artgarden.co.kr/
+- **배포 URL**: https://artgarden.co.kr/
 
 ## 🙉 프로젝트 소개
 
