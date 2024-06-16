@@ -1,6 +1,7 @@
 # Artgarden
 
-![Screenshot from 2024-06-16 17-33-15](https://github.com/FordangIT/Artgarden/assets/93567754/40e2e594-aff8-45b7-bad3-9a2583d86193)
+![image](https://github.com/FordangIT/Artgarden/assets/93567754/6dd6e36d-5d35-4e48-96d0-016e40a577ae)
+
 
 
 - **배포URL**: https://artgarden.co.kr/
