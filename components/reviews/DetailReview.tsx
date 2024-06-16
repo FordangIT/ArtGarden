@@ -11,11 +11,11 @@ export default function DetailReview({ id, reviews }: PropsType) {
   return (
     <section id="review">
       <div className="flex justify-center items-center xl:mx-16">
-        <div className="bg-black w-full flex-col mt-20 px-10 justify-center items-center">
+        <div className="bg-white w-full flex-col px-10 justify-center items-center border-black border-[1px]">
           <div className="flex justify-center items-center">
             <div className="w-full h-1/3">
               <div className="flex justify-start items-center">
-                <div className="font-semibold text-3xl my-10 text-white">
+                <div className="font-semibold text-3xl my-10 text-black">
                   리뷰 작성
                 </div>
               </div>
@@ -31,12 +31,12 @@ export default function DetailReview({ id, reviews }: PropsType) {
         </div>
       </div>
       <div className="flex justify-center items-center xl:mx-16">
-        <div className="bg-black w-full">
-          <div className="font-semibold text-3xl my-10 text-white mx-9">
+        <div className="bg-white w-full">
+          <div className="font-semibold text-3xl my-10 text-black mx-9">
             개수({reviews.data.length})
           </div>
           <div className="h-fit flex justify-center items-center">
-            <div className="flex justify-center items-center w-full bg-black">
+            <div className="flex justify-center items-center w-full bg-white">
               <ReviewList id={id} props={reviews} />
             </div>
           </div>
