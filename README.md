@@ -37,7 +37,7 @@
 | 반응형 웹 디자인 | 다양한 디바이스에서 원활하게 사용 가능하도록 반응형 웹 디자인을 구현하였습니다                         |
 | 목록 상태 관리 | 사용자가 클릭하는 목록의 상태를 redux-toolkit을 이용하여 효율적으로 관리합니다. |
 
-![image](https://github.com/FordangIT/Artgarden/assets/93567754/d0a317a7-b3f8-411e-bf09-0fb92cd68f37)
+<img src="https://github.com/FordangIT/Artgarden/assets/93567754/d0a317a7-b3f8-411e-bf09-0fb92cd68f37" width="200" height="400">
 
 ### [로그인 페이지]
 | 기능              | 설명                                                                                            |
