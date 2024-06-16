@@ -62,7 +62,7 @@ export default function LoggedInFavorites() {
     if (data) {
       fetchData();
     }
-  }, [fetchData, data]);
+  }, [data]);
 
   if (isLoading) {
     return (
