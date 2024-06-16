@@ -9,7 +9,7 @@ import { Session } from "next-auth";
 import { PopupStore_TYPE } from "@/pages";
 import { NosaveItems } from "@/lib/components/NosaveItems";
 
-interface SaveItems {
+export interface SaveItems {
   id: string;
   img: string;
   name: string;
@@ -20,7 +20,7 @@ interface SaveItems {
   status: string;
 }
 
-interface ExSaveItems {
+export interface ExSaveItems {
   id: string;
   name: string;
   startdate: string;

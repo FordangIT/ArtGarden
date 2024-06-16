@@ -17,10 +17,11 @@ export const getScrap = async () => {
     if (response.status !== 200) {
       throw new Error("Failed to get scraps");
     }
-
-    console.log("Get scraps successfully:", response.data);
+    console.log(response.data, "check");
+    return response.data;
   } catch (error) {
     console.error("Error getting scraps:", error);
+    throw error;
   }
 };
 
@@ -49,5 +50,19 @@ export const postScrap = async (item: string) => {
   } catch (error) {
     const err = error as Error;
     console.error("Error posting scrap data:", err.message);
+  }
+};
+
+export const updateScrap = async (item: string, isFavorite: boolean) => {
+  if (isFavorite) {
+    // 이미 찜한 항목이라면 제거
+    await axios.delete(`${process.env.FRONTEND_URL}/api/user/removeScrap`, {
+      data: { id: item }
+    });
+  } else {
+    // 찜 목록에 추가
+    await axios.post(`${process.env.FRONTEND_URL}/api/user/addScrap`, {
+      id: item
+    });
   }
 };
