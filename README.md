@@ -1,13 +1,12 @@
 # Artgarden
-<ins>밑줄</ins>
-<p align='center'>
- ![Screenshot from 2024-06-16 17-33-15](https://github.com/FordangIT/Artgarden/assets/93567754/40e2e594-aff8-45b7-bad3-9a2583d86193)
-</p>
+
+![Screenshot from 2024-06-16 17-33-15](https://github.com/FordangIT/Artgarden/assets/93567754/40e2e594-aff8-45b7-bad3-9a2583d86193)
+
 
 - **배포URL**: https://artgarden.co.kr/
 
 ## 🙉 프로젝트 소개
-<ins>밑줄</ins>
+
 
 ### 개발 기간: 2024.01.01 ~ 진행중
 
@@ -20,7 +19,7 @@
 - **Discord** : 실시간 커뮤니케이션 및 질문, 정보 공유 및 음성 회의 
 
 ## 🙉팀원 소개
-<ins>밑줄</ins>
+
 |            [이유정 FE](https://github.com/FordangIT)            |           [이창훈 BE](https://github.com/ChangHoon97)            |
 | :-------------------------------------------------------------: | :--------------------------------------------------------------: |
 |                      fordang0819@gmail.com                      |                       hyo040441@gmail.com                        |
