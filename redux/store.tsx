@@ -3,11 +3,13 @@ import { selectSlice } from "./slices/selectSlice";
 import favoriteReducer from "./slices/favoriteSlice";
 import performanceSlice from "./slices/performanceSlice";
 import exhibitionSlice from "./slices/exhibitionSlice";
+import modalSlice from "./slices/modalSlice";
 const rootReducer = combineReducers({
   selected: selectSlice.reducer,
   favorites: favoriteReducer,
   performance: performanceSlice,
-  exhibition: exhibitionSlice
+  exhibition: exhibitionSlice,
+  modal: modalSlice
 });
 
 const store = configureStore({
@@ -15,5 +17,5 @@ const store = configureStore({
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
-
+export type Appdispatch = typeof store.dispatch;
 export default store;
