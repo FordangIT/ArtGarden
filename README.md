@@ -52,7 +52,7 @@
 | 무한스크롤 | 데이터를 끝없이 불러올 수 있도록 react-query의 무한 스크롤 기능을 적용하였습니다.                             |
 | 조건 검색 | redux-toolkit을 활용하여 다양한 조건으로 데이터를 검색할 수 있습니다. |
 | 실시간 초성 검색 | 사용자가 입력한 초성에 따라 실시간으로 검색 결과를 표시합니다. |
-| 이미지 | ![image](https://github.com/FordangIT/Artgarden/assets/93567754/31b11720-5011-4a35-9e9a-86d8804c8b95) |
+| 이미지 | <img src="https://github.com/FordangIT/Artgarden/assets/93567754/31b11720-5011-4a35-9e9a-86d8804c8b95" width="100%" height="400"/> |
 
 ### [상세 페이지]
 | 기능              | 설명                                                                                            |
