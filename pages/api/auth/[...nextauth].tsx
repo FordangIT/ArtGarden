@@ -3,7 +3,8 @@ import { JWT } from "next-auth/jwt";
 import GoogleProvider from "next-auth/providers/google";
 import KakaoProvider from "next-auth/providers/kakao";
 
-// NextAuth 설정
+const isProduction = process.env.NODE_ENV === "production";
+
 const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
@@ -29,35 +30,35 @@ const authOptions: NextAuthOptions = {
       return token;
     }
   },
-  secret: process.env.NEXTAUTH_SECRET || "your-secret-key",
+  secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt" // JWT를 사용한 세션 관리
   },
   cookies: {
     sessionToken: {
-      name: `__Host-next-auth.session-token`,
+      name: `next-auth.session-token`,
       options: {
         httpOnly: true,
-        sameSite: "lax", // CSRF 방지를 위한 기본 설정
+        sameSite: "lax",
         path: "/",
-        secure: process.env.NODE_ENV === "production" // HTTPS를 통해서만 전송
+        secure: isProduction
       }
     },
     callbackUrl: {
-      name: `__Host-next-auth.callback-url`,
+      name: `next-auth.callback-url`,
       options: {
         sameSite: "lax",
         path: "/",
-        secure: process.env.NODE_ENV === "production"
+        secure: isProduction
       }
     },
     csrfToken: {
-      name: `__Host-next-auth.csrf-token`,
+      name: `next-auth.csrf-token`,
       options: {
         httpOnly: true,
         sameSite: "lax",
         path: "/",
-        secure: process.env.NODE_ENV === "production"
+        secure: isProduction
       }
     }
   }
