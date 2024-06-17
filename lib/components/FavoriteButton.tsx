@@ -2,7 +2,7 @@ import { RootState } from "@/redux/store";
 import { useSession } from "next-auth/react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import {
   addToFavorite,
   removeFromFavorite,
@@ -15,18 +15,28 @@ interface FavoriteButtonProps {
   item: string;
 }
 
+interface FavoriteItem {
+  memberid?: string;
+  objectid: string;
+  regdt?: string;
+  regid?: string;
+  scrapid?: number;
+  scrapyn?: boolean;
+  upddt?: string;
+  updid?: string;
+}
 export const FavoriteButton: React.FC<FavoriteButtonProps> = ({ item }) => {
+  const { data: session } = useSession(); //로그인 했는지
   const dispatch = useDispatch();
-  const { data: session } = useSession();
   const favorites = useSelector((state: RootState) => state.favorites.list);
-  const { data: scrapsData } = useQuery(["scraps"], getScrap, {
+  const queryClient = useQueryClient();
+  const { data: scrapsData, refetch } = useQuery(["scraps"], getScrap, {
     enabled: !!session
   });
-  const favoriteIds =
-    scrapsData?.myDTOList?.map((el: { objectid: string }) => el.objectid) ?? [];
 
   const isFavorite = session
-    ? favoriteIds.includes(item)
+    ? scrapsData?.myDTOList?.find((el: FavoriteItem) => el.objectid === item)
+        ?.scrapyn
     : favorites.includes(item);
 
   useEffect(() => {
@@ -44,15 +54,20 @@ export const FavoriteButton: React.FC<FavoriteButtonProps> = ({ item }) => {
 
     if (session) {
       try {
-        if (isFavorite) {
-          await postScrap(item); // 서버에 삭제 요청을 보냅니다.
-          dispatch(removeFromFavorite(item));
-        } else {
-          await postScrap(item); // 서버에 추가 요청을 보냅니다.
-          dispatch(addToFavorite(item));
+        await postScrap(item);
+
+        if (scrapsData) {
+          const updatedScrapsData = {
+            ...scrapsData,
+            myDTOList: scrapsData.myDTOList.map((el: FavoriteItem) =>
+              el.objectid === item ? { ...el, scrapyn: !el.scrapyn } : el
+            )
+          };
+          queryClient.setQueryData(["scraps"], updatedScrapsData);
         }
+        refetch();
       } catch (error) {
-        console.error("Failed to update scrap data:", error);
+        console.error("failed to update scrap data", error);
       }
     } else {
       let updatedList;
