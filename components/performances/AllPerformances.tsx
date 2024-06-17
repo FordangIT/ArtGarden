@@ -43,7 +43,7 @@ const AllPerformances: React.FC = () => {
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/performances?status=all&days=30&page=${pageParam}&size=12&${areaParams}&orderby=${sort}`
       );
-      return res;
+      return res.data;
     } catch (error) {
       console.log("error", error);
       throw new Error("error fetching data");
@@ -54,10 +54,22 @@ const AllPerformances: React.FC = () => {
     ["allPerformances", sort, local],
     getPerformanceWithPageInfo,
     {
-      getNextPageParam: (lastPage) => {
-        const page = lastPage.data.pageNo;
-        if (lastPage.data.totalPages === page) return false;
+      getNextPageParam: (lastPage, allPages) => {
+        const page = lastPage.pageNo;
+        if (lastPage.totalPages === page) return false;
         return page + 1;
+      },
+      select: (data) => {
+        // 모든 페이지의 데이터 플랫화
+        const allPerformances = data.pages.flatMap((page) => page.datalist);
+        // ID를 기준으로 중복 제거
+        const uniquePerformances = Array.from(
+          new Map(allPerformances.map((item) => [item.name, item])).values()
+        );
+        return {
+          pages: [{ datalist: uniquePerformances }],
+          pageParams: data.pageParams
+        };
       }
     }
   );
@@ -97,56 +109,53 @@ const AllPerformances: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 ">
             {status === "success" && data && (
               <>
-                {data?.pages?.map((page) => {
-                  const performanceList = page.data.datalist;
-                  return performanceList.map((el: Performance_TYPE) => {
-                    const searchKeywordInitials = getInitials(
-                      searchTerm,
-                      el.name
-                    );
-                    if (
-                      searchKeywordInitials === 0 ||
-                      el.name.toLowerCase().includes(searchTerm.toLowerCase())
-                    ) {
-                      return (
-                        <Link
-                          href={`/performances/${el.id}`}
-                          key={el.id}
-                          onClick={() => setScrollY(window.scrollY)}
-                        >
-                          <div className="card w-[24rem] h-[30rem] bg-white shadow-xl rounded-none border-2 border-white">
-                            <figure>
-                              <Image
-                                src={el.posterurl}
-                                alt="공연사진"
-                                width={350}
-                                height={100}
-                                className="transition ease-in-out delay-10 hover:-translate-y-1 hover:scale-105 duration-100"
-                              />
-                            </figure>
-                            <div className="card-body">
-                              <div className="flex justify-between">
-                                <h2 className="card-title">
-                                  {truncateText(el.name, 16)}
-                                </h2>
-                                <FavoriteButton item={el.id} />
+                {data.pages[0].datalist.map((el: Performance_TYPE) => {
+                  const searchKeywordInitials = getInitials(
+                    searchTerm,
+                    el.name
+                  );
+                  if (
+                    searchKeywordInitials === 0 ||
+                    el.name.toLowerCase().includes(searchTerm.toLowerCase())
+                  ) {
+                    return (
+                      <Link
+                        href={`/performances/${el.id}`}
+                        key={el.id}
+                        onClick={() => setScrollY(window.scrollY)}
+                      >
+                        <div className="card w-[24rem] h-[30rem] bg-white shadow-xl rounded-none border-2 border-white">
+                          <figure>
+                            <Image
+                              src={el.posterurl}
+                              alt="공연사진"
+                              width={350}
+                              height={100}
+                              className="transition ease-in-out delay-10 hover:-translate-y-1 hover:scale-105 duration-100"
+                            />
+                          </figure>
+                          <div className="card-body">
+                            <div className="flex justify-between">
+                              <h2 className="card-title">
+                                {truncateText(el.name, 16)}
+                              </h2>
+                              <FavoriteButton item={el.id} />
+                            </div>
+                            공연기간: {el.startdate}~ {el.enddate}{" "}
+                            <p>지역: {truncateText(el.area, 22)}</p>
+                            <div className="card-actions justify-end">
+                              <div className="badge badge-outline">
+                                {el.genre}
                               </div>
-                              공연기간: {el.startdate}~ {el.enddate}{" "}
-                              <p>지역: {truncateText(el.area, 22)}</p>
-                              <div className="card-actions justify-end">
-                                <div className="badge badge-outline">
-                                  {el.genre}
-                                </div>
-                                <div className="badge badge-outline">
-                                  {el.status}
-                                </div>
+                              <div className="badge badge-outline">
+                                {el.status}
                               </div>
                             </div>
                           </div>
-                        </Link>
-                      );
-                    }
-                  });
+                        </div>
+                      </Link>
+                    );
+                  }
                 })}
               </>
             )}

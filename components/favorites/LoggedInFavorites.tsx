@@ -11,7 +11,7 @@ import { SaveItems, ExSaveItems } from "./LoggedOutFavorites";
 import { NosaveItems } from "@/lib/components/NosaveItems";
 
 interface ScrapResponse {
-  myDTOList: { objectid: string }[];
+  myDTOList: { objectid: string; scrapyn: boolean }[];
 }
 
 export default function LoggedInFavorites() {
@@ -26,8 +26,8 @@ export default function LoggedInFavorites() {
   // 비동기 작업을 처리할 함수 정의
   const fetchData = async () => {
     try {
-      const favoriteIds = data?.myDTOList?.map((el) => el.objectid) ?? [];
-      const validFavoriteIds = favoriteIds.filter(Boolean);
+      const favoriteIds = data?.myDTOList || [];
+      const validFavoriteIds = favoriteIds.map((item) => item.objectid);
       const exIds = validFavoriteIds.filter((id) => id.startsWith("EX"));
       const peIds = validFavoriteIds.filter((id) => id.startsWith("PF"));
       const popIds = validFavoriteIds.filter((id) => /^[0-9]+/.test(id));

@@ -2,33 +2,48 @@ import { RootState } from "@/redux/store";
 import { useSession } from "next-auth/react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import {
   addToFavorite,
   removeFromFavorite,
   setFavorites
 } from "@/redux/slices/favoriteSlice";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-import { getScrap, postScrap } from "../api/scrap";
+import { getScrapYN, postScrap } from "../api/scrap";
 
 interface FavoriteButtonProps {
   item: string;
 }
 
+interface FavoriteItem {
+  memberid?: string;
+  objectid: string;
+  regdt?: string;
+  regid?: string;
+  scrapid?: number;
+  scrapyn?: boolean;
+  upddt?: string;
+  updid?: string;
+}
+
 export const FavoriteButton: React.FC<FavoriteButtonProps> = ({ item }) => {
+  const { data: session } = useSession(); // 로그인 상태 확인
   const dispatch = useDispatch();
-  const { data: session } = useSession();
   const favorites = useSelector((state: RootState) => state.favorites.list);
-  const { data: scrapsData } = useQuery(["scraps"], getScrap, {
-    enabled: !!session
+  const queryClient = useQueryClient();
+
+  const { data: scrapYN, refetch } = useQuery(
+    ["scrapsYN", item],
+    () => getScrapYN(item),
+    {
+      enabled: !!session // 로그인 상태에서만 데이터 가져오기
+    }
+  );
+
+  const isFavorite = session ? scrapYN : favorites.includes(item);
+  useEffect(() => {
+    console.log(isFavorite, "상태확인");
   });
-  const favoriteIds =
-    scrapsData?.myDTOList?.map((el: { objectid: string }) => el.objectid) ?? [];
-
-  const isFavorite = session
-    ? favoriteIds.includes(item)
-    : favorites.includes(item);
-
   useEffect(() => {
     if (!session) {
       const savedFavorites = JSON.parse(
@@ -44,15 +59,16 @@ export const FavoriteButton: React.FC<FavoriteButtonProps> = ({ item }) => {
 
     if (session) {
       try {
-        if (isFavorite) {
-          await postScrap(item); // 서버에 삭제 요청을 보냅니다.
-          dispatch(removeFromFavorite(item));
-        } else {
-          await postScrap(item); // 서버에 추가 요청을 보냅니다.
-          dispatch(addToFavorite(item));
-        }
+        // 낙관적 업데이트
+        queryClient.setQueryData(["scrapsYN", item], { scrapyn: !isFavorite });
+
+        await postScrap(item);
+
+        refetch(); // 서버와 동기화
       } catch (error) {
-        console.error("Failed to update scrap data:", error);
+        console.error("failed to update scrap data", error);
+        // 오류 발생 시 낙관적 업데이트 취소
+        queryClient.setQueryData(["scrapsYN", item], { scrapyn: isFavorite });
       }
     } else {
       let updatedList;
