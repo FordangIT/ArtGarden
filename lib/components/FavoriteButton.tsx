@@ -9,7 +9,7 @@ import {
   setFavorites
 } from "@/redux/slices/favoriteSlice";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-import { getScrap, postScrap } from "../api/scrap";
+import { getScrapYN, postScrap } from "../api/scrap";
 
 interface FavoriteButtonProps {
   item: string;
@@ -25,20 +25,25 @@ interface FavoriteItem {
   upddt?: string;
   updid?: string;
 }
+
 export const FavoriteButton: React.FC<FavoriteButtonProps> = ({ item }) => {
-  const { data: session } = useSession(); //로그인 했는지
+  const { data: session } = useSession(); // 로그인 상태 확인
   const dispatch = useDispatch();
   const favorites = useSelector((state: RootState) => state.favorites.list);
   const queryClient = useQueryClient();
-  const { data: scrapsData, refetch } = useQuery(["scraps"], getScrap, {
-    enabled: !!session
+
+  const { data: scrapYN, refetch } = useQuery(
+    ["scrapsYN", item],
+    () => getScrapYN(item),
+    {
+      enabled: !!session // 로그인 상태에서만 데이터 가져오기
+    }
+  );
+
+  const isFavorite = session ? scrapYN : favorites.includes(item);
+  useEffect(() => {
+    console.log(isFavorite, "상태확인");
   });
-
-  const isFavorite = session
-    ? scrapsData?.myDTOList?.find((el: FavoriteItem) => el.objectid === item)
-        ?.scrapyn
-    : favorites.includes(item);
-
   useEffect(() => {
     if (!session) {
       const savedFavorites = JSON.parse(
@@ -54,20 +59,16 @@ export const FavoriteButton: React.FC<FavoriteButtonProps> = ({ item }) => {
 
     if (session) {
       try {
+        // 낙관적 업데이트
+        queryClient.setQueryData(["scrapsYN", item], { scrapyn: !isFavorite });
+
         await postScrap(item);
 
-        if (scrapsData) {
-          const updatedScrapsData = {
-            ...scrapsData,
-            myDTOList: scrapsData.myDTOList.map((el: FavoriteItem) =>
-              el.objectid === item ? { ...el, scrapyn: !el.scrapyn } : el
-            )
-          };
-          queryClient.setQueryData(["scraps"], updatedScrapsData);
-        }
-        refetch();
+        refetch(); // 서버와 동기화
       } catch (error) {
         console.error("failed to update scrap data", error);
+        // 오류 발생 시 낙관적 업데이트 취소
+        queryClient.setQueryData(["scrapsYN", item], { scrapyn: isFavorite });
       }
     } else {
       let updatedList;

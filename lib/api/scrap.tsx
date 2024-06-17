@@ -4,6 +4,24 @@ interface ScrapData {
   objectid: string;
 }
 
+export const getScrapYN = async (id: string) => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/scrapYN?objectid=${id}`,
+      {
+        withCredentials: true // 쿠키를 포함한 요청 설정
+      }
+    );
+
+    if (response.status !== 200) {
+      throw new Error("Failed to get scraps");
+    }
+    return response.data;
+  } catch (error) {
+    console.error("Error getting scraps:", error);
+    throw error;
+  }
+};
 // 사용자의 찜 목록 가져오기
 export const getScrap = async () => {
   try {

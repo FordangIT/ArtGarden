@@ -26,11 +26,8 @@ export default function LoggedInFavorites() {
   // 비동기 작업을 처리할 함수 정의
   const fetchData = async () => {
     try {
-      const favoriteIds =
-        data?.myDTOList
-          ?.filter((el) => el.scrapyn === true)
-          .map((el) => el.objectid) ?? [];
-      const validFavoriteIds = favoriteIds.filter(Boolean);
+      const favoriteIds = data?.myDTOList || [];
+      const validFavoriteIds = favoriteIds.map((item) => item.objectid);
       const exIds = validFavoriteIds.filter((id) => id.startsWith("EX"));
       const peIds = validFavoriteIds.filter((id) => id.startsWith("PF"));
       const popIds = validFavoriteIds.filter((id) => /^[0-9]+/.test(id));
@@ -65,7 +62,6 @@ export default function LoggedInFavorites() {
     if (data) {
       fetchData();
     }
-    console.log(data, "찜 목록 데이터 확인");
   }, [data]);
 
   if (isLoading) {
