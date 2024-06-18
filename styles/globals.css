@@ -27,6 +27,8 @@
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: light;
+    background-color: white; /* 다크 모드에서도 흰색 배경 */
+    color: black;
   }
 }
 
