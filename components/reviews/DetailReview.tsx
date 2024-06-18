@@ -10,13 +10,13 @@ interface PropsType {
 export default function DetailReview({ id, reviews }: PropsType) {
   return (
     <section id="review">
-      <div className="flex justify-center items-center xl:mx-16">
-        <div className="bg-white w-full flex-col px-10 justify-center items-center border-black border-[1px]">
+      <div className="flex justify-center items-center">
+        <div className="bg-white w-full flex-col px-10 justify-center items-center">
           <div className="flex justify-center items-center">
             <div className="w-full h-1/3">
               <div className="flex justify-start items-center">
-                <div className="font-semibold text-3xl my-10 text-black">
-                  리뷰 작성
+                <div className="font-semibold text-3xl text-black">
+                  상세 리뷰
                 </div>
               </div>
             </div>
@@ -30,10 +30,10 @@ export default function DetailReview({ id, reviews }: PropsType) {
           </div>
         </div>
       </div>
-      <div className="flex justify-center items-center xl:mx-16">
+      <div className="flex justify-center items-center">
         <div className="bg-white w-full">
           <div className="font-semibold text-3xl my-10 text-black mx-9">
-            개수({reviews.data.length})
+            리뷰 개수 ({reviews.data.length})
           </div>
           <div className="h-fit flex justify-center items-center">
             <div className="flex justify-center items-center w-full bg-white">
