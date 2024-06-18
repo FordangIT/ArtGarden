@@ -30,7 +30,7 @@ export default function DetailSection() {
 
 export function DetailSection2() {
   return (
-    <div className="flex justify-center items-center my-16">
+    <div className="flex justify-center items-center my-14">
       <div className="flex justify-center items-center w-full h-16">
         <div className="border-[1px] w-1/2 h-full border-b-black bg-review-section ">
           <Link

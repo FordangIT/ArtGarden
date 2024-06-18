@@ -10,7 +10,7 @@ interface PropsType {
 export default function DetailReview({ id, reviews }: PropsType) {
   return (
     <section id="review">
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center my-8">
         <div className="bg-white w-full flex-col px-10 justify-center items-center">
           <div className="flex justify-center items-center">
             <div className="w-full h-1/3">
