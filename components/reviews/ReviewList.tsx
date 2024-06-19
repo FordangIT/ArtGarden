@@ -34,9 +34,6 @@ export default function ReviewList({ id, props }: ReviewList_TYPE) {
         fetchReviews(id, pageNo + 1)
       );
     }
-
-    console.log(data, "reviews");
-    console.log(session, "session 확인");
   }, [id, pageNo, queryClient, props.totalPages]);
 
   const [editingReview, setEditingReview] = useState<ReviewData | null>(null);
