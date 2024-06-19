@@ -17,7 +17,7 @@ import {
   loadNewPopup,
   loadBestPopup,
   loadMainBannerPopup
-} from "@/lib/loadData";
+} from "@/lib/api/loadData";
 import { useEffect } from "react";
 export interface Performance_TYPE {
   id: string;
@@ -51,7 +51,7 @@ export interface Exhibition_TYPE {
 }
 
 export interface PopupStore_TYPE {
-  id?: string;
+  id: string;
   _id: string;
   name: string;
   startdate: string;
@@ -185,7 +185,6 @@ export default function Home(props: AllData_TYPE) {
   useEffect(() => {
     if (session && session.user?.id) {
       const userId = session.user.id;
-      console.log(userId, "userId post 확인");
       postUserId(userId);
     }
   }, [session]);

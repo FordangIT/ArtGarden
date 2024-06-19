@@ -1,10 +1,11 @@
 import Image from "next/image";
 import { MdShare } from "react-icons/md";
-import { loadDetailPopupStore } from "@/lib/loadData";
+import { loadDetailPopupStore } from "@/lib/api/loadData";
 import { FavoriteButton } from "@/lib/components/FavoriteButton";
 import Link from "next/link";
 import { PopupStore_TYPE } from "@/pages";
 import { GetServerSidePropsContext } from "next";
+import { useEffect } from "react";
 //공연 상세 정보 페이지
 
 interface DetailPopup_TYPE {

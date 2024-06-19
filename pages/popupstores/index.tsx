@@ -1,6 +1,6 @@
 import AllPopupStores from "@/components/popupstores/AllPopupStores";
 import { GetServerSideProps } from "next";
-import { loadAllPopupStore } from "@/lib/loadData";
+import { loadAllPopupStore } from "@/lib/api/loadData";
 import { AllPopupStore_TYPE } from "@/pages";
 import { Fragment } from "react";
 import Head from "next/head";
