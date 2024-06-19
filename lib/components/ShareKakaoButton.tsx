@@ -15,11 +15,15 @@ const ShareKakaoButton = ({ url }: UrlType) => {
     if (!window.Kakao.isInitialized()) {
       window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY); // 여기에 JavaScript 키를 넣어주세요.
     }
+    console.log(
+      `${process.env.NEXT_PUBLIC_KAKAO_SHARE_URL}${url}`,
+      "kakao url 확인"
+    );
   }, []);
 
   const sendKakao = () => {
     window.Kakao.Link.sendScrap({
-      requestUrl: `${process.env.KAKAO_SHARE_URL}${url}`, // 여기에 실제 페이지 URL을 넣으세요.
+      requestUrl: `${process.env.NEXT_PUBLIC_KAKAO_SHARE_URL}${url}`, // 여기에 실제 페이지 URL을 넣으세요.
       templateId: KAKAO_TEMPLATE_ID, // 여기에 템플릿 번호를 넣으세요.
       templateArgs: {
         THUMB:
