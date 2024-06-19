@@ -42,9 +42,6 @@ export const FavoriteButton: React.FC<FavoriteButtonProps> = ({ item }) => {
 
   const isFavorite = session ? scrapYN : favorites.includes(item);
   useEffect(() => {
-    console.log(isFavorite, "상태확인");
-  });
-  useEffect(() => {
     if (!session) {
       const savedFavorites = JSON.parse(
         sessionStorage.getItem("favorites") || "[]"
