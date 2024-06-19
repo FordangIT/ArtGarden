@@ -5,6 +5,7 @@ import { updateReview } from "@/lib/api/reviews";
 import DeleteReviewButton from "./DeleteReviewButton";
 import { ReviewData, DetailReview_TYPE } from "@/pages/performances/[id]";
 import axios from "axios";
+import { useSession } from "next-auth/react"; // NextAuth에서 세션 가져오기
 
 interface ReviewList_TYPE {
   id: string;
@@ -19,6 +20,7 @@ const fetchReviews = async (performId: string, pageNo: number) => {
 };
 
 export default function ReviewList({ id, props }: ReviewList_TYPE) {
+  const { data: session } = useSession(); // 세션 정보 가져오기
   const [pageNo, setPageNo] = useState(props.pageNo);
   const queryClient = useQueryClient();
   const { data, isLoading } = useQuery(["reviews", id, pageNo], () =>
@@ -32,6 +34,9 @@ export default function ReviewList({ id, props }: ReviewList_TYPE) {
         fetchReviews(id, pageNo + 1)
       );
     }
+
+    console.log(data, "reviews");
+    console.log(session, "session 확인");
   }, [id, pageNo, queryClient, props.totalPages]);
 
   const [editingReview, setEditingReview] = useState<ReviewData | null>(null);
@@ -119,6 +124,7 @@ export default function ReviewList({ id, props }: ReviewList_TYPE) {
             reviews.map((el: any) => {
               const isEditing =
                 editingReview && editingReview.reviewid === el.reviewid;
+              const isAuthor = session?.user.name === el.memberid;
               return (
                 <div
                   key={el.reviewid}
@@ -162,24 +168,26 @@ export default function ReviewList({ id, props }: ReviewList_TYPE) {
                       <div>리뷰: {el.content}</div>
                     )}
                   </div>
-                  <div className="flex gap-x-1 justify-end">
-                    {isEditing ? (
-                      <button
-                        onClick={() => submitUpdate(el.reviewid)}
-                        className="bg-white text-black p-2 rounded  border-2 boder-black font-semibold"
-                      >
-                        수정 완료
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => handleEditClick(el)}
-                        className="bg-white text-black p-2 rounded border-2 boder-black font-semibold"
-                      >
-                        수정
-                      </button>
-                    )}
-                    <DeleteReviewButton id={el.reviewid} />
-                  </div>
+                  {isAuthor && (
+                    <div className="flex gap-x-1 justify-end">
+                      {isEditing ? (
+                        <button
+                          onClick={() => submitUpdate(el.reviewid)}
+                          className="bg-white text-black p-2 rounded  border-2 boder-black font-semibold"
+                        >
+                          수정 완료
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handleEditClick(el)}
+                          className="bg-white text-black p-2 rounded border-2 boder-black font-semibold"
+                        >
+                          수정
+                        </button>
+                      )}
+                      <DeleteReviewButton id={el.reviewid} />
+                    </div>
+                  )}
                 </div>
               );
             })}
