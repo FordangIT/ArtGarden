@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { MdShare } from "react-icons/md";
+import ShareKakaoButton from "@/lib/components/ShareKakaoButton";
 import { loadDetailPopupStore } from "@/lib/api/loadData";
 import { FavoriteButton } from "@/lib/components/FavoriteButton";
 import Link from "next/link";
@@ -38,8 +38,8 @@ function DetailPage(props: DetailPopup_TYPE) {
                     <div className="border-[1px] border-black p-2 ">
                       <FavoriteButton item={id} />
                     </div>
-                    <div className="border-[1px] p-2 border-black ml-1">
-                      <MdShare className="w-8 h-8 font-light text-black" />
+                    <div className="border-[1px] border-black ml-1 p-1">
+                      <ShareKakaoButton url={`/popupstores/${id}`} />
                     </div>
                   </div>
                   <div className="text-2xl md:text-3xl lg:text-2xl xl:text-3xl 2xl:text-5xl font-bold mb-4 leading-normal ">

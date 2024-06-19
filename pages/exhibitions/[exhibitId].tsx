@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { GetServerSidePropsContext } from "next";
-import { MdShare } from "react-icons/md";
+import ShareKakaoButton from "@/lib/components/ShareKakaoButton";
 import { fetchExhibitionDetails } from "@/lib/api/datailpage";
 import { fetchDetailExhibitionReview } from "@/lib/api/reviews";
 import DetailReview from "@/components/reviews/DetailReview";
@@ -83,8 +83,8 @@ function DetailPage(props: DetailPage_TYPE) {
                     <div className="border-[1px] border-black p-2 ">
                       <FavoriteButton item={id} />
                     </div>
-                    <div className="border-[1px] p-2 border-black ml-1">
-                      <MdShare className="w-8 h-8 font-light text-black" />
+                    <div className="border-[1px] border-black ml-1 p-1">
+                      <ShareKakaoButton url={`/exhibitions/${id}`} />
                     </div>
                   </div>
                   <div className="text-2xl md:text-3xl lg:text-2xl xl:text-3xl 2xl:text-5xl font-bold mb-4 leading-normal ">

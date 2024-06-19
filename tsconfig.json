@@ -20,7 +20,7 @@
     "next-env.d.ts",
     "**/*.tsx",
     "**/*.tsx",
-    "lib/mongodb.ts",
+    "lib/utils/mongodb.ts",
     "types/next-auth.d.ts"
   ],
   "exclude": ["node_modules"]
