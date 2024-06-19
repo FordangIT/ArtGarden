@@ -1,6 +1,5 @@
 // pages/api/loadPopupStores.js
-import clientPromise from "@/lib/mongodb";
-import { ObjectId } from "mongodb";
+import clientPromise from "@/lib/utils/mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -24,27 +23,13 @@ export default async function handler(
     const db = client.db("popupstores");
     const collection = db.collection("allPopupstores");
 
-    // ObjectId 배열 생성
-    const objectIds = ids
-      .map((id) => {
-        try {
-          return new ObjectId(id);
-        } catch (error) {
-          console.error(`Invalid ID format: ${id}`);
-          return null;
-        }
-      })
-      .filter((id) => id !== null) as ObjectId[]; // 유효한 ObjectId만 필터링
-
     // 해당 ObjectId로 문서 검색
-    const documents = await collection
-      .find({ _id: { $in: objectIds } })
-      .toArray();
+    const documents = await collection.find({ id: { $in: ids } }).toArray();
 
     // _id를 문자열로 변환
     const result = documents.map((doc) => ({
       ...doc,
-      _id: doc._id.toString()
+      id: doc.id.toString()
     }));
 
     res.status(200).json(result);

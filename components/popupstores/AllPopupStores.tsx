@@ -3,6 +3,7 @@ import Link from "next/link";
 import { FavoriteButton } from "@/lib/components/FavoriteButton";
 import { truncateText } from "@/lib/components/TruncateText";
 import { PopupStore_TYPE, AllPopupStore_TYPE } from "@/pages";
+import { useEffect } from "react";
 
 const AllPopupStores = ({ data }: AllPopupStore_TYPE) => {
   return (
@@ -11,7 +12,7 @@ const AllPopupStores = ({ data }: AllPopupStore_TYPE) => {
       <div className="flex items-center justify-center">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12">
           {data.map((el: PopupStore_TYPE) => (
-            <Link href={`/popupstores/${el._id}`} key={el._id}>
+            <Link href={`/popupstores/${el.id}`} key={el.id}>
               <div className="card w-[24rem] h-[30rem] bg-white shadow-xl rounded-none border-2 border-white">
                 <figure>
                   <Image
@@ -25,7 +26,7 @@ const AllPopupStores = ({ data }: AllPopupStore_TYPE) => {
                 <div className="card-body">
                   <div className="flex justify-between">
                     <h2 className="card-title">{truncateText(el.name, 16)}</h2>
-                    <FavoriteButton item={el._id} />
+                    <FavoriteButton item={el.id} />
                   </div>
                   공연기간: {el.startdate} ~ {el.enddate}
                   <p>지역: {truncateText(el.area, 22)}</p>

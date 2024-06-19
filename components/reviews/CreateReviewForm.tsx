@@ -12,7 +12,7 @@ interface PropsType {
 export default function CreateReviewForm({ id }: PropsType) {
   const { data: session } = useSession();
   const queryClient = useQueryClient();
-  const [rate, setRate] = useState(5);
+  const [rate, setRate] = useState(1);
   const [content, setContent] = useState("");
   const dispatch = useDispatch();
 
@@ -52,7 +52,7 @@ export default function CreateReviewForm({ id }: PropsType) {
     if (!session) {
       dispatch(
         openModal({
-          message: "리뷰를 작성하려면 로그인이 필요합니다.",
+          message: "로그인이 필요합니다.",
           buttonText: "로그인 하러가기",
           link: "/auth/signin"
         })
@@ -77,8 +77,8 @@ export default function CreateReviewForm({ id }: PropsType) {
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            placeholder="리뷰를 작성하세요"
-            className="rounded-md h-28 w-full border-2 border-black"
+            placeholder="다른 고객님에게 도움이 되도록 솔직한 평가를 남겨주세요."
+            className="rounded-md h-28 w-full border-2 border-black custom-placeholder"
           />
           <button
             type="submit"

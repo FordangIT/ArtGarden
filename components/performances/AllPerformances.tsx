@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useInfiniteQuery } from "react-query";
-import { useObserver } from "@/customHook/useObserver";
+import { useObserver } from "@/lib/hooks/useObserver";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import axios from "axios";

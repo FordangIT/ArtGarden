@@ -27,6 +27,8 @@
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: light;
+    background-color: white; /* 다크 모드에서도 흰색 배경 */
+    color: black;
   }
 }
 
@@ -48,4 +50,12 @@ body {
 
 .gowun-text {
   font-family: "DoHyeon", sans-serif;
+}
+
+@layer components {
+  .custom-placeholder::placeholder {
+    @apply text-gray-500; /* Tailwind의 text-gray-500 클래스를 적용 */
+    @apply pl-2; /* 왼쪽 패딩 추가 */
+    @apply pt-2; /* 위쪽 패딩 추가 */
+  }
 }

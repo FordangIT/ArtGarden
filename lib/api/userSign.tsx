@@ -5,7 +5,7 @@ export const postUserId = async (userId: number | string) => {
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/oauthLoginProcess`,
       {
-        id: String(userId)
+        loginid: String(userId)
       },
       {
         withCredentials: true // 쿠키를 포함한 요청 설정

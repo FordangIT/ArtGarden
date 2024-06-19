@@ -66,7 +66,7 @@ export default function LoggedOutFavorites() {
         const validFavoriteIds = favoriteIds.filter(Boolean);
         const exIds = validFavoriteIds.filter((id) => id.startsWith("EX"));
         const peIds = validFavoriteIds.filter((id) => id.startsWith("PF"));
-        const popIds = validFavoriteIds.filter((id) => /^[0-9]+/.test(id));
+        const popIds = validFavoriteIds.filter((id) => id.startsWith("PU"));
 
         const [peResponse, popResponse, ...exResponses] = await Promise.all([
           axios

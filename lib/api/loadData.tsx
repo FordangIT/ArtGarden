@@ -1,4 +1,4 @@
-import clientPromise from "../lib/mongodb";
+import clientPromise from "../utils/mongodb";
 import { ObjectId } from "mongodb";
 export async function loadBest() {
   try {
@@ -134,9 +134,7 @@ export async function loadDetailPopupStore(id: string) {
     const collection = db.collection("allPopupstores");
 
     // ObjectId를 사용하여 특정 id의 문서를 찾음
-    const objectId = new ObjectId(id);
-    const document = await collection.findOne({ _id: objectId });
-
+    const document = await collection.findOne({ id: id });
     if (!document) {
       throw new Error(`Document with id ${id} not found`);
     }
