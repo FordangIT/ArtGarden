@@ -19,7 +19,7 @@ const ShareKakaoButton = ({ url }: UrlType) => {
 
   const sendKakao = () => {
     window.Kakao.Link.sendScrap({
-      requestUrl: `https://artgarden.co.kr${url}`, // 여기에 실제 페이지 URL을 넣으세요.
+      requestUrl: `${process.env.KAKAO_SHARE_URL}${url}`, // 여기에 실제 페이지 URL을 넣으세요.
       templateId: KAKAO_TEMPLATE_ID, // 여기에 템플릿 번호를 넣으세요.
       templateArgs: {
         THUMB:
