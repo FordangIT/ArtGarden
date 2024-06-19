@@ -30,8 +30,7 @@ export default function LoggedInFavorites() {
       const validFavoriteIds = favoriteIds.map((item) => item.objectid);
       const exIds = validFavoriteIds.filter((id) => id.startsWith("EX"));
       const peIds = validFavoriteIds.filter((id) => id.startsWith("PF"));
-      const popIds = validFavoriteIds.filter((id) => /^[0-9]+/.test(id));
-
+      const popIds = validFavoriteIds.filter((id) => id.startsWith("PU"));
       const [peResponse, popResponse, ...exResponses] = await Promise.all([
         axios
           .post("/api/user/saveitems", { ids: peIds })
@@ -45,7 +44,6 @@ export default function LoggedInFavorites() {
             .catch(() => ({ data: null }))
         )
       ]);
-
       setPerformances(peResponse.data || []);
       setPopupstores(popResponse.data || []);
 
@@ -161,7 +159,7 @@ export default function LoggedInFavorites() {
                   팝업스토어
                 </div>
                 {popupstores.map((el: PopupStore_TYPE) => (
-                  <Link href={`/popupstores/${el._id}`} key={el._id}>
+                  <Link href={`/popupstores/${el.id}`} key={el.id}>
                     <div className="card w-[24rem] h-[30rem] bg-white shadow-xl rounded-none border-2 border-white">
                       <figure>
                         <Image
@@ -177,7 +175,7 @@ export default function LoggedInFavorites() {
                           <h2 className="card-title">
                             {truncateText(el.name, 16)}
                           </h2>
-                          <FavoriteButton item={el._id} />
+                          <FavoriteButton item={el.id} />
                         </div>
                         팝업스토어 기간: {el.startdate}~ {el.enddate}
                         <p>지역: {truncateText(el.area, 22)}</p>
