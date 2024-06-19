@@ -59,3 +59,17 @@ body {
     @apply pt-2; /* 위쪽 패딩 추가 */
   }
 }
+
+.swiper-pagination-custom {
+  text-align: center;
+  margin-top: 20px;
+  color: #000; /* 텍스트 색상 */
+}
+
+.swiper-pagination-custom .swiper-pagination-bullet {
+  background-color: #ffcc00; /* 페이지네이션 점 색상 */
+}
+
+.swiper-pagination-custom .swiper-pagination-bullet-active {
+  background-color: #ff6600; /* 활성화된 점 색상 */
+}

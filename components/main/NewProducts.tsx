@@ -36,14 +36,14 @@ const NewProducts: React.FC<NewProducts_TYPE> = ({ selectedNew, data }) => {
 
   return (
     <div className="flex justify-center items-center w-full">
-      <div className="w-4/5 sm:ml-0 md:w-full lg:w-4/5">
+      <div className="w-full sm:ml-0 md:w-full lg:w-4/5">
         <Swiper
           className="slider-wrapper flex justify-center items-center"
           navigation={{
             nextEl: ".swiper-button-next",
             prevEl: ".swiper-button-prev"
           }}
-          pagination={{ clickable: false }}
+          pagination={{ clickable: false, el: ".swiper-pagination-custom" }}
           autoplay={{ delay: 2000 }}
           breakpoints={{
             0: {
@@ -76,7 +76,7 @@ const NewProducts: React.FC<NewProducts_TYPE> = ({ selectedNew, data }) => {
                 className="flex justify-center items-center"
               >
                 <Link href={`${linkUrl(selectedNew)}/${id}`} key={id}>
-                  <div className="card w-48 h-64 sm:w-60 sm:h-96 md:w-[16rem] lg:w-60 lg:h-[27rem] xl:w-72 border-b-2 shadow-lg ">
+                  <div className="card w-48 h-64 sm:w-60 sm:h-96 md:w-[16rem] lg:w-72 lg:h-[27rem] xl:w-80 border-b-2 shadow-lg ">
                     <figure className="bg-black">
                       {el.posterurl ? (
                         <Image
@@ -117,14 +117,15 @@ const NewProducts: React.FC<NewProducts_TYPE> = ({ selectedNew, data }) => {
               </SwiperSlide>
             );
           })}
-          <div className="flex justify-end mt-12 mr-6">
-            <Link href={`${linkUrl(selectedNew)}`}>
-              <div className="text-black font-bold text-xl hover:text-main-pink">
-                {`더 많은 ${word} 보러 가기`}
-              </div>
-            </Link>
-          </div>
+          <div className="swiper-pagination-custom mt-4 flex justify-center"></div>
         </Swiper>
+        <div className="flex justify-end mt-8 mr-6">
+          <Link href={`${linkUrl(selectedNew)}`}>
+            <div className="text-black font-bold text-xl hover:text-main-pink">
+              {`더 많은 ${word} 보러 가기`}
+            </div>
+          </Link>
+        </div>
       </div>
     </div>
   );
