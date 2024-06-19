@@ -1,5 +1,5 @@
-import { hashPassword } from "@/lib/auth";
-import { connectToDatabase } from "@/lib/db";
+import { hashPassword } from "@/lib/utils/auth";
+import { connectToDatabase } from "@/lib/utils/db";
 import { NextApiRequest, NextApiResponse } from "next";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -14,7 +14,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     password.trim().length < 7
   ) {
     res.status(422).json({
-      message: "Invalid input - password should also be at least 7characters",
+      message: "Invalid input - password should also be at least 7characters"
     });
     return;
   }
@@ -26,7 +26,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   const result = await db.collection("users").insertOne({
     email: email,
-    password: hashedPassword,
+    password: hashedPassword
   });
 
   res.status(201).json({ message: "Created user!" });
