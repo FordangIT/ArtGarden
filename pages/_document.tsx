@@ -65,7 +65,7 @@ export default function Document() {
         {/* 예시: 카카오 SDK 스크립트를 추가합니다 */}
         <script
           src="https://developers.kakao.com/sdk/js/kakao.js"
-          async
+          defer
         ></script>
       </Head>
       <body>
