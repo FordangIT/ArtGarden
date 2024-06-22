@@ -41,7 +41,7 @@ export default async function handler(
         const parsedData: Item[] = result.dbs.db.map((item: any) => ({
           id: item.mt20id?.[0], //아이디
           name: item.prfnm?.[0], //공연 이름
-          img: item.poster?.[0], //공연 포스터 이미지
+          posterurl: item.poster?.[0], //공연 포스터 이미지
           start: item.prfpdfrom?.[0], //공연 시작 날짜
           end: item.prfpdto?.[0], //공연 끝나는 날짜
           place: item.fcltynm?.[0], //장소
