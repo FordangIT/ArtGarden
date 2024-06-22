@@ -39,7 +39,7 @@ jobs:
           echo "KAKAO_CLIENT_SECRET=$KAKAO_CLIENT_SECRET" >> .env
           echo "NEXTAUTH_URL=$NEXTAUTH_URL" >> .env
           echo "NEXT_PUBLIC_KAKAO_SHARE_URL=$NEXT_PUBLIC_KAKAO_SHARE_URL" >> .env
-          echo "EXT_PUBLIC_KAKAO_API_KEY=$EXT_PUBLIC_KAKAO_API_KEY" >> .env
+          echo "NEXT_PUBLIC_KAKAO_API_KEY=$NEXT_PUBLIC_KAKAO_API_KEY" >> .env
         env:
           KOPIS_URL: ${{secrets.KOPIS_URL}}
           KOPIS_KEY: ${{secrets.KOPIS_KEY}}
