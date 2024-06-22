@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { GetServerSidePropsContext } from "next";
 import ShareKakaoButton from "@/lib/components/ShareKakaoButton";
@@ -10,11 +10,12 @@ import DetailSection, {
 import DetailReview from "@/components/reviews/DetailReview";
 import { FavoriteButton } from "@/lib/components/FavoriteButton";
 import Link from "next/link";
+import { KAKAO_TEMPLATE_ID } from "@/lib/constants/constant";
 interface DetailPerformance_TYPE {
   0: {
     id: string;
     name: string;
-    img: string;
+    posterurl: string;
     start: string;
     end: string;
     place: string;
@@ -73,6 +74,19 @@ function DetailPage(props: DetailPage_TYPE) {
   const data = props.data[0];
   const [reviews, setReviews] = useState(props.reviews);
 
+  useEffect(() => {
+    console.log(props, "ssr 확인");
+    if (typeof window !== "undefined" && !window.Kakao.isInitialized()) {
+      const apiKey = process.env.NEXT_PUBLIC_KAKAO_API_KEY;
+      if (!apiKey) {
+        console.error("Kakao API key is missing.");
+        return;
+      }
+      window.Kakao.init(apiKey);
+      console.log("id 페이지에서 init함.");
+    }
+  }, []);
+
   return (
     <div className="flex justify-center items-center">
       <div className="w-full px-2 sm:w-2/3 ">
@@ -81,7 +95,7 @@ function DetailPage(props: DetailPage_TYPE) {
             <div className="flex flex-auto justify-center items-center h-full  w-[26rem] lg:pr-10 lg:w-[40rem] lg:h-[30rem]">
               {data && (
                 <Image
-                  src={data.img}
+                  src={data.posterurl}
                   alt="메인 이미지"
                   width={500}
                   height={400}
@@ -97,7 +111,7 @@ function DetailPage(props: DetailPage_TYPE) {
                       <FavoriteButton item={id} />
                     </div>
                     <div className="border-[1px] border-black ml-1 p-1">
-                      <ShareKakaoButton url={`/performances/${id}`} />
+                      <ShareKakaoButton data={data} />
                     </div>
                   </div>
                   <div className="text-2xl md:text-3xl lg:text-2xl xl:text-3xl 2xl:text-5xl font-bold mb-4 leading-normal ">

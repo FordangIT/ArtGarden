@@ -8,7 +8,6 @@ import Layout from "@/components/basic/Layout";
 import { Provider } from "react-redux";
 import store from "@/redux/store";
 import Head from "next/head";
-import { KAKAO_TEMPLATE_ID } from "@/lib/constants/constant";
 declare global {
   interface Window {
     Kakao: any;
@@ -19,26 +18,6 @@ export default function App({
   pageProps: { session, ...pageProps }
 }: AppProps) {
   const queryClient = useMemo(() => new QueryClient(), []); //컴포넌트가 렌더링될 때마다 다시 생성되지 않고 한번만 생성되어 성능 향상!
-  useEffect(() => {
-    if (typeof window !== "undefined" && !window.Kakao.isInitialized()) {
-      const apiKey = process.env.NEXT_PUBLIC_KAKAO_API_KEY;
-      if (!apiKey) {
-        console.error("Kakao API key is missing.");
-        return;
-      }
-      window.Kakao.init(apiKey);
-    }
-  }, []);
-
-  const handleSendKakaoMessage = () => {
-    if (window.Kakao && window.Kakao.Link) {
-      window.Kakao.Link.sendCustom({
-        templateId: KAKAO_TEMPLATE_ID
-      });
-    } else {
-      console.error("Kakao Link is not initialized.");
-    }
-  };
   return (
     <SessionProvider session={session}>
       <Provider store={store}>
@@ -63,10 +42,7 @@ export default function App({
                 content="width=device-width, initial-scale=1"
               />
             </Head>
-            <Component
-              {...pageProps}
-              onSendKakaoMessage={handleSendKakaoMessage}
-            />
+            <Component {...pageProps} />
           </Layout>
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>

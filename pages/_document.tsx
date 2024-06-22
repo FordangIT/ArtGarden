@@ -48,19 +48,6 @@ export default function Document() {
             `
           }}
         />
-        <meta
-          property="og:image"
-          content="https://agimage.s3.ap-northeast-2.amazonaws.com/pubao/447547966_2114396732275845_3278566807781733724.jpg"
-        />
-        <meta
-          property="og:title"
-          content="Artgarden의 멋진 공연, 전시, 팝업스토어를 확인해보세요!"
-        />
-        <meta
-          property="og:description"
-          content="여러분의 여가생활을 풍부하게 만들어줄 다양한 정보들이 기다리고 있습니다."
-        />
-        <meta property="og:url" content="https://artgarden.co.kr/" />
 
         {/* 예시: 카카오 SDK 스크립트를 추가합니다 */}
         <script

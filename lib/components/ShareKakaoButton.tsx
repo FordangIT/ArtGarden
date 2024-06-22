@@ -1,47 +1,63 @@
 // components/ShareKakaoButton.tsx
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { MdShare } from "react-icons/md";
-interface UrlType {
-  url: string;
+import { KAKAO_TEMPLATE_ID } from "@/lib/constants/constant";
+import { DetailExhibition_TYPE } from "@/pages/exhibitions/[exhibitId]";
+import { PopupStore_TYPE } from "@/pages";
+interface ShareProps_TYPE {
+  data: ShareDataPF_TYPE | DetailExhibition_TYPE | PopupStore_TYPE;
 }
-const ShareKakaoButton = ({ url }: UrlType) => {
-  const buildUrl = (path: string) => {
-    return `${process.env.NEXT_PUBLIC_KAKAO_SHARE_URL}${path}`;
-  };
+interface ShareDataPF_TYPE {
+  id: string;
+  name: string;
+  posterurl: string;
+  start: string;
+  end: string;
+  place: string;
+  genre: string;
+  state: string;
+  cast: string;
+  runtime: string;
+  age: string;
+  price: string;
+  story: string;
+  prfstate: string;
+  styurls: string[];
+  relates: string;
+}
+const ShareKakaoButton = ({ data }: ShareProps_TYPE) => {
+  const [isKakaoInitialized, setIsKakaoInitialized] = useState(false);
+  useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      window.Kakao &&
+      window.Kakao.isInitialized()
+    ) {
+      setIsKakaoInitialized(true);
+      console.log("카카오 공유하기 버튼에서 init 함.");
+    }
+  }, []);
+
   const sendKakao = () => {
-    if (typeof window === "undefined") return;
-    window.Kakao.Link.sendDefault({
-      objectType: "feed",
-      content: {
-        title: "주말에 뭐할까? Artgarden에서 다 찾았어! 🌟",
-        description:
-          "공연과 전시, 팝업스토어 정보를 통해 특별한 하루를 만들어보세요! 🌷",
-        imageUrl:
-          "https://agimage.s3.ap-northeast-2.amazonaws.com/pubao/447547966_2114396732275845_3278566807781733724.jpg",
-        link: {
-          mobileWebUrl: buildUrl(url),
-          webUrl: buildUrl(url)
-        }
-      },
-      social: {
-        likeCount: 10,
-        commentCount: 5,
-        sharedCount: 2
-      },
-      buttons: [
-        {
-          title: "웹으로 보기",
-          link: {
-            mobileWebUrl: buildUrl(url),
-            webUrl: buildUrl(url)
-          }
-        }
-      ]
+    if (!isKakaoInitialized) {
+      console.error("Kakao is not initialized.");
+      return;
+    }
+
+    window.Kakao.Share.sendScrap({
+      requestUrl: `${process.env.NEXT_PUBLIC_KAKAO_SHARE_URL}/${location.pathname}`,
+      templateId: KAKAO_TEMPLATE_ID,
+      templateArgs: {
+        img1: data.posterurl,
+        title: `📌` + data.name,
+        description: `✨` + data.place + `✨`,
+        pagePathname: location.pathname
+      }
     });
   };
 
   return (
-    <button onClick={sendKakao}>
+    <button onClick={sendKakao} disabled={!isKakaoInitialized}>
       <MdShare className="w-9 h-9 font-light text-black" />
     </button>
   );

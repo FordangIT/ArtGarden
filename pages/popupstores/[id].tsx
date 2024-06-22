@@ -5,7 +5,6 @@ import { FavoriteButton } from "@/lib/components/FavoriteButton";
 import Link from "next/link";
 import { PopupStore_TYPE } from "@/pages";
 import { GetServerSidePropsContext } from "next";
-import { useEffect } from "react";
 //공연 상세 정보 페이지
 
 interface DetailPopup_TYPE {
@@ -39,7 +38,7 @@ function DetailPage(props: DetailPopup_TYPE) {
                       <FavoriteButton item={id} />
                     </div>
                     <div className="border-[1px] border-black ml-1 p-1">
-                      <ShareKakaoButton url={`/popupstores/${id}`} />
+                      <ShareKakaoButton data={data} />
                     </div>
                   </div>
                   <div className="text-2xl md:text-3xl lg:text-2xl xl:text-3xl 2xl:text-5xl font-bold mb-4 leading-normal ">

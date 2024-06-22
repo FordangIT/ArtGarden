@@ -7,7 +7,7 @@ import { fetchDetailExhibitionReview } from "@/lib/api/reviews";
 import DetailReview from "@/components/reviews/DetailReview";
 
 import { FavoriteButton } from "@/lib/components/FavoriteButton";
-interface DetailExhibition_TYPE {
+export interface DetailExhibition_TYPE {
   id: string;
   name: string;
   posterurl: string;
@@ -84,7 +84,7 @@ function DetailPage(props: DetailPage_TYPE) {
                       <FavoriteButton item={id} />
                     </div>
                     <div className="border-[1px] border-black ml-1 p-1">
-                      <ShareKakaoButton url={`/exhibitions/${id}`} />
+                      <ShareKakaoButton data={data} />
                     </div>
                   </div>
                   <div className="text-2xl md:text-3xl lg:text-2xl xl:text-3xl 2xl:text-5xl font-bold mb-4 leading-normal ">
