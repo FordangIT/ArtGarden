@@ -113,8 +113,7 @@ export const loginUser = async (loginInfo: any) => {
       {
         headers: {
           "Content-Type": "application/json"
-        },
-        withCredentials: true // 쿠키를 포함한 요청 설정
+        }
       }
     );
 
