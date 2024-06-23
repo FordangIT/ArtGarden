@@ -75,7 +75,7 @@ export default function ConditionEx() {
         onClick={openModal}
       >
         <LuSettings2 />
-        <div>상세검색</div>
+        <div className="text-xs sm:text-base">상세검색</div>
       </button>
       {open && (
         <dialog className="modal bg-[#999999] bg-opacity-30" open>

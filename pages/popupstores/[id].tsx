@@ -72,11 +72,13 @@ function DetailPage(props: DetailPopup_TYPE) {
                       </div>
                     </div>
                   </div>
-                  <Link href={data.link} target="_blank">
-                    <div className="bg-deep-blue font-semibold text-xl text-white w-full h-16 flex justify-center items-center">
-                      인스타그램 바로가기
-                    </div>
-                  </Link>
+                  {data.link && (
+                    <Link href={data.link} target="_blank">
+                      <div className="bg-deep-blue font-semibold text-xl text-white w-full h-16 flex justify-center items-center">
+                        인스타그램 바로가기
+                      </div>
+                    </Link>
+                  )}
                 </div>
               )}
             </div>
