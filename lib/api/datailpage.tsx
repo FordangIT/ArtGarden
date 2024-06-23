@@ -14,9 +14,7 @@ interface PerformanceDetail {
 }
 
 // 공연 상세 정보를 가져오는 함수
-export const fetchPerformanceDetails = async (
-  id: string | string[] | undefined
-) => {
+export const fetchPerformanceDetails = async (id: string) => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/performances/${id}`
   );
@@ -24,9 +22,7 @@ export const fetchPerformanceDetails = async (
   return data;
 };
 
-export const fetchExhibitionDetails = async (
-  id: string | string[] | undefined
-) => {
+export const fetchExhibitionDetails = async (id: string) => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/exhibits/${id}`
   );
