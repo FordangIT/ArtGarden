@@ -36,7 +36,7 @@ export const fetchDetailPerformanceReview = async (
   const result = await res.json();
   return {
     pageNo: result.pageNo,
-    data: result.data,
+    data: result.datalist,
     totalPages: result.totalPages,
     hasNext: result.hasNext
   };
@@ -58,7 +58,7 @@ export const fetchDetailExhibitionReview = async (
   const result = await res.json();
   return {
     pageNo: result.pageNo,
-    data: result.data,
+    data: result.datalist,
     totalPages: result.totalPages,
     hasNext: result.hasNext
   };
