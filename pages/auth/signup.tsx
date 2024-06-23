@@ -134,7 +134,7 @@ const Signup: React.FC = () => {
         <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">
           회원가입
         </h2>
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
           <div className="border border-gray-300 rounded-md shadow-sm">
             <div className="flex mt-1 p-2 w-full border-b border-gray-300">
               <label className="flex items-center justify-center text-gray-700 p-1">
