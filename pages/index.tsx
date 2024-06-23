@@ -327,7 +327,7 @@ export async function getStaticProps() {
       newExhibit: newExhibit.datalist,
       bestPopup: bestPopup,
       newPopup: newPopup,
-      review: reviewData.data,
+      review: reviewData.datalist,
       mainBanner: mainBanner
     }
   };
