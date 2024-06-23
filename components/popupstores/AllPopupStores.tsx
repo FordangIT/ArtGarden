@@ -10,10 +10,10 @@ const AllPopupStores = ({ data }: AllPopupStore_TYPE) => {
     <div className="flex-col">
       <div className="flex justify-center items-center mx-16"></div>
       <div className="flex items-center justify-center">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12">
+        <div className="grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-2 md:gap-12">
           {data.map((el: PopupStore_TYPE) => (
             <Link href={`/popupstores/${el.id}`} key={el.id}>
-              <div className="card w-[24rem] h-[30rem] bg-white shadow-xl rounded-none border-2 border-white">
+              <div className="card w-48 h-80 sm:w-[24rem] sm:h-[30rem] bg-white shadow-xl rounded-none border-2 border-white">
                 <figure>
                   <Image
                     src={el.posterurl}
@@ -23,16 +23,26 @@ const AllPopupStores = ({ data }: AllPopupStore_TYPE) => {
                     className="transition ease-in-out delay-10 hover:-translate-y-1 hover:scale-105 duration-100"
                   />
                 </figure>
-                <div className="card-body">
+                <div className="card-body p-3 sm:p-6">
                   <div className="flex justify-between">
-                    <h2 className="card-title">{truncateText(el.name, 16)}</h2>
+                    <h2 className="card-title text-sm sm:text-2xl">
+                      {truncateText(el.name, 16)}
+                    </h2>
                     <FavoriteButton item={el.id} />
                   </div>
-                  공연기간: {el.startdate} ~ {el.enddate}
-                  <p>지역: {truncateText(el.area, 22)}</p>
+                  <p className="text-xs sm:text-base">
+                    공연기간: {el.startdate} ~ {el.enddate}
+                  </p>
+                  <p className="text-xs sm:text-base">
+                    지역: {truncateText(el.area, 22)}
+                  </p>
                   <div className="card-actions justify-end">
-                    <div className="badge badge-outline">{el.genre}</div>
-                    <div className="badge badge-outline">{el.status}</div>
+                    <div className="badge badge-outline text-xs sm:text-sm">
+                      {el.genre}
+                    </div>
+                    <div className="badge badge-outline text-xs sm:text-sm">
+                      {el.status}
+                    </div>
                   </div>
                 </div>
               </div>

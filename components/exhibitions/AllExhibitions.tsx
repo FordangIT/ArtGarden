@@ -85,20 +85,20 @@ const AllExhibitions: React.FC = () => {
   return (
     <>
       <div className="flex-col">
-        <div className="flex justify-center items-center mx-16 py-16">
+        <div className="flex justify-center items-center mx-10 my-16 md:mx-16">
           <div className="relative flex items-center justify-center w-[30rem]">
             <input
               type="text"
               placeholder="전시회 이름을 검색하세요"
               value={searchTerm}
               onChange={handleSearch}
-              className="border-[1px] border-slate-300 rounded-3xl w-full h-12 pl-14"
+              className="border-[1px] border-slate-300 rounded-3xl w-full h-12 pl-14 placeholder-transparent sm:placeholder-slate-300"
             />
             <div className="absolute top-3 left-5 right-4 w-fit">
               <IoSearch className="w-6 h-6" />
             </div>
           </div>
-          <div className="w-28 h-12 ml-2">
+          <div className="w-36 h-12 ml-2">
             <ConditionEx />
           </div>
         </div>
@@ -109,7 +109,7 @@ const AllExhibitions: React.FC = () => {
         )}
         {status === "error" && <p>불러오기 실패</p>}
         <div className="flex items-center justify-center">
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 ">
+          <div className="grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-2 md:gap-12">
             {status === "success" && data && (
               <>
                 {data?.pages?.map((page) => {
@@ -129,7 +129,7 @@ const AllExhibitions: React.FC = () => {
                           key={el.id}
                           onClick={() => setScrollY(window.scrollY)}
                         >
-                          <div className="card w-[24rem] h-[30rem] bg-white shadow-xl rounded-none border-2 border-white">
+                          <div className="card w-48 h-80 sm:w-[24rem] sm:h-[30rem] bg-white shadow-xl rounded-none border-2 border-white ">
                             <figure>
                               {el.posterurl ? (
                                 <Image
@@ -145,20 +145,28 @@ const AllExhibitions: React.FC = () => {
                                 </div>
                               )}
                             </figure>
-                            <div className="card-body">
+                            <div className="card-body p-3 sm:p-6">
                               <div className="flex justify-between">
-                                <h2 className="card-title">
+                                <h2 className="card-title text-sm sm:text-2xl">
                                   {truncateText(el.name, 16)}
                                 </h2>
                                 <FavoriteButton item={el.id} />
                               </div>
-                              전시기간: {el.startdate}~ {el.enddate}{" "}
-                              <p>지역: {truncateText(el.area, 22)}</p>
-                              <div className="card-actions justify-end">
-                                <div className="badge badge-outline">
+                              <p className="text-xs sm:text-base">
+                                전시기간: {el.startdate}~ {el.enddate}
+                              </p>
+                              <p
+                                className="
+                                text-xs
+                                sm:text-base"
+                              >
+                                지역: {truncateText(el.area, 22)}
+                              </p>
+                              <div className="card-actions justify-end mt-2 sm:mt-4">
+                                <div className="badge badge-outline  text-xs sm:text-sm">
                                   {el.genre}
                                 </div>
-                                <div className="badge badge-outline">
+                                <div className="badge badge-outline  text-xs sm:text-sm">
                                   {el.status}
                                 </div>
                               </div>

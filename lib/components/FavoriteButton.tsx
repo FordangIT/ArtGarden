@@ -85,9 +85,9 @@ export const FavoriteButton: React.FC<FavoriteButtonProps> = ({ item }) => {
   return (
     <div onClick={handleClick} className="cursor-pointer">
       {isFavorite ? (
-        <FaHeart className="w-8 h-8 text-main-pink" />
+        <FaHeart className="w-5 h-5 sm:w-8 sm:h-8 text-main-pink" />
       ) : (
-        <FaRegHeart className="w-8 h-8" />
+        <FaRegHeart className="w-5 h-5 sm:w-8 sm:h-8" />
       )}
     </div>
   );
