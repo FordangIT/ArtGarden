@@ -6,7 +6,7 @@ import { CiUser, CiLock, CiMail } from "react-icons/ci";
 import { LiaBirthdayCakeSolid } from "react-icons/lia";
 import { IoPhonePortraitOutline } from "react-icons/io5";
 import { checkLoginId, joinMember } from "@/lib/api/userSign";
-
+import { useRouter } from "next/router";
 interface SignupFormValues {
   userId: string;
   password: string;
@@ -81,7 +81,7 @@ const Signup: React.FC = () => {
   } = useForm<SignupFormValues>({
     resolver: yupResolver(schema)
   });
-
+  const router = useRouter();
   const onSubmit: SubmitHandler<SignupFormValues> = async (data) => {
     if (!isIdChecked) {
       alert("아이디 중복 확인을 해주세요.");
@@ -99,7 +99,7 @@ const Signup: React.FC = () => {
         nickname: data.nickname
       });
       alert("회원가입 성공!");
-      console.log("회원가입 응답 데이터:", response);
+      router.push(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/auth/signin`);
     } catch (error) {
       alert("회원가입 실패! 다시 시도해 주세요.");
       console.error("회원가입 중 에러 발생:", error);
@@ -124,13 +124,17 @@ const Signup: React.FC = () => {
       alert("아이디 중복 확인에 실패했습니다.");
     }
   };
+  const onSubmitButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    handleSubmit(onSubmit)();
+  };
   return (
     <div className="flex items-center justify-center bg-white">
       <div className="bg-white p-8 max-w-md w-full">
         <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">
           회원가입
         </h2>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form className="space-y-4">
           <div className="border border-gray-300 rounded-md shadow-sm">
             <div className="flex mt-1 p-2 w-full border-b border-gray-300">
               <label className="flex items-center justify-center text-gray-700 p-1">
@@ -264,9 +268,10 @@ const Signup: React.FC = () => {
 
           <button
             type="submit"
+            onClick={onSubmitButtonClick}
             className="w-full py-3 px-4 bg-main-pink font-semibold text-white rounded-md"
           >
-            회원가입
+            승인 요청
           </button>
         </form>
       </div>

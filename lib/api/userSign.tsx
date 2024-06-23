@@ -157,22 +157,16 @@ export const leaveMember = async (loginid: any) => {
 // 회원 가입
 export const joinMember = async (memberInfo: any) => {
   try {
+    console.log(memberInfo, "memberInfo");
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/join`,
-      memberInfo,
-      {
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }
+      memberInfo
     );
 
     if (response.status !== 201) {
       throw new Error("Failed to join member");
     }
-
-    console.log("Member joined successfully:", response.data);
-    return response.data; // 필요한 데이터를 반환
+    console.log("Member joined successfully:", response.status);
   } catch (error) {
     console.error("Error joining member:", error);
   }
