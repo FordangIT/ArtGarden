@@ -60,11 +60,11 @@ export interface PopupStore_TYPE {
   area: string;
   place: string;
   status: string;
-  link: string;
+  link: string | null;
   time: string[];
   posterurl: string | StaticImageData;
   posterarray: string[];
-  script: string;
+  script: string | null;
 }
 export interface AllPerformance_TYPE {
   pageNo: number;
