@@ -128,7 +128,7 @@ export default DetailPage;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { exhibitId } = context.query;
-  const detailExhibition = await fetchExhibitionDetails(exhibitId);
+  const detailExhibition = await fetchExhibitionDetails(exhibitId as string);
   const detailExhibitionReview = await fetchDetailExhibitionReview(
     exhibitId as string,
     1
