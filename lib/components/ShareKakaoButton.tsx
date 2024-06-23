@@ -27,16 +27,21 @@ interface ShareDataPF_TYPE {
 }
 const ShareKakaoButton = ({ data }: ShareProps_TYPE) => {
   const [isKakaoInitialized, setIsKakaoInitialized] = useState(false);
-  useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      window.Kakao &&
-      window.Kakao.isInitialized()
-    ) {
+
+  const initKakao = () => {
+    if (!window.Kakao.isInitialized()) {
+      const apiKey = process.env.NEXT_PUBLIC_KAKAO_API_KEY;
+      if (apiKey) {
+        window.Kakao.init(apiKey);
+        setIsKakaoInitialized(true);
+        console.log("카카오 API가 초기화되었습니다.");
+      } else {
+        console.error("Kakao API key is missing.");
+      }
+    } else {
       setIsKakaoInitialized(true);
-      console.log("카카오 공유하기 버튼에서 init 함.");
     }
-  }, []);
+  };
 
   const sendKakao = () => {
     if (!isKakaoInitialized) {
@@ -54,10 +59,17 @@ const ShareKakaoButton = ({ data }: ShareProps_TYPE) => {
         pagePathname: location.pathname
       }
     });
+    console.log("sendKakao 함수 뒤에 ");
   };
 
   return (
-    <button onClick={sendKakao} disabled={!isKakaoInitialized}>
+    <button
+      onClick={() => {
+        initKakao();
+        sendKakao();
+      }}
+      disabled={!isKakaoInitialized}
+    >
       <MdShare className="w-9 h-9 font-light text-black" />
     </button>
   );

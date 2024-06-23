@@ -10,7 +10,6 @@ import DetailSection, {
 import DetailReview from "@/components/reviews/DetailReview";
 import { FavoriteButton } from "@/lib/components/FavoriteButton";
 import Link from "next/link";
-import { KAKAO_TEMPLATE_ID } from "@/lib/constants/constant";
 interface DetailPerformance_TYPE {
   0: {
     id: string;
@@ -73,19 +72,6 @@ function DetailPage(props: DetailPage_TYPE) {
   const id = props.id;
   const data = props.data[0];
   const [reviews, setReviews] = useState(props.reviews);
-
-  useEffect(() => {
-    console.log(props, "ssr 확인");
-    if (typeof window !== "undefined" && !window.Kakao.isInitialized()) {
-      const apiKey = process.env.NEXT_PUBLIC_KAKAO_API_KEY;
-      if (!apiKey) {
-        console.error("Kakao API key is missing.");
-        return;
-      }
-      window.Kakao.init(apiKey);
-      console.log("id 페이지에서 init함.");
-    }
-  }, []);
 
   return (
     <div className="flex justify-center items-center">
