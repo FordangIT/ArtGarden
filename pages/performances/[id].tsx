@@ -185,7 +185,7 @@ export default DetailPage;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { id } = context.query;
-  const detailPerformance = await fetchPerformanceDetails(id);
+  const detailPerformance = await fetchPerformanceDetails(id as string);
   const detailPerformanceReview = await fetchDetailPerformanceReview(
     id as string,
     1
