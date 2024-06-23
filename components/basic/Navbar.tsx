@@ -25,6 +25,7 @@ export default function Navbar() {
               width={200}
               height={40}
               className="w-full lg:w-48"
+              onClick={() => handleSelect("logo")}
             />
           </Link>
           <div className="lg:hidden">
