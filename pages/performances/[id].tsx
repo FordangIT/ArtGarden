@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { GetServerSidePropsContext } from "next";
-import ShareKakaoButton from "@/lib/components/ShareKakaoButton";
 import { fetchPerformanceDetails } from "@/lib/api/datailpage";
 import { fetchDetailPerformanceReview } from "@/lib/api/reviews";
 import DetailSection, {
@@ -10,6 +9,7 @@ import DetailSection, {
 import DetailReview from "@/components/reviews/DetailReview";
 import { FavoriteButton } from "@/lib/components/FavoriteButton";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 interface DetailPerformance_TYPE {
   0: {
     id: string;
@@ -67,6 +67,10 @@ export interface ReviewCreate_TYPE {
   rate: number;
   memberid: string;
 }
+const ShareKakaoButton = dynamic(
+  () => import("@/lib/components/ShareKakaoButton"),
+  { ssr: false }
+);
 //공연 상세 정보 페이지
 function DetailPage(props: DetailPage_TYPE) {
   const id = props.id;
