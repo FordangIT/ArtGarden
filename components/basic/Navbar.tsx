@@ -3,7 +3,7 @@ import Link from "next/link";
 import Smallbar from "./Smallbar";
 import Sidebar from "./Sidebar";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { FaUserAlt } from "react-icons/fa";
+import { FaRegUser } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import { useState } from "react";
 export default function Navbar() {
@@ -78,11 +78,24 @@ export default function Navbar() {
                   </div>
                 </div>
               </div>
-              <Link href="/user/saveitems">
-                <div className="flex justify-center items-center text-white text-2xl ml-4 my-4">
-                  {session ? <FaUserAlt /> : <FaRegHeart />}
-                </div>
-              </Link>
+              <div className="flex justify-center items-center">
+                <Link href="/user/saveitems">
+                  <div className="relative group flex justify-center items-center text-white text-2xl ml-2 h-8">
+                    <FaRegHeart />
+                    <div className="absolute top-full opacity-0 group-hover:opacity-100 bg-black text-white text-xs transition-opacity duration-300 px-3 py-1">
+                      <div className="flex justify-center items-center">찜</div>
+                    </div>
+                  </div>
+                </Link>
+                <Link href="/user/mypage">
+                  <div className="relative group flex justify-center items-center text-white text-2xl w-16 h-8">
+                    <FaRegUser />
+                    <div className="absolute top-full opacity-0 group-hover:opacity-100 bg-black text-white text-xs mb-1 transition-opacity duration-300 px-1 py-1">
+                      마이페이지
+                    </div>
+                  </div>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
