@@ -1,17 +1,32 @@
 import axios from "axios";
 interface OauthLoginData_TYPE {
-  loginid: string;
-  name: string;
-  email: string;
+  loginData: {
+    loginid: string;
+    name: string;
+    email: string;
+    nickname: string;
+  };
 }
+
+//사용자가 로그인 중인지 확인하는 api
+export const checkLogin = async () => {
+  try {
+    const res = await axios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/chkLogin`
+    );
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
 //사용자 소셜 로그인할 때 백엔드한테 id 보내기
-export const postUserId = async (loginData: OauthLoginData_TYPE) => {
+export const postUserId = async (
+  loginData: OauthLoginData_TYPE["loginData"]
+) => {
   try {
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/oauthLoginProcess`,
-      {
-        loginData
-      },
+      loginData,
       {
         withCredentials: true // 쿠키를 포함한 요청 설정
       }
