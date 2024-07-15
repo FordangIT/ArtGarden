@@ -4,7 +4,9 @@ import favoriteReducer from "./slices/favoriteSlice";
 import performanceSlice from "./slices/performanceSlice";
 import exhibitionSlice from "./slices/exhibitionSlice";
 import modalSlice from "./slices/modalSlice";
+import checkLoginSlice from "./slices/checkLoginSlice";
 const rootReducer = combineReducers({
+  login: checkLoginSlice,
   selected: selectSlice.reducer,
   favorites: favoriteReducer,
   performance: performanceSlice,
