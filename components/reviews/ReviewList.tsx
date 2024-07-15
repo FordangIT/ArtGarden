@@ -27,7 +27,7 @@ export default function ReviewList({ id, props }: ReviewList_TYPE) {
     fetchReviews(id, pageNo)
   );
 
-  const reviews = data?.data || [];
+  const reviews = data?.datalist || [];
   useEffect(() => {
     if (pageNo < props.totalPages) {
       queryClient.prefetchQuery(["reviews", id, pageNo + 1], () =>
