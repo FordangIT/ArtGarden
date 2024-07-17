@@ -80,7 +80,7 @@ export default function ReviewList({ id, props }: ReviewList_TYPE) {
       reviewid: reviewId,
       content: reviewContents[reviewId],
       rate: reviewRatings[reviewId],
-      updid: "이창훈",
+      updid: "",
       upddt: new Date().toISOString()
     };
 
@@ -121,14 +121,14 @@ export default function ReviewList({ id, props }: ReviewList_TYPE) {
             reviews.map((el: any) => {
               const isEditing =
                 editingReview && editingReview.reviewid === el.reviewid;
-              const isAuthor = session?.user.name === el.memberid;
+              const isAuthor = session?.user.id === el.memberid;
               return (
                 <div
                   key={el.reviewid}
                   className="w-full bg-white shadow-2xl rounded-xl border-2 border-white mb-4 p-6"
                 >
                   <div className="py-2 flex justify-between items-center">
-                    <div className="text-xl font-semibold">{el.memberid}</div>
+                    <div className="text-xl font-semibold">{el.nickname}</div>
                     <div className="text-gray-500 flex justify-end group-hover:text-white">
                       {new Date(el.regdt).toLocaleDateString()}
                     </div>
