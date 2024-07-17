@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -7,7 +7,9 @@ import Image from "next/image";
 import { CiUser, CiLock } from "react-icons/ci";
 import Link from "next/link";
 import { loginUser } from "@/lib/api/userSign";
-
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/redux/store";
+import { logIn, logOut } from "@/redux/slices/checkLoginSlice";
 // Yup을 사용한 폼 유효성 검사 스키마 정의
 const schema = yup.object().shape({
   userId: yup
@@ -32,6 +34,10 @@ type FormData = {
 };
 
 export default function SignIn() {
+  //아래 같이 값 가져와주면 됨.
+  const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
+  const dispatch = useDispatch();
+
   const { data: session, status } = useSession();
   const loading = status === "loading";
   const {
@@ -51,6 +57,8 @@ export default function SignIn() {
       };
       const result = await loginUser(loginInfo);
       if (result) {
+        //이쪽에서 사용자 로그인 상태 바꿔주기.
+        dispatch(logIn());
         alert("로그인 성공");
         window.location.href = "/";
       } else {

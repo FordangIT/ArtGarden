@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useDispatch } from "react-redux";
 import { openModal } from "@/redux/slices/modalSlice";
 import { ModalComponent } from "@/lib/components/Modal";
+import { checkLogin } from "@/lib/api/userSign";
 interface PropsType {
   id: string;
 }
@@ -63,7 +64,7 @@ export default function CreateReviewForm({ id }: PropsType) {
       objectid: String(id),
       content,
       rate: Number(rate),
-      memberid: session.user?.name || "guest"
+      memberid: session.user?.id || "guest"
     });
     setContent("");
     setRate(5);

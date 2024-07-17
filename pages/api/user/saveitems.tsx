@@ -31,7 +31,6 @@ const fetchDetails = async (id: string) => {
         }
       });
     });
-
     return jsonData;
   } catch (error) {
     console.error(`Error fetching details for id ${id}`, error);

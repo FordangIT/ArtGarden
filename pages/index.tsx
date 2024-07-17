@@ -184,8 +184,11 @@ export default function Home(props: AllData_TYPE) {
   })();
   useEffect(() => {
     if (session && session.user?.id) {
-      const userId = session.user.id;
-      postUserId(userId);
+      const loginid = session.user.id as string;
+      const name = session.user.name as string;
+      const email = session.user.email as string;
+      const nickname = "";
+      postUserId({ loginid, name, email, nickname });
     }
   }, [session]);
   return (

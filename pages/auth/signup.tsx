@@ -3,19 +3,14 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { CiUser, CiLock, CiMail } from "react-icons/ci";
-import { LiaBirthdayCakeSolid } from "react-icons/lia";
-import { IoPhonePortraitOutline } from "react-icons/io5";
 import { checkLoginId, joinMember } from "@/lib/api/userSign";
 import { useRouter } from "next/router";
 interface SignupFormValues {
   userId: string;
   password: string;
   name: string;
-  gender: "M" | "W";
-  birthday: string;
-  phoneNumber: string;
-  email: string;
   nickname: string;
+  email: string;
 }
 
 const schema = yup.object().shape({
@@ -40,35 +35,17 @@ const schema = yup.object().shape({
       "- 이름은 1~30자 이내의 영문 또는 한글로 입력해주세요."
     )
     .required("- 이름은 필수입니다."),
-  gender: yup
-    .string()
-    .oneOf(["M", "W"], "- 성별은 M(남자) 또는 W(여자)만 가능합니다.")
-    .required("- 성별은 필수입니다."),
-  birthday: yup
-    .string()
-    .matches(
-      /^\d{4}-\d{2}-\d{2}$/,
-      "- 생년월일은 YYYY-MM-DD 형식이어야 합니다."
-    )
-    .required("- 생년월일은 필수입니다."),
-  phoneNumber: yup
-    .string()
-    .matches(
-      /^\d{3}-\d{4}-\d{4}$|^\d{3}-\d{3}-\d{4}$/,
-      "- 연락처는 nnn-nnnn-nnnn 또는 nnn-nnn-nnnn 형식이어야 합니다."
-    )
-    .required("- 연락처는 필수입니다."),
-  email: yup
-    .string()
-    .email("- 유효한 이메일을 입력해주세요.")
-    .required("- 이메일은 필수입니다."),
   nickname: yup
     .string()
     .matches(
       /^[가-힣a-zA-Z0-9]{2,10}$/,
       "- 별명은 2~10자 이내의 한글, 영문, 숫자만 사용 가능합니다."
     )
-    .required("- 별명은 필수입니다.")
+    .required("- 별명은 필수입니다."),
+  email: yup
+    .string()
+    .email("- 유효한 이메일을 입력해주세요.")
+    .required("- 이메일은 필수입니다.")
 });
 
 const Signup: React.FC = () => {
@@ -92,11 +69,8 @@ const Signup: React.FC = () => {
         loginid: data.userId,
         password: data.password,
         name: data.name,
-        gender: data.gender,
-        birthday: data.birthday,
-        celno: data.phoneNumber,
-        email: data.email,
-        nickname: data.nickname
+        nickname: data.nickname,
+        email: data.email
       });
       alert("회원가입 성공!");
       router.push(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/auth/signin`);
@@ -173,6 +147,17 @@ const Signup: React.FC = () => {
                 className="block w-full ml-2 font-medium text-slate-700 p-1"
               />
             </div>
+            <div className="flex mt-1 p-2 w-full border-b border-gray-300">
+              <label className="flex items-center justify-center text-gray-700 p-1">
+                <CiUser className="w-6 h-6 text-slate-400" />
+              </label>
+              <input
+                type="text"
+                {...register("name")}
+                placeholder="이름"
+                className="block w-full ml-2 font-medium text-slate-700 p-1"
+              />
+            </div>
             <div className="flex mt-1 p-2 w-full ">
               <label className="flex items-center justify-center text-gray-700 p-1">
                 <CiMail className="w-6 h-6 text-slate-400" />
@@ -195,74 +180,11 @@ const Signup: React.FC = () => {
             {errors.nickname && (
               <p className="text-red-500">{errors.nickname.message}</p>
             )}
-            {errors.email && (
-              <p className="text-red-500">{errors.email.message}</p>
-            )}
-          </div>
-          <div className="border border-gray-300 rounded-md shadow-sm">
-            <div className="flex mt-1 p-2 w-full border-b border-gray-300">
-              <label className="flex items-center justify-center text-gray-700 p-1">
-                <CiUser className="w-6 h-6 text-slate-400" />
-              </label>
-              <input
-                type="text"
-                {...register("name")}
-                placeholder="이름"
-                className="block w-full ml-2 font-medium text-slate-700 p-1"
-              />
-            </div>
-
-            <div className="flex mt-1 p-2 w-full border-b border-gray-300">
-              <label className="flex items-center justify-center text-gray-700 p-1">
-                <LiaBirthdayCakeSolid className="w-6 h-6 text-slate-400" />
-              </label>
-              <input
-                type="text"
-                {...register("birthday")}
-                placeholder="생년월일 8자리"
-                className="block w-full ml-2 font-medium text-slate-700 p-1"
-              />
-            </div>
-            <div className="p-1 pr-5 border-b border-gray-300 ">
-              <select
-                {...register("gender")}
-                className="p-2 block w-full ml-2 bg-white"
-              >
-                <option value="" className="text-slate-700">
-                  성별
-                </option>
-                <option value="M" className="text-slate-700">
-                  남자
-                </option>
-                <option value="W" className="text-slate-700">
-                  여자
-                </option>
-              </select>
-            </div>
-            <div className="flex mt-1 p-2 w-full border-b border-gray-300">
-              <label className="flex items-center justify-center text-gray-700 p-1">
-                <IoPhonePortraitOutline className="w-6 h-6 text-slate-400" />
-              </label>
-              <input
-                type="text"
-                {...register("phoneNumber")}
-                placeholder="휴대전화번호"
-                className="block w-full ml-2 font-medium text-slate-700 p-1"
-              />
-            </div>
-          </div>
-          <div className="text-sm font-thin">
             {errors.name && (
               <p className="text-red-500">{errors.name.message}</p>
             )}
-            {errors.birthday && (
-              <p className="text-red-500">{errors.birthday.message}</p>
-            )}
-            {errors.gender && (
-              <p className="text-red-500">{errors.gender.message}</p>
-            )}
-            {errors.phoneNumber && (
-              <p className="text-red-500">{errors.phoneNumber.message}</p>
+            {errors.email && (
+              <p className="text-red-500">{errors.email.message}</p>
             )}
           </div>
 

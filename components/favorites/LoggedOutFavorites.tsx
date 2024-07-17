@@ -5,7 +5,6 @@ import Link from "next/link";
 import { truncateText } from "@/lib/components/TruncateText";
 import { FavoriteButton } from "@/lib/components/FavoriteButton";
 import { useSession } from "next-auth/react";
-import { Session } from "next-auth";
 import { PopupStore_TYPE } from "@/pages";
 import { NosaveItems } from "@/lib/components/NosaveItems";
 

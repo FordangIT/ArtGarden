@@ -67,8 +67,12 @@ export const fetchDetailExhibitionReview = async (
 export const createReview = async (reviewData: ReviewCreate_TYPE) => {
   const res = await axios.post(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/reviews`,
-    reviewData
+    reviewData,
+    {
+      withCredentials: true // 쿠키를 포함한 요청 설정
+    }
   );
+
   return res.data;
 };
 
@@ -76,13 +80,23 @@ export const createReview = async (reviewData: ReviewCreate_TYPE) => {
 export const updateReview = async (id: number, review: Partial<ReviewData>) => {
   const res = await axios.patch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/reviews/${id}`,
-    review
+    review,
+    {
+      withCredentials: true // 쿠키를 포함한 요청 설정
+    }
   );
   return res.data;
 };
 
 //상세페이지 리뷰 delete
 export const deleteReview = async (id: number) => {
-  await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/reviews/${id}`);
-  return id;
+  try {
+    await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/reviews/${id}`, {
+      withCredentials: true // 쿠키를 포함한 요청 설정
+    });
+    return id;
+  } catch (error) {
+    console.error(error, "error");
+    throw error;
+  }
 };

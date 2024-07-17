@@ -1,9 +1,8 @@
 import clientPromise from "../utils/mongodb";
-import { ObjectId } from "mongodb";
 export async function loadBest() {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/ranks/20240610`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/ranks/20240715`
     );
     if (!response.ok) {
       throw new Error("failed to fetch data");
