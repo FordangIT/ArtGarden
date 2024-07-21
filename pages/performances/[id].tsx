@@ -76,7 +76,9 @@ function DetailPage(props: DetailPage_TYPE) {
   const id = props.id;
   const data = props.data[0];
   const [reviews, setReviews] = useState(props.reviews);
-
+  useEffect(() => {
+    console.log(props, "review");
+  });
   return (
     <div className="flex justify-center items-center">
       <div className="w-full px-2 sm:w-2/3 ">
@@ -100,7 +102,7 @@ function DetailPage(props: DetailPage_TYPE) {
                     <div className="border-[1px] border-black p-2 ">
                       <FavoriteButton item={id} />
                     </div>
-                    <div className="border-[1px] border-black ml-1 p-1">
+                    <div className="border-[1px] border-black ml-1 p-2 flex justify-center items-center">
                       <ShareKakaoButton data={data} />
                     </div>
                   </div>

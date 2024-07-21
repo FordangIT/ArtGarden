@@ -37,7 +37,7 @@ function DetailPage(props: DetailPopup_TYPE) {
                     <div className="border-[1px] border-black p-2 ">
                       <FavoriteButton item={id} />
                     </div>
-                    <div className="border-[1px] border-black ml-1 p-1">
+                    <div className="border-[1px] border-black ml-1 p-2 flex justify-center items-center">
                       <ShareKakaoButton data={data} />
                     </div>
                   </div>

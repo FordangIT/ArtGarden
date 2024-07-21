@@ -70,7 +70,7 @@ const ShareKakaoButton = ({ data }: ShareProps_TYPE) => {
 
   return (
     <button onClick={sendKakao} disabled={!isKakaoInitialized}>
-      <MdShare className="w-9 h-9 font-light text-black" />
+      <MdShare className="w-5 h-5 sm:w-8 sm:h-8 font-light text-black" />
     </button>
   );
 };
