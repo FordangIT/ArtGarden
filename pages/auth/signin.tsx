@@ -10,6 +10,7 @@ import { loginUser } from "@/lib/api/userSign";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
 import { logIn, logOut } from "@/redux/slices/checkLoginSlice";
+import { useRouter } from "next/router";
 // Yup을 사용한 폼 유효성 검사 스키마 정의
 const schema = yup.object().shape({
   userId: yup
@@ -35,6 +36,7 @@ type FormData = {
 
 export default function SignIn() {
   //아래 같이 값 가져와주면 됨.
+  const router = useRouter();
   const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
   const dispatch = useDispatch();
 
@@ -60,7 +62,7 @@ export default function SignIn() {
         //이쪽에서 사용자 로그인 상태 바꿔주기.
         dispatch(logIn());
         alert("로그인 성공");
-        window.location.href = "/";
+        router.push("/");
       } else {
         alert("로그인 실패");
       }
