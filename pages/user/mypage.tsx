@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import { getMemberDetails, leaveMember } from "@/lib/api/mypage";
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 import { checkLogin } from "@/lib/api/userSign";
 interface MemberDetails {
   name: string;
@@ -13,10 +15,14 @@ interface MemberDetails {
 export default function MyPage() {
   const router = useRouter();
   const { data: session } = useSession();
-
+  //const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
+  const [usualSession, setUsualSession] = useState(false);
   useEffect(() => {
-    if (!session)
-      router.push(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/auth/signin`);
+    const checkLoginState = async () => {
+      let res = await checkLogin();
+      setUsualSession(res);
+    };
+    checkLoginState();
   }, []);
 
   const { data, error, isLoading } = useQuery<MemberDetails>(
@@ -32,6 +38,9 @@ export default function MyPage() {
     return <div>an error occured</div>;
   }
 
+  if (!session && !usualSession) {
+    router.push(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/auth/signin`);
+  }
   const handleClick = async (loginid: string) => {
     try {
       const res = await leaveMember(loginid);
