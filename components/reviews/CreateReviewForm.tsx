@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { createReview } from "@/lib/api/reviews";
 import { useSession } from "next-auth/react";
@@ -6,8 +6,17 @@ import { useDispatch } from "react-redux";
 import { openModal } from "@/redux/slices/modalSlice";
 import { ModalComponent } from "@/lib/components/Modal";
 import { checkLogin } from "@/lib/api/userSign";
+import { getMemberDetails } from "@/lib/api/mypage";
 interface PropsType {
   id: string;
+}
+
+export interface UserDetailType {
+  loginid: string;
+  name: string;
+  email: string;
+  nickname: string;
+  msg: null;
 }
 
 export default function CreateReviewForm({ id }: PropsType) {
@@ -16,6 +25,13 @@ export default function CreateReviewForm({ id }: PropsType) {
   const [rate, setRate] = useState(1);
   const [content, setContent] = useState("");
   const dispatch = useDispatch();
+  const [userDetail, setUserDetail] = useState<UserDetailType>({
+    loginid: "",
+    name: "",
+    email: "",
+    nickname: "",
+    msg: null
+  });
 
   const mutation = useMutation(createReview, {
     onMutate: async (newReview) => {
@@ -48,9 +64,19 @@ export default function CreateReviewForm({ id }: PropsType) {
     setRate(selectedRate);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!session) {
+    let usualSession;
+
+    const checkLoginState = async () => {
+      usualSession = await checkLogin();
+      let userDetail = await getMemberDetails();
+      setUserDetail(userDetail);
+    };
+
+    await checkLoginState();
+
+    if (!session && !usualSession) {
       dispatch(
         openModal({
           message: "로그인이 필요합니다.",
@@ -60,15 +86,18 @@ export default function CreateReviewForm({ id }: PropsType) {
       );
       return;
     }
+  };
+
+  useEffect(() => {
     mutation.mutate({
       objectid: String(id),
       content,
       rate: Number(rate),
-      memberid: session.user?.id || "guest"
+      memberid: session?.user.id || userDetail?.loginid
     });
     setContent("");
     setRate(5);
-  };
+  }, [userDetail]);
 
   return (
     <div className="flex justify-start items-center w-full">
