@@ -5,13 +5,22 @@ import Sidebar from "./Sidebar";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { FaRegUser } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { checkLogin } from "@/lib/api/userSign";
 export default function Navbar() {
   const { data: session, status } = useSession();
   const [selected, setSelected] = useState("");
-
+  const [usualSession, setUsualSession] = useState(false);
   const handleSelect = (menu: string) => {
     setSelected(menu);
+  };
+  useEffect(() => {
+    console.log("hi");
+    let res = checkLogin();
+    console.log(res, "navbar res");
+  }, []);
+  const handleLogout = () => {
+    signOut();
   };
   return (
     <>
@@ -69,7 +78,7 @@ export default function Navbar() {
                 <div className="flex justify-around items-center bg-black w-32 h-10 border-2 border-main-yellow rounded-2xl ml-12 mr-4">
                   <div className="font-semibold text-xl text-main-yellow">
                     {session ? (
-                      <button onClick={() => signOut()}>Log Out</button>
+                      <button onClick={handleLogout}>Log Out</button>
                     ) : (
                       <Link href="/auth/signin">
                         <button>Login</button>
