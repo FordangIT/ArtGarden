@@ -7,7 +7,8 @@ import { updateBest, updateNew } from "@/redux/slices/selectSlice";
 import { RootState } from "@/redux/store";
 import { StaticImageData } from "next/image";
 import { useSession } from "next-auth/react";
-import { postUserId } from "@/lib/api/userSign";
+import { checkLogin, postUserId } from "@/lib/api/userSign";
+import { logIn, logOut } from "@/redux/slices/checkLoginSlice";
 import {
   loadNew,
   loadBest,
@@ -157,6 +158,8 @@ export default function Home(props: AllData_TYPE) {
   const handleSelectNew = (text: string) => {
     dispatch(updateNew(text));
   };
+
+  const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
   const bestData: (Performance_TYPE | Exhibition_TYPE | PopupStore_TYPE)[] =
     (() => {
       switch (selectedBest) {
@@ -190,7 +193,12 @@ export default function Home(props: AllData_TYPE) {
       const nickname = "";
       postUserId({ loginid, name, email, nickname });
     }
-  }, [session]);
+    const checkLoginState = async () => {
+      let res = await checkLogin();
+      res ? dispatch(logIn()) : dispatch(logOut());
+    };
+    checkLoginState();
+  }, [session, dispatch, isLoggedIn]);
   return (
     <div className="flex justify-center items-center w-full">
       <div className="w-full ">
