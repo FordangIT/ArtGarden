@@ -61,101 +61,8 @@ Artgarden은 사람들이 **더 적극적인 여가 생활**을 즐길 수 있�
 <br>
 
 
-## 3. 프로젝트 구조 (2024년 8월 12일 update)
-```
-📦components
- ┣ 📂basic
- ┃ ┣ 📜Footer.tsx
- ┃ ┣ 📜Layout.tsx
- ┃ ┣ 📜Navbar.tsx
- ┃ ┣ 📜Sidebar.tsx
- ┃ ┗ 📜Smallbar.tsx
- ┣ 📂exhibitions
- ┃ ┣ 📜AllExhibitions.tsx
- ┃ ┗ 📜ConditionEx.tsx
- ┣ 📂favorites
- ┃ ┣ 📜LoggedInFavorites.tsx
- ┃ ┗ 📜LoggedOutFavorites.tsx
- ┣ 📂main
- ┃ ┣ 📜BestProducts.tsx
- ┃ ┣ 📜MainBanner.tsx
- ┃ ┣ 📜MainCarousel.tsx
- ┃ ┣ 📜NewProducts.tsx
- ┃ ┣ 📜Reviews.tsx
- ┃ ┗ 📜TempReviews.tsx
- ┣ 📂mypage
- ┣ 📂performances
- ┃ ┣ 📜AllPerformances.tsx
- ┃ ┗ 📜Condition.tsx
- ┣ 📂popupstores
- ┃ ┗ 📜AllPopupStores.tsx
- ┗ 📂reviews
- ┃ ┣ 📜CreateReviewForm.tsx
- ┃ ┣ 📜DeleteReviewButton.tsx
- ┃ ┣ 📜DetailReview.tsx
- ┃ ┣ 📜DetailSection.tsx
- ┃ ┗ 📜ReviewList.tsx
 
-📦lib
- ┣ 📂api
- ┃ ┣ 📜datailpage.tsx
- ┃ ┣ 📜loadData.tsx
- ┃ ┣ 📜mypage.tsx
- ┃ ┣ 📜reviews.tsx
- ┃ ┣ 📜scrap.tsx
- ┃ ┗ 📜userSign.tsx
- ┣ 📂components
- ┃ ┣ 📜FavoriteButton.tsx
- ┃ ┣ 📜Modal.tsx
- ┃ ┣ 📜NosaveItems.tsx
- ┃ ┣ 📜ShareKakaoButton.tsx
- ┃ ┗ 📜TruncateText.tsx
- ┣ 📂constants
- ┃ ┗ 📜constant.ts
- ┣ 📂hooks
- ┃ ┗ 📜useObserver.tsx
- ┗ 📂utils
- ┃ ┣ 📜anchore.tsx
- ┃ ┣ 📜auth.tsx
- ┃ ┣ 📜db.tsx
- ┃ ┗ 📜mongodb.ts
-
- 📦pages
- ┣ 📂api
- ┃ ┣ 📂auth
- ┃ ┃ ┣ 📜[...nextauth].tsx
- ┃ ┃ ┗ 📜signup.tsx
- ┃ ┣ 📂exhibitions
- ┃ ┃ ┣ 📜best.tsx
- ┃ ┃ ┗ 📜new.tsx
- ┃ ┣ 📂performances
- ┃ ┃ ┣ 📜[productId].tsx
- ┃ ┃ ┣ 📜best.tsx
- ┃ ┃ ┗ 📜new.tsx
- ┃ ┣ 📂user
- ┃ ┃ ┣ 📜saveitems.tsx
- ┃ ┃ ┗ 📜saveitemsPop.tsx
- ┣ 📂auth
- ┃ ┣ 📜signin.tsx
- ┃ ┗ 📜signup.tsx
- ┣ 📂exhibitions
- ┃ ┣ 📜[exhibitId].tsx
- ┃ ┗ 📜index.tsx
- ┣ 📂performances
- ┃ ┣ 📜[id].tsx
- ┃ ┗ 📜index.tsx
- ┣ 📂popupstores
- ┃ ┣ 📜[id].tsx
- ┃ ┗ 📜index.tsx
- ┣ 📂user
- ┃ ┣ 📜mypage.tsx
- ┃ ┗ 📜saveitems.tsx
- ┣ 📜404.tsx
- ┣ 📜_app.tsx
- ┣ 📜_document.tsx
- ┗ 📜index.tsx
-```
-## 4. 페이지별 기능
+## 3. 페이지별 기능
 
 ### [Main page]
 
@@ -171,8 +78,7 @@ Artgarden은 사람들이 **더 적극적인 여가 생활**을 즐길 수 있�
       </td>
     </tr>
   </table>
-
-
+</div>
 ### 1) 구현 기능
 
 - 다양한 디바이스에 대응하기 위해 **반응형** 디자인을 구현했습니다.
@@ -186,7 +92,7 @@ Artgarden은 사람들이 **더 적극적인 여가 생활**을 즐길 수 있�
   - **Flex 및 Grid**: 레이아웃을 구성하는 데 `flex`와 `grid`를 사용하여 유연한 배치를 구현했습니다.
   - **미디어 쿼리**: 화면 크기에 따라 적응하도록 `sm`, `md`, `lg` 등의 미디어 쿼리 클래스를 사용하여 크기를 분류하고, 각각의 크기에 맞는 스타일을 적용했습니다.
 
-</div>
+
 <br>
 
 | 캐러셀 |
@@ -314,3 +220,97 @@ Artgarden은 사람들이 **더 적극적인 여가 생활**을 즐길 수 있�
 <br>
 
 
+## 4. 프로젝트 구조 (2024년 8월 12일 update)
+```
+📦components
+ ┣ 📂basic
+ ┃ ┣ 📜Footer.tsx
+ ┃ ┣ 📜Layout.tsx
+ ┃ ┣ 📜Navbar.tsx
+ ┃ ┣ 📜Sidebar.tsx
+ ┃ ┗ 📜Smallbar.tsx
+ ┣ 📂exhibitions
+ ┃ ┣ 📜AllExhibitions.tsx
+ ┃ ┗ 📜ConditionEx.tsx
+ ┣ 📂favorites
+ ┃ ┣ 📜LoggedInFavorites.tsx
+ ┃ ┗ 📜LoggedOutFavorites.tsx
+ ┣ 📂main
+ ┃ ┣ 📜BestProducts.tsx
+ ┃ ┣ 📜MainBanner.tsx
+ ┃ ┣ 📜MainCarousel.tsx
+ ┃ ┣ 📜NewProducts.tsx
+ ┃ ┣ 📜Reviews.tsx
+ ┃ ┗ 📜TempReviews.tsx
+ ┣ 📂mypage
+ ┣ 📂performances
+ ┃ ┣ 📜AllPerformances.tsx
+ ┃ ┗ 📜Condition.tsx
+ ┣ 📂popupstores
+ ┃ ┗ 📜AllPopupStores.tsx
+ ┗ 📂reviews
+ ┃ ┣ 📜CreateReviewForm.tsx
+ ┃ ┣ 📜DeleteReviewButton.tsx
+ ┃ ┣ 📜DetailReview.tsx
+ ┃ ┣ 📜DetailSection.tsx
+ ┃ ┗ 📜ReviewList.tsx
+
+📦lib
+ ┣ 📂api
+ ┃ ┣ 📜datailpage.tsx
+ ┃ ┣ 📜loadData.tsx
+ ┃ ┣ 📜mypage.tsx
+ ┃ ┣ 📜reviews.tsx
+ ┃ ┣ 📜scrap.tsx
+ ┃ ┗ 📜userSign.tsx
+ ┣ 📂components
+ ┃ ┣ 📜FavoriteButton.tsx
+ ┃ ┣ 📜Modal.tsx
+ ┃ ┣ 📜NosaveItems.tsx
+ ┃ ┣ 📜ShareKakaoButton.tsx
+ ┃ ┗ 📜TruncateText.tsx
+ ┣ 📂constants
+ ┃ ┗ 📜constant.ts
+ ┣ 📂hooks
+ ┃ ┗ 📜useObserver.tsx
+ ┗ 📂utils
+ ┃ ┣ 📜anchore.tsx
+ ┃ ┣ 📜auth.tsx
+ ┃ ┣ 📜db.tsx
+ ┃ ┗ 📜mongodb.ts
+
+ 📦pages
+ ┣ 📂api
+ ┃ ┣ 📂auth
+ ┃ ┃ ┣ 📜[...nextauth].tsx
+ ┃ ┃ ┗ 📜signup.tsx
+ ┃ ┣ 📂exhibitions
+ ┃ ┃ ┣ 📜best.tsx
+ ┃ ┃ ┗ 📜new.tsx
+ ┃ ┣ 📂performances
+ ┃ ┃ ┣ 📜[productId].tsx
+ ┃ ┃ ┣ 📜best.tsx
+ ┃ ┃ ┗ 📜new.tsx
+ ┃ ┣ 📂user
+ ┃ ┃ ┣ 📜saveitems.tsx
+ ┃ ┃ ┗ 📜saveitemsPop.tsx
+ ┣ 📂auth
+ ┃ ┣ 📜signin.tsx
+ ┃ ┗ 📜signup.tsx
+ ┣ 📂exhibitions
+ ┃ ┣ 📜[exhibitId].tsx
+ ┃ ┗ 📜index.tsx
+ ┣ 📂performances
+ ┃ ┣ 📜[id].tsx
+ ┃ ┗ 📜index.tsx
+ ┣ 📂popupstores
+ ┃ ┣ 📜[id].tsx
+ ┃ ┗ 📜index.tsx
+ ┣ 📂user
+ ┃ ┣ 📜mypage.tsx
+ ┃ ┗ 📜saveitems.tsx
+ ┣ 📜404.tsx
+ ┣ 📜_app.tsx
+ ┣ 📜_document.tsx
+ ┗ 📜index.tsx
+```
