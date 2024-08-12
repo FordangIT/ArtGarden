@@ -71,16 +71,15 @@ Artgarden은 사람들이 **더 적극적인 여가 생활**을 즐길 수 있�
 
 ### [Main page]
 
-
 | 반응형 |
 |----------|
-|<img src="https://github.com/user-attachments/assets/ee5eac1d-bbc4-434a-a5bf-a0121b8a2d44" width="250px" height="500px">|
+|<img src="https://github.com/user-attachments/assets/4375d23c-c3b9-4222-8738-387e9072f245" width="250px" height="500px">|
 
 <br>
 
 | 캐러셀 |
 |----------|
-|<img src="https://github.com/user-attachments/assets/36f62c20-02bc-4434-81b4-82e60ef32eec" width="500px" height="200px">|
+|<img src="https://github.com/user-attachments/assets/2c8541e2-695a-4e32-af72-bf6800764db8" width="500px" height="200px">|
 
 <br>
 
@@ -140,7 +139,7 @@ Artgarden은 사람들이 **더 적극적인 여가 생활**을 즐길 수 있�
 | 무한 스크롤 |
 |----------|
 |<img src="https://github.com/user-attachments/assets/692af0dc-8e74-4b59-95b0-8580f618978a"  width="500px" height="250px">|
-|
+
 
 <br>
 | 조건 검색 |
@@ -152,7 +151,7 @@ Artgarden은 사람들이 **더 적극적인 여가 생활**을 즐길 수 있�
 | 초성 검색 |
 |----------|
 |<img src="https://github.com/user-attachments/assets/fa061275-d722-4db7-83a1-47fadf40a6e4"  width="500px" height="250px">|
-|
+
 
 <br>
 
