@@ -1,6 +1,5 @@
 # 🎶 문화 정보 제공 서비스 
 
-![readme_mockup2](https://user-images.githubusercontent.com/112460466/210706312-6a44b60d-a42e-4210-b334-9e5983f70fb3.png)
 
 - 배포 URL : [artgarden](https://artgarden.co.kr/ ) 
 
@@ -72,7 +71,7 @@ Artgarden은 사람들이 **더 적극적인 여가 생활**을 즐길 수 있�
 
 ### [Main page]
 
-<div align="center">
+
 | 반응형 |
 |----------|
 |![반응형](https://github.com/user-attachments/assets/ee5eac1d-bbc4-434a-a5bf-a0121b8a2d44)|
@@ -104,7 +103,7 @@ Artgarden은 사람들이 **더 적극적인 여가 생활**을 즐길 수 있�
 
 <br>
 
-</div>
+
 <br>
 
 ### [로그인]
@@ -112,7 +111,7 @@ Artgarden은 사람들이 **더 적극적인 여가 생활**을 즐길 수 있�
 - 회원가입을 통한 일반 로그인이 가능합니다.
 - 소셜 로그인 (카카오, 구글)이 가능합니다.
   
-<div align="center">
+
 | 회원가입 |
 |----------|
 |![회원가입](https://github.com/user-attachments/assets/e5e379dd-b12e-4e24-8e4d-b6b81d04daf7)|
@@ -133,11 +132,11 @@ Artgarden은 사람들이 **더 적극적인 여가 생활**을 즐길 수 있�
 - 사용자가 소셜로그인을 할 경우 백엔드한테 사용자의 정보를 post 합니다. 
 <br>
 
-</div>
+
 
 ### [전체 페이지]
 
-<div align="center">
+
 
 | 무한 스크롤 |
 |----------|
@@ -157,11 +156,10 @@ Artgarden은 사람들이 **더 적극적인 여가 생활**을 즐길 수 있�
 |
 
 <br>
-</div>
+
 
 ### [상세 페이지]
 
-<div align="center">
   
 | 자세한 정보 |
 |----------|
@@ -182,11 +180,10 @@ Artgarden은 사람들이 **더 적극적인 여가 생활**을 즐길 수 있�
 
 <br>
 
-</div>
 
 ### [찜 페이지]
 
-<div align="center">
+
 
 | 로그인 사용자 |
 |----------|
@@ -200,11 +197,11 @@ Artgarden은 사람들이 **더 적극적인 여가 생활**을 즐길 수 있�
 
 <br>
 
-</div>
+
 
 ### [마이 페이지]
 
-<div align="center">
+
 
 | 마이페이지 |
 |----------|
@@ -212,5 +209,4 @@ Artgarden은 사람들이 **더 적극적인 여가 생활**을 즐길 수 있�
 
 <br>
 
-</div>
 
