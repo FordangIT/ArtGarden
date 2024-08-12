@@ -5,9 +5,13 @@ import { updateReview } from "@/lib/api/reviews";
 import DeleteReviewButton from "./DeleteReviewButton";
 import { ReviewData, DetailReview_TYPE } from "@/pages/performances/[id]";
 import axios from "axios";
-import { useSession } from "next-auth/react"; // NextAuth에서 세션 가져오기
+//import { useSession } from "next-auth/react"; // NextAuth에서 세션 가져오기
+
 import { UserDetailType } from "./CreateReviewForm";
 import { getMemberDetails } from "@/lib/api/mypage";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+
 interface ReviewList_TYPE {
   id: string;
   props: DetailReview_TYPE;
@@ -21,7 +25,8 @@ const fetchReviews = async (performId: string, pageNo: number) => {
 };
 
 export default function ReviewList({ id, props }: ReviewList_TYPE) {
-  const { data: session } = useSession(); // 세션 정보 가져오기
+  const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
+  //const { data: session } = useSession(); // 세션 정보 가져오기
   const [pageNo, setPageNo] = useState(props.pageNo);
   const queryClient = useQueryClient();
   const { data, isLoading } = useQuery(["reviews", id, pageNo], () =>
@@ -34,14 +39,22 @@ export default function ReviewList({ id, props }: ReviewList_TYPE) {
     nickname: "",
     msg: null
   });
+
   const reviews = data?.datalist || [];
+
   useEffect(() => {
-    const handleMember = async () => {
-      let userDetail = await getMemberDetails();
-      setUserDetail(userDetail);
-    };
-    handleMember();
-  }, []);
+    if (isLoggedIn) {
+      const memberDataUpdate = async () => {
+        try {
+          let userDetail = await getMemberDetails();
+          setUserDetail(userDetail);
+        } catch (error) {
+          console.error("Failed to fetch member details:", error);
+        }
+      };
+      memberDataUpdate();
+    }
+  }, [isLoggedIn]);
   useEffect(() => {
     if (pageNo < props.totalPages) {
       queryClient.prefetchQuery(["reviews", id, pageNo + 1], () =>
@@ -135,9 +148,7 @@ export default function ReviewList({ id, props }: ReviewList_TYPE) {
             reviews.map((el: any) => {
               const isEditing =
                 editingReview && editingReview.reviewid === el.reviewid;
-              const isAuthor =
-                session?.user.id === el.memberid ||
-                userDetail?.loginid === el.memberid;
+              const isAuthor = userDetail.loginid === el.memberid;
               return (
                 <div
                   key={el.reviewid}
