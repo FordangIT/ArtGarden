@@ -74,37 +74,36 @@ Artgarden은 사람들이 **더 적극적인 여가 생활**을 즐길 수 있�
 
 | 반응형 |
 |----------|
-|<img src="https://github.com/user-attachments/assets/ee5eac1d-bbc4-434a-a5bf-a0121b8a2d44" width="500px" >|
+|<img src="https://github.com/user-attachments/assets/ee5eac1d-bbc4-434a-a5bf-a0121b8a2d44" width="700px" height="350px">|
 
 <br>
 
 | 캐러셀 |
 |----------|
-|<img src="https://github.com/user-attachments/assets/36f62c20-02bc-4434-81b4-82e60ef32eec" width="500px" height="400px">|
+|<img src="https://github.com/user-attachments/assets/36f62c20-02bc-4434-81b4-82e60ef32eec" width="700px" height="350px">|
 
 <br>
 
 | Top Picks |
 |----------|
-|<img src="https://github.com/user-attachments/assets/fd56a7ab-4ae6-4a52-9216-71a1e963bc65" width="700px" height="400px">|
+|<img src="https://github.com/user-attachments/assets/fd56a7ab-4ae6-4a52-9216-71a1e963bc65" width="700px" height="350px">|
 
 <br>
 
 | New Arrivals |
 |----------|
-|![New Arrivals](https://github.com/user-attachments/assets/d6d9db8e-8745-49e5-a95f-885a67982b32)
+|<img src="https://github.com/user-attachments/assets/d6d9db8e-8745-49e5-a95f-885a67982b32 width="700px" height="350px">|
 
 <br>
-|
+
 
 | Reviews |
 |----------|
-|![reviews](https://github.com/user-attachments/assets/fc529382-a4ea-49af-b989-bd1e8ef4e928)|
+|<img src="https://github.com/user-attachments/assets/fc529382-a4ea-49af-b989-bd1e8ef4e928 width="700px" height="350px">|
 
 <br>
 
 
-<br>
 
 ### [로그인]
 
@@ -114,19 +113,19 @@ Artgarden은 사람들이 **더 적극적인 여가 생활**을 즐길 수 있�
 
 | 회원가입 |
 |----------|
-|![회원가입](https://github.com/user-attachments/assets/e5e379dd-b12e-4e24-8e4d-b6b81d04daf7)|
+|<img src="https://github.com/user-attachments/assets/e5e379dd-b12e-4e24-8e4d-b6b81d04daf7 width="700px" height="350px">|
 
 <br>
 
 | 일반 로그인 |
 |----------|
-|![일반 로그인](https://github.com/user-attachments/assets/474089f5-1d23-4cc1-971c-cbd17d80b58b)|
+|<img src="https://github.com/user-attachments/assets/474089f5-1d23-4cc1-971c-cbd17d80b58b width="700px" height="350px">|
 
 <br>
 
 | 소셜 로그인 |
 |----------|
-|![소셜 로그인](https://github.com/user-attachments/assets/0165a9da-61fb-47c2-b3cd-7c8a3e8b5834)|
+|<img src="https://github.com/user-attachments/assets/0165a9da-61fb-47c2-b3cd-7c8a3e8b5834 width="700px" height="350px">|
 
 - 소셜 로그인은 NextAuth로 구현했습니다.
 - 사용자가 소셜로그인을 할 경우 백엔드한테 사용자의 정보를 post 합니다. 
@@ -140,19 +139,19 @@ Artgarden은 사람들이 **더 적극적인 여가 생활**을 즐길 수 있�
 
 | 무한 스크롤 |
 |----------|
-|![무한 스크롤](https://github.com/user-attachments/assets/692af0dc-8e74-4b59-95b0-8580f618978a)
+|<img src="https://github.com/user-attachments/assets/692af0dc-8e74-4b59-95b0-8580f618978a  width="700px" height="350px">|
 |
 
 <br>
 | 조건 검색 |
 |----------|
-|![조건 검색](https://github.com/user-attachments/assets/6b58bba9-a699-49e2-a820-105189da795f)|
+| <img src=" https://github.com/user-attachments/assets/6b58bba9-a699-49e2-a820-105189da795f  width="700px" height="350px">|
 
 <br>
 
 | 초성 검색 |
 |----------|
-|![초성 검색](https://github.com/user-attachments/assets/fa061275-d722-4db7-83a1-47fadf40a6e4)
+|<img src="https://github.com/user-attachments/assets/fa061275-d722-4db7-83a1-47fadf40a6e4  width="700px" height="350px">|
 |
 
 <br>
@@ -163,20 +162,20 @@ Artgarden은 사람들이 **더 적극적인 여가 생활**을 즐길 수 있�
   
 | 자세한 정보 |
 |----------|
-|![자세한 정보](https://github.com/user-attachments/assets/89c40875-accb-44c3-a4b4-18be89d76eb4)
+|<img src="https://github.com/user-attachments/assets/89c40875-accb-44c3-a4b4-18be89d76eb4  width="700px" height="350px">|
 |
 
 <br>
 
 | 카카오톡 공유하기 |
 |----------|
-|![카톡 공유하기](https://github.com/user-attachments/assets/028be251-f8a6-4664-8895-c6f8af56bb65)|
+|<img src="https://github.com/user-attachments/assets/028be251-f8a6-4664-8895-c6f8af56bb65  width="700px" height="350px">|
 
 <br>
 
 | 리뷰 CRUD |
 |----------|
-|![리뷰 crud](https://github.com/user-attachments/assets/678276dd-6880-4d9e-8779-d017404964ba)|
+|<img src="https://github.com/user-attachments/assets/678276dd-6880-4d9e-8779-d017404964ba  width="700px" height="350px">|
 
 <br>
 
@@ -187,13 +186,13 @@ Artgarden은 사람들이 **더 적극적인 여가 생활**을 즐길 수 있�
 
 | 로그인 사용자 |
 |----------|
-|![로그인 사용자](https://github.com/user-attachments/assets/c7d95b86-fff7-4056-a98f-5baca1f0091e)|
+|<img src="https://github.com/user-attachments/assets/c7d95b86-fff7-4056-a98f-5baca1f0091e  width="700px" height="350px">|
 
 <br>
 
 | 비로그인 사용자 |
 |----------|
-|![비로그인 사용자](https://github.com/user-attachments/assets/0aecd601-548d-4761-96be-7d7ec9a9a441)|
+|<img src="https://github.com/user-attachments/assets/0aecd601-548d-4761-96be-7d7ec9a9a441  width="700px" height="350px">|
 
 <br>
 
@@ -205,7 +204,7 @@ Artgarden은 사람들이 **더 적극적인 여가 생활**을 즐길 수 있�
 
 | 마이페이지 |
 |----------|
-|![마이페이지](https://github.com/user-attachments/assets/caf82350-3937-411c-a88a-b205f020bd89)|
+|<img src="https://github.com/user-attachments/assets/caf82350-3937-411c-a88a-b205f020bd89 width="700px" height="350px">|
 
 <br>
 
