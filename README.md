@@ -1,5 +1,5 @@
-# 🎶 문화 정보 제공 서비스 
-
+# Artgarden 
+: 🎶 문화 정보 제공 서비스 
 
 - 배포 URL : [artgarden](https://artgarden.co.kr/ ) 
 
