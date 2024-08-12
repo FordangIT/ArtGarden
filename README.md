@@ -74,19 +74,19 @@ Artgarden은 사람들이 **더 적극적인 여가 생활**을 즐길 수 있�
 
 | 반응형 |
 |----------|
-|<img src="https://github.com/user-attachments/assets/ee5eac1d-bbc4-434a-a5bf-a0121b8a2d44" width="350px" height="700px">|
+|<img src="https://github.com/user-attachments/assets/ee5eac1d-bbc4-434a-a5bf-a0121b8a2d44" width="300px" height="550px">|
 
 <br>
 
 | 캐러셀 |
 |----------|
-|<img src="https://github.com/user-attachments/assets/36f62c20-02bc-4434-81b4-82e60ef32eec" width="700px" height="350px">|
+|<img src="https://github.com/user-attachments/assets/36f62c20-02bc-4434-81b4-82e60ef32eec" width="600px" height="250px">|
 
 <br>
 
 | Top Picks |
 |----------|
-|<img src="https://github.com/user-attachments/assets/fd56a7ab-4ae6-4a52-9216-71a1e963bc65" width="700px" height="350px">|
+|<img src="https://github.com/user-attachments/assets/fd56a7ab-4ae6-4a52-9216-71a1e963bc65" width="600px" height="250px">|
 
 <br>
 
