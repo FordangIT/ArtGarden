@@ -137,8 +137,8 @@ Artgarden은 사람들이 **더 적극적인 여가 생활**을 즐길 수 있�
 |----------|
 |<img src="https://github.com/user-attachments/assets/46cd82e0-cd8b-4a81-8685-0cc5d0de5373"  width="600px" height="300px">|
 
-
 <br>
+
 | 조건 검색 |
 |----------|
 | <img src="https://github.com/user-attachments/assets/a7fff1ee-2626-4b93-887d-48da13460e4c"  width="600px" height="300px">|
