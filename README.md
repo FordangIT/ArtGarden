@@ -96,29 +96,80 @@ Artgarden은 사람들이 **더 적극적인 여가 생활**을 즐길 수 있�
 
 <br>
 
-| 캐러셀 |
-|----------|
-|<img src="https://github.com/user-attachments/assets/2c8541e2-695a-4e32-af72-bf6800764db8" width="600px" height="300px">|
+<div align="center">
+  <table>
+    <tr>
+      <td align="center"><strong>캐러셀</strong></td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="https://github.com/user-attachments/assets/2c8541e2-695a-4e32-af72-bf6800764db8" width="600px" height="300px">
+      </td>
+    </tr>
+  </table>
+</div>
+
+### 1) 구현 기능
+
+- **메인 배너 슬라이드**: 데이터를 받아 메인 배너를 슬라이드 형태로 표시합니다.
+  - **자동 슬라이딩**: 슬라이드가 2초마다 자동으로 전환되며, 사용자가 상호작용해도 자동 슬라이딩이 계속됩니다.
+  - **반응형 디자인**: 화면 크기에 따라 슬라이드 개수와 그룹이 동적으로 조정됩니다.
+  - **이미지 및 정보 표시**: 배너에는 이미지, 이름, 지역, 기간 등의 정보가 표시됩니다.
+
+### 2) 구현 방법
+
+- **Swiper 라이브러리 사용**: `Swiper`와 `SwiperSlide` 컴포넌트를 사용하여 슬라이드 기능을 구현했습니다.
+  - **모듈 사용**: `Keyboard`, `Scrollbar`, `Autoplay` 모듈을 활용하여 키보드 제어, 스크롤바, 자동 재생 기능을 추가했습니다.
+  - **Tailwind CSS**: 배너 내 요소들의 스타일링을 위해 Tailwind CSS를 사용했습니다.
+  - **이미지 처리**: Next.js의 `Image` 컴포넌트를 활용해 이미지를 최적화하고 표시합니다.
+  - **반응형 설정**: `breakpoints`를 이용해 화면 크기에 따라 슬라이드의 표시 방식을 조정했습니다.
 
 <br>
 
-| Top Picks |
-|----------|
-|<img src="https://github.com/user-attachments/assets/66c9f892-fb08-4e0e-b4e7-e90f822656b0" width="600px" height="300px">|
 
+<div align="center">
+  <table>
+    <tr>
+      <td align="center"><strong>Top Picks</strong></td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="https://github.com/user-attachments/assets/66c9f892-fb08-4e0e-b4e7-e90f822656b0" width="600px" height="300px">
+      </td>
+    </tr>
+  </table>
+</div>
 <br>
 
-| New Arrivals |
-|----------|
-|<img src="https://github.com/user-attachments/assets/df1c61fd-fb1a-4349-9210-e9a80040275e" width="600px" height="300px">|
 
+<div align="center">
+  <table>
+    <tr>
+      <td align="center"><strong>New Arrivals</strong></td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="https://github.com/user-attachments/assets/df1c61fd-fb1a-4349-9210-e9a80040275e" width="600px" height="300px">
+      </td>
+    </tr>
+  </table>
+</div>
 <br>
 
 
-| Reviews |
-|----------|
-|<img src="https://github.com/user-attachments/assets/74b78085-d967-47b3-ba4c-9b959cfb9309" width="600px" height="300px">|
 
+<div align="center">
+  <table>
+    <tr>
+      <td align="center"><strong>Reviews</strong></td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="https://github.com/user-attachments/assets/74b78085-d967-47b3-ba4c-9b959cfb9309" width="600px" height="300px">
+      </td>
+    </tr>
+  </table>
+</div>
 <br>
 
 
@@ -128,96 +179,198 @@ Artgarden은 사람들이 **더 적극적인 여가 생활**을 즐길 수 있�
 - 회원가입을 통한 일반 로그인이 가능합니다.
 - 소셜 로그인 (카카오, 구글)이 가능합니다.
 
-| 회원가입 |
-|----------|
-|<img src="https://github.com/user-attachments/assets/7821ea12-e8c9-411f-ac00-eaf4259dc8b0" width="600px" height="300px">|
-
+<div align="center">
+  <table>
+    <tr>
+      <td align="center"><strong>회원가입</strong></td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="https://github.com/user-attachments/assets/7821ea12-e8c9-411f-ac00-eaf4259dc8b0" width="600px" height="300px">
+      </td>
+    </tr>
+  </table>
+</div>
 <br>
 
-| 일반 로그인 |
-|----------|
-|<img src="https://github.com/user-attachments/assets/a0784f36-9bc1-4d8b-a847-b7760f60a8a3" width="600px" height="300px">|
 
+<div align="center">
+  <table>
+    <tr>
+      <td align="center"><strong>일반 로그인</strong></td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="https://github.com/user-attachments/assets/a0784f36-9bc1-4d8b-a847-b7760f60a8a3" width="600px" height="300px">
+      </td>
+    </tr>
+  </table>
+</div>
 <br>
 
-| 소셜 로그인 |
-|----------|
-|<img src="https://github.com/user-attachments/assets/5131858a-5fbc-4754-95b2-8c8e61fdb674" width="600px" height="300px">|
+
+
+<div align="center">
+  <table>
+    <tr>
+      <td align="center"><strong>소셜 로그인</strong></td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="https://github.com/user-attachments/assets/5131858a-5fbc-4754-95b2-8c8e61fdb674" width="600px" height="300px">
+      </td>
+    </tr>
+  </table>
+</div>
+<br>
 
 - 소셜 로그인은 NextAuth로 구현했습니다.
-- 사용자가 소셜로그인을 할 경우 백엔드한테 사용자의 정보를 post 합니다. 
-<br>
-
+- 사용자가 소셜로그인을 할 경우 백엔드한테 사용자의 정보를 post 합니다.
 
 
 ### [전체 페이지]
 
-| 무한 스크롤 |
-|----------|
-|<img src="https://github.com/user-attachments/assets/46cd82e0-cd8b-4a81-8685-0cc5d0de5373"  width="600px" height="300px">|
-
+<div align="center">
+  <table>
+    <tr>
+      <td align="center"><strong>무한 스크롤</strong></td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="https://github.com/user-attachments/assets/46cd82e0-cd8b-4a81-8685-0cc5d0de5373"  width="600px" height="300px">
+      </td>
+    </tr>
+  </table>
+</div>
 <br>
 
-| 조건 검색 |
-|----------|
-| <img src="https://github.com/user-attachments/assets/a7fff1ee-2626-4b93-887d-48da13460e4c"  width="600px" height="300px">|
 
+<div align="center">
+  <table>
+    <tr>
+      <td align="center"><strong>조건 검색 </strong></td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="https://github.com/user-attachments/assets/a7fff1ee-2626-4b93-887d-48da13460e4c"  width="600px" height="300px">
+      </td>
+    </tr>
+  </table>
+</div>
 <br>
 
-| 초성 검색 |
-|----------|
-|<img src="https://github.com/user-attachments/assets/13615917-bbe1-42fe-94a0-1d42b9c7492a"  width="600px" height="300px">|
 
-
+<div align="center">
+  <table>
+    <tr>
+      <td align="center"><strong>초성 검색 </strong></td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="https://github.com/user-attachments/assets/13615917-bbe1-42fe-94a0-1d42b9c7492a"  width="600px" height="300px">
+      </td>
+    </tr>
+  </table>
+</div>
 <br>
 
 
 ### [상세 페이지]
 
-| 자세한 정보 |
-|----------|
-|<img src="https://github.com/user-attachments/assets/ebba410d-566f-46e3-8657-3ee24750ecfe"  width="600px" height="300px">|
-
+<div align="center">
+  <table>
+    <tr>
+      <td align="center"><strong>자세한 정보</strong></td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="https://github.com/user-attachments/assets/ebba410d-566f-46e3-8657-3ee24750ecfe"  width="600px" height="300px">
+      </td>
+    </tr>
+  </table>
+</div>
 
 <br>
 
-| 카카오톡 공유하기 |
-|----------|
-|<img src="https://github.com/user-attachments/assets/0408fb18-496f-4bd0-96ea-464fde9a6bd0"  width="600px" height="300px">|
 
+<div align="center">
+  <table>
+    <tr>
+      <td align="center"><strong>카카오톡 공유하기</strong></td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="https://github.com/user-attachments/assets/0408fb18-496f-4bd0-96ea-464fde9a6bd0"  width="600px" height="300px">
+      </td>
+    </tr>
+  </table>
+</div>
 <br>
 
-| 리뷰 CRUD |
-|----------|
-|<img src="https://github.com/user-attachments/assets/38bae08f-78a9-444c-871f-3980abd876ad"  width="600px" height="300px">|
 
+<div align="center">
+  <table>
+    <tr>
+      <td align="center"><strong>리뷰 CRUD</strong></td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="https://github.com/user-attachments/assets/38bae08f-78a9-444c-871f-3980abd876ad"  width="600px" height="300px">
+      </td>
+    </tr>
+  </table>
+</div>
 <br>
 
 
 ### [찜 페이지]
 
-
-| 로그인 사용자 |
-|----------|
-|<img src="https://github.com/user-attachments/assets/5dcb7500-a838-477b-9856-7158597fb077"  width="600px" height="300px">|
+<div align="center">
+  <table>
+    <tr>
+      <td align="center"><strong>로그인 사용자</strong></td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="https://github.com/user-attachments/assets/5dcb7500-a838-477b-9856-7158597fb077"  width="600px" height="300px">
+      </td>
+    </tr>
+  </table>
+</div>
 
 <br>
 
-| 비로그인 사용자 |
-|----------|
-|<img src="https://github.com/user-attachments/assets/e5b95ab0-a3e9-474e-bf95-578cad17953d"  width="600px" height="300px">|
 
+<div align="center">
+  <table>
+    <tr>
+      <td align="center"><strong>비로그인 사용자</strong></td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="https://github.com/user-attachments/assets/e5b95ab0-a3e9-474e-bf95-578cad17953d"  width="600px" height="300px">
+      </td>
+    </tr>
+  </table>
+</div>
 <br>
 
 
 
 ### [마이 페이지]
 
-
-| 마이페이지 |
-|----------|
-|<img src="https://github.com/user-attachments/assets/f9123b5e-8da7-4f85-b167-8e568f9a5a3d" width="600px" height="300px">|
-
+<div align="center">
+  <table>
+    <tr>
+      <td align="center"><strong>마이페이지</strong></td>
+    </tr>
+    <tr>
+      <td align="center">
+       <img src="https://github.com/user-attachments/assets/f9123b5e-8da7-4f85-b167-8e568f9a5a3d" width="600px" height="300px">
+      </td>
+    </tr>
+  </table>
+</div>
 <br>
 
 
