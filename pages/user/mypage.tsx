@@ -31,7 +31,11 @@ export default function MyPage() {
   );
 
   if (isLoading) {
-    return <div>Loading data...</div>;
+    return (
+      <div className="flex justify-center items-center w-full h-96">
+        <div className="loading loading-dots loading-lg"></div>
+      </div>
+    );
   }
 
   if (error) {

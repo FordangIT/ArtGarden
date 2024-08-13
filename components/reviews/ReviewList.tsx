@@ -96,7 +96,12 @@ export default function ReviewList({ id, props }: ReviewList_TYPE) {
     }
   );
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center w-full h-96">
+        <div className="loading loading-dots loading-lg"></div>
+      </div>
+    );
 
   const submitUpdate = (reviewId: number) => {
     const updatedReview = {
