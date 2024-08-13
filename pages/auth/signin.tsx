@@ -35,13 +35,10 @@ type FormData = {
 };
 
 export default function SignIn() {
-  //아래 같이 값 가져와주면 됨.
   const router = useRouter();
   const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
   const dispatch = useDispatch();
 
-  const { data: session, status } = useSession();
-  const loading = status === "loading";
   const {
     register,
     handleSubmit,
@@ -51,7 +48,6 @@ export default function SignIn() {
   });
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    // 실제 로그인 로직을 추가할 수 있습니다.
     try {
       const loginInfo = {
         loginid: data.userId,
@@ -60,7 +56,6 @@ export default function SignIn() {
       const result = await loginUser(loginInfo);
       if (result) {
         //이쪽에서 사용자 로그인 상태 바꿔주기.
-        dispatch(logIn());
         alert("로그인 성공");
         router.push("/");
       } else {
@@ -72,145 +67,132 @@ export default function SignIn() {
     }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div className="flex justify-center">
       <div className="w-96 min-h-screen">
-        {session ? (
-          <>
-            {session.user?.name}님 반갑습니다
-            <button onClick={() => signOut()}>sign out</button>
-          </>
-        ) : (
-          <div className="flex flex-col">
-            <div className="py-20">
-              <div className="flex justify-center items-center py-4">
-                <h1 className="text-center text-black text-2xl font-semibold leading-relaxed">
-                  쉽게 가입하고
-                  <br />
-                  간편하게 로그인하세요.
-                </h1>
+        <div className="flex flex-col">
+          <div className="py-20">
+            <div className="flex justify-center items-center py-4">
+              <h1 className="text-center text-black text-2xl font-semibold leading-relaxed">
+                쉽게 가입하고
+                <br />
+                간편하게 로그인하세요.
+              </h1>
+            </div>
+            <div className="">
+              <h2 className="text-center tracking-wide text-sm font-semibold text-[#909093]">
+                문화에서 오는 풍요로움, Artgarden
+              </h2>
+            </div>
+          </div>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col gap-y-4"
+          >
+            <div className="border border-gray-300 rounded-md shadow-sm">
+              <div className="flex mt-1 p-2 w-full border-b border-gray-300">
+                <label className="flex items-center justify-center text-gray-700 p-1">
+                  <CiUser className="w-6 h-6 text-slate-400" />
+                </label>
+                <input
+                  type="text"
+                  {...register("userId")}
+                  placeholder="아이디"
+                  className="block w-full ml-2 font-medium text-slate-700 p-1"
+                />
               </div>
-              <div className="">
-                <h2 className="text-center tracking-wide text-sm font-semibold text-[#909093]">
-                  문화에서 오는 풍요로움, Artgarden
-                </h2>
+
+              <div className="flex mt-1 p-2 w-full border-b border-gray-300">
+                <label className="flex items-center justify-center text-gray-700 p-1">
+                  <CiLock className="w-6 h-6 text-slate-400" />
+                </label>
+                <input
+                  type="password"
+                  {...register("password")}
+                  placeholder="비밀번호"
+                  className="block w-full ml-2"
+                />
               </div>
             </div>
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="flex flex-col gap-y-4"
-            >
-              <div className="border border-gray-300 rounded-md shadow-sm">
-                <div className="flex mt-1 p-2 w-full border-b border-gray-300">
-                  <label className="flex items-center justify-center text-gray-700 p-1">
-                    <CiUser className="w-6 h-6 text-slate-400" />
-                  </label>
-                  <input
-                    type="text"
-                    {...register("userId")}
-                    placeholder="아이디"
-                    className="block w-full ml-2 font-medium text-slate-700 p-1"
-                  />
+            <div>
+              {errors.userId && (
+                <p className="text-red-500 text-sm ">{errors.userId.message}</p>
+              )}
+              {errors.password && (
+                <p className="text-red-500 text-sm ">
+                  {errors.password.message}
+                </p>
+              )}
+            </div>
+            <div className="flex flex-col gap-y-4 mt-4 justify-center items-center">
+              <button
+                type="submit"
+                className="rounded-xl w-full h-[3.1rem] bg-main-pink"
+              >
+                <div className="flex justify-center items-center">
+                  <span className="font-semibold text-lg text-white">
+                    로그인
+                  </span>
                 </div>
-
-                <div className="flex mt-1 p-2 w-full border-b border-gray-300">
-                  <label className="flex items-center justify-center text-gray-700 p-1">
-                    <CiLock className="w-6 h-6 text-slate-400" />
-                  </label>
-                  <input
-                    type="password"
-                    {...register("password")}
-                    placeholder="비밀번호"
-                    className="block w-full ml-2"
-                  />
+              </button>
+              <Link
+                href={`${process.env.NEXT_PUBLIC_FRONTEND_URL}/auth/signup`}
+              >
+                <div className="text-sm underline underline-offset-1">
+                  회원가입
                 </div>
-              </div>
-              <div>
-                {errors.userId && (
-                  <p className="text-red-500 text-sm ">
-                    {errors.userId.message}
-                  </p>
-                )}
-                {errors.password && (
-                  <p className="text-red-500 text-sm ">
-                    {errors.password.message}
-                  </p>
-                )}
-              </div>
-              <div className="flex flex-col gap-y-4 mt-4 justify-center items-center">
+              </Link>
+              <div className="my-10 flex flex-col gap-y-4 w-full">
                 <button
-                  type="submit"
-                  className="rounded-xl w-full h-[3.1rem] bg-main-pink"
+                  type="button"
+                  className="rounded-xl w-full h-[3.1rem] bg-white border-[1px] border-gray-40"
+                  onClick={() =>
+                    signIn("google", {
+                      redirect: true,
+                      callbackUrl: "/"
+                    })
+                  }
                 >
                   <div className="flex justify-center items-center">
-                    <span className="font-semibold text-lg text-white">
-                      로그인
+                    <Image
+                      src="/google_login.png"
+                      alt="구글 로그인 아이콘"
+                      width={100}
+                      height={100}
+                      className="w-5 h-5 mr-2"
+                    />
+                    <span className="font-semibold text-sm text-black">
+                      구글 계정으로 계속하기
                     </span>
                   </div>
                 </button>
-                <Link
-                  href={`${process.env.NEXT_PUBLIC_FRONTEND_URL}/auth/signup`}
+                <button
+                  type="button"
+                  className="rounded-xl w-full h-[3.1rem] bg-[#FFEB00]"
+                  onClick={() =>
+                    signIn("kakao", {
+                      redirect: true,
+                      callbackUrl: "/"
+                    })
+                  }
                 >
-                  <div className="text-sm underline underline-offset-1">
-                    회원가입
+                  <div className="flex justify-center items-center">
+                    <Image
+                      src="/kakao_login.png"
+                      alt="카카오 로그인 아이콘"
+                      width={100}
+                      height={100}
+                      className="w-5 h-5 mr-2"
+                    />
+                    <span className="font-semibold text-sm text-black">
+                      카카오 계정으로 계속하기
+                    </span>
                   </div>
-                </Link>
-                <div className="my-10 flex flex-col gap-y-4 w-full">
-                  <button
-                    type="button"
-                    className="rounded-xl w-full h-[3.1rem] bg-white border-[1px] border-gray-40"
-                    onClick={() =>
-                      signIn("google", {
-                        redirect: true,
-                        callbackUrl: "/"
-                      })
-                    }
-                  >
-                    <div className="flex justify-center items-center">
-                      <Image
-                        src="/google_login.png"
-                        alt="구글 로그인 아이콘"
-                        width={100}
-                        height={100}
-                        className="w-5 h-5 mr-2"
-                      />
-                      <span className="font-semibold text-sm text-black">
-                        구글 계정으로 계속하기
-                      </span>
-                    </div>
-                  </button>
-                  <button
-                    type="button"
-                    className="rounded-xl w-full h-[3.1rem] bg-[#FFEB00]"
-                    onClick={() =>
-                      signIn("kakao", {
-                        redirect: true,
-                        callbackUrl: "/"
-                      })
-                    }
-                  >
-                    <div className="flex justify-center items-center">
-                      <Image
-                        src="/kakao_login.png"
-                        alt="카카오 로그인 아이콘"
-                        width={100}
-                        height={100}
-                        className="w-5 h-5 mr-2"
-                      />
-                      <span className="font-semibold text-sm text-black">
-                        카카오 계정으로 계속하기
-                      </span>
-                    </div>
-                  </button>
-                </div>
+                </button>
               </div>
-            </form>
-          </div>
-        )}
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

@@ -2,25 +2,26 @@ import Image from "next/image";
 import Link from "next/link";
 import Smallbar from "./Smallbar";
 import Sidebar from "./Sidebar";
-import { signIn, signOut, useSession } from "next-auth/react";
 import { FaRegUser } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { checkLogin } from "@/lib/api/userSign";
+import { logoutMember } from "@/lib/api/userSign";
+import { RootState } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut } from "@/redux/slices/checkLoginSlice";
+import { signOut } from "next-auth/react";
 export default function Navbar() {
-  const { data: session, status } = useSession();
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
   const [selected, setSelected] = useState("");
-  const [usualSession, setUsualSession] = useState(false);
   const handleSelect = (menu: string) => {
     setSelected(menu);
   };
-  useEffect(() => {
-    console.log("hi");
-    let res = checkLogin();
-    console.log(res, "navbar res");
-  }, []);
+
   const handleLogout = () => {
+    logoutMember();
     signOut();
+    dispatch(logOut());
   };
   return (
     <>
@@ -77,7 +78,7 @@ export default function Navbar() {
               <div className="flex justify-center items-center">
                 <div className="flex justify-around items-center bg-black w-32 h-10 border-2 border-main-yellow rounded-2xl ml-12 mr-4">
                   <div className="font-semibold text-xl text-main-yellow">
-                    {session ? (
+                    {isLoggedIn ? (
                       <button onClick={handleLogout}>Log Out</button>
                     ) : (
                       <Link href="/auth/signin">
