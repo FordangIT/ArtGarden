@@ -17,7 +17,6 @@ export const checkLogin = async () => {
         withCredentials: true // 쿠키를 포함한 요청 설정
       }
     );
-    console.log(res.data, new Date());
     return res.data;
   } catch (error) {
     console.log(error);
@@ -39,8 +38,6 @@ export const postUserId = async (
     if (response.status !== 200) {
       throw new Error("Failed to post user ID");
     }
-    console.log("User ID posted successfully");
-    console.log(response, "소셜 로그인 때 백엔드한테 사용자 값 가져오기");
     return response;
   } catch (error) {
     console.error("Error posting user ID:", error);

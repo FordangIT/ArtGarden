@@ -2,7 +2,7 @@ import clientPromise from "../utils/mongodb";
 export async function loadBest() {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/ranks/20240715`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/ranks/20240812`
     );
     if (!response.ok) {
       throw new Error("failed to fetch data");
@@ -67,10 +67,13 @@ export async function loadNewPopup() {
   const db = client.db("popupstores");
   const collections = db.collection("allPopupstores");
   const data = await collections.find({}).toArray();
-  const bestPopup = data.map((item) => ({
-    ...item,
-    _id: item._id.toString()
-  }));
+  const bestPopup = data
+    .map((item) => ({
+      ...item,
+      _id: item._id.toString()
+    }))
+    .slice(-9)
+    .reverse();
   return bestPopup;
 }
 
@@ -79,10 +82,13 @@ export async function loadBestPopup() {
   const db = client.db("popupstores");
   const collections = db.collection("allPopupstores");
   const data = await collections.find({}).toArray();
-  const bestPopup = data.map((item) => ({
-    ...item,
-    _id: item._id.toString()
-  }));
+  const bestPopup = data
+    .map((item) => ({
+      ...item,
+      _id: item._id.toString()
+    }))
+    .slice(-12)
+    .reverse();
   return bestPopup;
 }
 
