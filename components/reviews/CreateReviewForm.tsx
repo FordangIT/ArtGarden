@@ -1,11 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { createReview } from "@/lib/api/reviews";
-//import { useSession } from "next-auth/react";
 import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "@/redux/slices/modalSlice";
 import { ModalComponent } from "@/lib/components/Modal";
-import { checkLogin } from "@/lib/api/userSign";
 import { getMemberDetails } from "@/lib/api/mypage";
 import { RootState } from "@/redux/store";
 interface PropsType {
@@ -22,7 +20,6 @@ export interface UserDetailType {
 
 export default function CreateReviewForm({ id }: PropsType) {
   const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
-  //const { data: session } = useSession();
   const queryClient = useQueryClient();
   const [rate, setRate] = useState(1);
   const [content, setContent] = useState("");
@@ -69,13 +66,6 @@ export default function CreateReviewForm({ id }: PropsType) {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const memberDataUpdate = async () => {
-      let userDetail = await getMemberDetails();
-      setUserDetail(userDetail);
-    };
-
-    await memberDataUpdate();
-
     if (!isLoggedIn) {
       dispatch(
         openModal({
@@ -86,18 +76,25 @@ export default function CreateReviewForm({ id }: PropsType) {
       );
       return;
     }
-  };
+    const memberDataUpdate = async () => {
+      try {
+        let userDetail = await getMemberDetails();
+        setUserDetail(userDetail);
+      } catch (error) {
+        console.error("Failed to fetch member details:", error);
+      }
+    };
+    memberDataUpdate();
 
-  // useEffect(() => {
-  //   mutation.mutate({
-  //     objectid: String(id),
-  //     content,
-  //     rate: Number(rate),
-  //     memberid: userDetail?.loginid
-  //   });
-  //   setContent("");
-  //   setRate(5);
-  // }, [userDetail, content, id, mutation, rate]);
+    mutation.mutate({
+      objectid: String(id),
+      content,
+      rate: Number(rate),
+      memberid: userDetail.loginid
+    });
+    setContent("");
+    setRate(5);
+  };
 
   return (
     <div className="flex justify-start items-center w-full">
