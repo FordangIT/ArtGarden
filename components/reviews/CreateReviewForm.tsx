@@ -1,21 +1,36 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { createReview } from "@/lib/api/reviews";
-import { useSession } from "next-auth/react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { openModal } from "@/redux/slices/modalSlice";
 import { ModalComponent } from "@/lib/components/Modal";
-import { checkLogin } from "@/lib/api/userSign";
+import { getMemberDetails } from "@/lib/api/mypage";
+import { RootState } from "@/redux/store";
 interface PropsType {
   id: string;
 }
 
+export interface UserDetailType {
+  loginid: string;
+  name: string;
+  email: string;
+  nickname: string;
+  msg: null;
+}
+
 export default function CreateReviewForm({ id }: PropsType) {
-  const { data: session } = useSession();
+  const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
   const queryClient = useQueryClient();
-  const [rate, setRate] = useState(1);
+  const [rate, setRate] = useState(5);
   const [content, setContent] = useState("");
   const dispatch = useDispatch();
+  const [userDetail, setUserDetail] = useState<UserDetailType>({
+    loginid: "",
+    name: "",
+    email: "",
+    nickname: "",
+    msg: null
+  });
 
   const mutation = useMutation(createReview, {
     onMutate: async (newReview) => {
@@ -48,9 +63,10 @@ export default function CreateReviewForm({ id }: PropsType) {
     setRate(selectedRate);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!session) {
+
+    if (!isLoggedIn) {
       dispatch(
         openModal({
           message: "로그인이 필요합니다.",
@@ -60,14 +76,24 @@ export default function CreateReviewForm({ id }: PropsType) {
       );
       return;
     }
-    mutation.mutate({
-      objectid: String(id),
-      content,
-      rate: Number(rate),
-      memberid: session.user?.id || "guest"
-    });
+    const memberDataUpdate = async () => {
+      try {
+        let userDetail = await getMemberDetails();
+        setUserDetail(userDetail);
+
+        mutation.mutate({
+          objectid: String(id),
+          content,
+          rate: Number(rate),
+          memberid: userDetail.loginid
+        });
+      } catch (error) {
+        console.error("Failed to fetch member details:", error);
+      }
+    };
+    memberDataUpdate();
     setContent("");
-    setRate(5);
+    setRate(1);
   };
 
   return (

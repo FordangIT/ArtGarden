@@ -7,7 +7,8 @@ import { updateBest, updateNew } from "@/redux/slices/selectSlice";
 import { RootState } from "@/redux/store";
 import { StaticImageData } from "next/image";
 import { useSession } from "next-auth/react";
-import { postUserId } from "@/lib/api/userSign";
+import { checkLogin, postUserId } from "@/lib/api/userSign";
+import { logIn, logOut } from "@/redux/slices/checkLoginSlice";
 import {
   loadNew,
   loadBest,
@@ -18,7 +19,7 @@ import {
   loadBestPopup,
   loadMainBannerPopup
 } from "@/lib/api/loadData";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 export interface Performance_TYPE {
   id: string;
   _id?: string;
@@ -133,18 +134,11 @@ interface AllData_TYPE {
   mainBanner: MainBannerPopupStore_TYPE[];
 }
 
-interface SessionWithId {
-  user: {
-    id?: string | null;
-    name?: string | null;
-    email?: string | null;
-    image?: string | null;
-  };
-  expires: string;
-}
 export default function Home(props: AllData_TYPE) {
-  const { data: session, status } = useSession();
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
+  const { data: session, status } = useSession();
+  const [isLoading, setIsLoading] = useState(true);
   const selectedBest = useSelector(
     (state: RootState) => state.selected.best || ""
   );
@@ -182,15 +176,31 @@ export default function Home(props: AllData_TYPE) {
         return props.new; // 기본값 설정 (필요 시 조정)
     }
   })();
+
   useEffect(() => {
-    if (session && session.user?.id) {
-      const loginid = session.user.id as string;
-      const name = session.user.name as string;
-      const email = session.user.email as string;
-      const nickname = "";
-      postUserId({ loginid, name, email, nickname });
-    }
-  }, [session]);
+    const checkLoginState = async () => {
+      if (status === "authenticated") {
+        const loginid = session.user.id as string;
+        const name = session.user.name as string;
+        const email = session.user.email as string;
+        const nickname = "";
+        await postUserId({ loginid, name, email, nickname });
+      }
+
+      let res = await checkLogin();
+      res ? dispatch(logIn()) : dispatch(logOut());
+      setIsLoading(false);
+    };
+    checkLoginState();
+  }, [status]);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center w-full h-96">
+        <div className="loading loading-dots loading-lg"></div>
+      </div>
+    );
+  }
   return (
     <div className="flex justify-center items-center w-full">
       <div className="w-full ">

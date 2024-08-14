@@ -5,7 +5,11 @@ import { updateReview } from "@/lib/api/reviews";
 import DeleteReviewButton from "./DeleteReviewButton";
 import { ReviewData, DetailReview_TYPE } from "@/pages/performances/[id]";
 import axios from "axios";
-import { useSession } from "next-auth/react"; // NextAuth에서 세션 가져오기
+
+import { UserDetailType } from "./CreateReviewForm";
+import { getMemberDetails } from "@/lib/api/mypage";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 interface ReviewList_TYPE {
   id: string;
@@ -20,14 +24,43 @@ const fetchReviews = async (performId: string, pageNo: number) => {
 };
 
 export default function ReviewList({ id, props }: ReviewList_TYPE) {
-  const { data: session } = useSession(); // 세션 정보 가져오기
+  const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
   const [pageNo, setPageNo] = useState(props.pageNo);
   const queryClient = useQueryClient();
   const { data, isLoading } = useQuery(["reviews", id, pageNo], () =>
     fetchReviews(id, pageNo)
   );
+  const [userDetail, setUserDetail] = useState<UserDetailType>({
+    loginid: "",
+    name: "",
+    email: "",
+    nickname: "",
+    msg: null
+  });
 
   const reviews = data?.datalist || [];
+
+  const [editingReview, setEditingReview] = useState<ReviewData | null>(null);
+  const [reviewContents, setReviewContents] = useState<{
+    [key: number]: string;
+  }>({});
+  const [reviewRatings, setReviewRatings] = useState<{ [key: number]: number }>(
+    {}
+  );
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      const memberDataUpdate = async () => {
+        try {
+          let userDetail = await getMemberDetails();
+          setUserDetail(userDetail);
+        } catch (error) {
+          console.error("Failed to fetch member details:", error);
+        }
+      };
+      memberDataUpdate();
+    }
+  }, [isLoggedIn]);
   useEffect(() => {
     if (pageNo < props.totalPages) {
       queryClient.prefetchQuery(["reviews", id, pageNo + 1], () =>
@@ -35,15 +68,6 @@ export default function ReviewList({ id, props }: ReviewList_TYPE) {
       );
     }
   }, [id, pageNo, queryClient, props.totalPages]);
-
-  const [editingReview, setEditingReview] = useState<ReviewData | null>(null);
-  const [reviewContents, setReviewContents] = useState<{
-    [key: number]: string;
-  }>({});
-  // 리뷰 별점
-  const [reviewRatings, setReviewRatings] = useState<{ [key: number]: number }>(
-    {}
-  );
 
   const { mutate: updateMutate } = useMutation(
     (updatedReview: { id: number; review: Partial<ReviewData> }) =>
@@ -62,7 +86,6 @@ export default function ReviewList({ id, props }: ReviewList_TYPE) {
         if (context?.previousReviews) {
           queryClient.setQueryData(["reviews", id], context.previousReviews);
         } else {
-          // context가 유효하지 않을 경우의 에러 처리
           console.error("Error: Missing context with previous review data");
         }
       },
@@ -73,7 +96,12 @@ export default function ReviewList({ id, props }: ReviewList_TYPE) {
     }
   );
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center w-full h-96">
+        <div className="loading loading-dots loading-lg"></div>
+      </div>
+    );
 
   const submitUpdate = (reviewId: number) => {
     const updatedReview = {
@@ -121,7 +149,7 @@ export default function ReviewList({ id, props }: ReviewList_TYPE) {
             reviews.map((el: any) => {
               const isEditing =
                 editingReview && editingReview.reviewid === el.reviewid;
-              const isAuthor = session?.user.id === el.memberid;
+              const isAuthor = userDetail.loginid == el.memberid;
               return (
                 <div
                   key={el.reviewid}

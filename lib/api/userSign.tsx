@@ -22,6 +22,7 @@ export const checkLogin = async () => {
     console.log(error);
   }
 };
+
 //사용자 소셜 로그인할 때 백엔드한테 id 보내기
 export const postUserId = async (
   loginData: OauthLoginData_TYPE["loginData"]
@@ -37,8 +38,6 @@ export const postUserId = async (
     if (response.status !== 200) {
       throw new Error("Failed to post user ID");
     }
-    console.log("User ID posted successfully");
-    console.log(response, "소셜 로그인 때 백엔드한테 사용자 값 가져오기");
     return response;
   } catch (error) {
     console.error("Error posting user ID:", error);
@@ -92,7 +91,8 @@ export const loginUser = async (loginInfo: any) => {
       {
         headers: {
           "Content-Type": "application/json"
-        }
+        },
+        withCredentials: true
       }
     );
 
