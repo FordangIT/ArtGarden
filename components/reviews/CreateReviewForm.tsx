@@ -21,7 +21,7 @@ export interface UserDetailType {
 export default function CreateReviewForm({ id }: PropsType) {
   const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
   const queryClient = useQueryClient();
-  const [rate, setRate] = useState(1);
+  const [rate, setRate] = useState(5);
   const [content, setContent] = useState("");
   const dispatch = useDispatch();
   const [userDetail, setUserDetail] = useState<UserDetailType>({
@@ -80,20 +80,20 @@ export default function CreateReviewForm({ id }: PropsType) {
       try {
         let userDetail = await getMemberDetails();
         setUserDetail(userDetail);
+
+        mutation.mutate({
+          objectid: String(id),
+          content,
+          rate: Number(rate),
+          memberid: userDetail.loginid
+        });
       } catch (error) {
         console.error("Failed to fetch member details:", error);
       }
     };
     memberDataUpdate();
-
-    mutation.mutate({
-      objectid: String(id),
-      content,
-      rate: Number(rate),
-      memberid: userDetail.loginid
-    });
     setContent("");
-    setRate(5);
+    setRate(1);
   };
 
   return (
