@@ -14,17 +14,7 @@ interface MemberDetails {
 }
 export default function MyPage() {
   const router = useRouter();
-  const { data: session } = useSession();
-  //const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
-  const [usualSession, setUsualSession] = useState(false);
-  useEffect(() => {
-    const checkLoginState = async () => {
-      let res = await checkLogin();
-      setUsualSession(res);
-    };
-    checkLoginState();
-  }, []);
-
+  const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
   const { data, error, isLoading } = useQuery<MemberDetails>(
     "memberDetails",
     getMemberDetails
@@ -42,7 +32,7 @@ export default function MyPage() {
     return <div>an error occured</div>;
   }
 
-  if (!session && !usualSession) {
+  if (!isLoggedIn) {
     router.push(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/auth/signin`);
   }
   const handleClick = async (loginid: string) => {
