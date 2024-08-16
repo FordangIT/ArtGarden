@@ -241,13 +241,14 @@ Artgarden은 사용자들이 다양한 문화 활동을 쉽게 접하고 적극�
     </tr>
     <tr>
       <td align="center">
-        <img src="https://github.com/user-attachments/assets/7821ea12-e8c9-411f-ac00-eaf4259dc8b0" width="600px" height="300px">
+        <img src="https://github.com/user-attachments/assets/5aded8d6-f5ff-4efa-8106-ff16b16d0aac" width="600px" height="300px">
       </td>
     </tr>
   </table>
 </div>
 
 <br>
+
 
 #### 📍구현 기능
 
