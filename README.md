@@ -241,7 +241,7 @@ Artgarden은 사용자들이 다양한 문화 활동을 쉽게 접하고 적극�
     </tr>
     <tr>
       <td align="center">
-        <img src="https://github.com/user-attachments/assets/5aded8d6-f5ff-4efa-8106-ff16b16d0aac" width="600px" height="300px">
+        <img src="https://github.com/user-attachments/assets/96c13273-7402-4391-8062-5a91aebc99e6" width="600px" height="300px">
       </td>
     </tr>
   </table>
