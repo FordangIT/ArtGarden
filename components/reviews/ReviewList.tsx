@@ -18,23 +18,24 @@ interface ReviewList_TYPE {
 
 const fetchReviews = async (performId: string, pageNo: number) => {
   const res = await axios.get(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/reviewList/${performId}?page=${pageNo}&size=4`
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/reviewList/${performId}?page=${pageNo}&size=3`
   );
   return res.data;
 };
 
 export default function ReviewList({ id, props }: ReviewList_TYPE) {
   const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
-  const [pageNo, setPageNo] = useState(props.pageNo);
+  const [pageNo, setPageNo] = useState(1);
   const queryClient = useQueryClient();
-  const { data, isLoading } = useQuery(["reviews", id, pageNo], () =>
-    fetchReviews(id, pageNo)
-  );
+  const { isLoading, isError, error, data, isFetching, isPreviousData } =
+    useQuery(["reviews", id, pageNo], () => fetchReviews(id, pageNo), {
+      keepPreviousData: true
+    });
   const [userDetail, setUserDetail] = useState<UserDetailType>({
-    loginid: "",
-    name: "",
-    email: "",
-    nickname: "",
+    loginid: "_",
+    name: "_",
+    email: "_",
+    nickname: "_",
     msg: null
   });
 
@@ -140,7 +141,11 @@ export default function ReviewList({ id, props }: ReviewList_TYPE) {
       [reviewId]: newRating
     }));
   };
-
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) {
+    const errorMessage = (error as Error).message;
+    return <div>{errorMessage}</div>;
+  }
   return (
     <div className="flex-col w-full">
       <div className="flex justify-center w-full ">
@@ -221,20 +226,25 @@ export default function ReviewList({ id, props }: ReviewList_TYPE) {
 
       <div className="flex justify-around w-full py-10">
         <button
-          onClick={() => setPageNo((prev) => prev - 1)}
-          className={pageNo === 1 ? "text-gray-600" : "text-white"}
+          onClick={() => setPageNo((old) => Math.max(old - 1, 1))}
+          className={pageNo === 1 ? "text-white" : "text-gray-600"}
           disabled={pageNo === 1}
         >
           <FaArrowAltCircleLeft className=" bg-white w-9 h-6" />
         </button>
         <span className="text-black font-semibold">Page {pageNo}</span>
         <button
-          onClick={() => setPageNo((prev) => prev + 1)}
-          className={props.hasNext ? "text-red-500" : "text-gray-600"}
-          disabled={pageNo >= props.totalPages}
+          onClick={() => {
+            if (!isPreviousData && data.hasNext) {
+              setPageNo((old) => old + 1);
+            }
+          }}
+          className={data.hasNext ? "text-gray-600" : "text-white"}
+          disabled={isPreviousData || !data?.hasNext}
         >
           <FaArrowAltCircleRight className=" bg-white w-9 h-6" />
         </button>
+        {isFetching ? <span>Loading...</span> : null}
       </div>
     </div>
   );

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { CiUser, CiLock, CiMail } from "react-icons/ci";
 import { checkLoginId, joinMember } from "@/lib/api/userSign";
 import { useRouter } from "next/router";
@@ -54,14 +56,27 @@ const Signup: React.FC = () => {
     register,
     handleSubmit,
     getValues,
+    setError,
+    clearErrors,
     formState: { errors }
   } = useForm<SignupFormValues>({
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
+    mode: "onSubmit"
   });
   const router = useRouter();
   const onSubmit: SubmitHandler<SignupFormValues> = async (data) => {
     if (!isIdChecked) {
-      alert("아이디 중복 확인을 해주세요.");
+      toast.error("아이디 중복 확인을 해주세요.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        className: "toast-css"
+      });
       return;
     }
     try {
@@ -72,33 +87,83 @@ const Signup: React.FC = () => {
         nickname: data.nickname,
         email: data.email
       });
-      alert("회원가입 성공!");
+      toast.success("회원가입이 완료되었습니다", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light"
+      });
       router.push(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/auth/signin`);
     } catch (error) {
-      alert("회원가입 실패! 다시 시도해 주세요.");
+      toast.error("회원가입 실패! 다시 시도해 주세요.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light"
+      });
       console.error("회원가입 중 에러 발생:", error);
     }
   };
   const handleIdCheck = async () => {
     const userId = getValues("userId");
     if (!userId) {
-      alert("아이디를 입력하세요.");
+      setError("userId", {
+        type: "manual",
+        message: "아이디를 입력하세요."
+      });
       return;
     }
     try {
       const response = await checkLoginId(userId);
-      if (response.data) {
-        alert("이미 사용 중인 아이디입니다.");
+      if (response) {
+        toast.error("이미 사용 중인 아이디입니다.", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light"
+        });
       } else {
-        alert("사용 가능한 아이디입니다.");
+        toast.success("사용 가능한 아이디입니다.", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light"
+        });
         setIsIdChecked(true);
+        clearErrors("userId");
       }
     } catch (error) {
-      console.error("아이디 중복 확인 중 에러 발생:", error);
-      alert("아이디 중복 확인에 실패했습니다.");
+      toast.warn("아이디 중복 확인에 실패했습니다.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light"
+      });
     }
   };
-  const onSubmitButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const onSubmitButtonClick = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
     event.preventDefault();
     handleSubmit(onSubmit)();
   };
@@ -119,8 +184,13 @@ const Signup: React.FC = () => {
                 {...register("userId")}
                 placeholder="아이디"
                 className=" block w-full ml-2 font-medium text-slate-700 p-1"
+                maxLength={20}
               />
-              <button onClick={handleIdCheck} className="text-sm w-20">
+              <button
+                type="button"
+                onClick={handleIdCheck}
+                className="text-sm w-32"
+              >
                 중복 확인
               </button>
             </div>
@@ -134,6 +204,7 @@ const Signup: React.FC = () => {
                 {...register("password")}
                 placeholder="비밀번호"
                 className=" block w-full ml-2"
+                maxLength={16}
               />
             </div>
             <div className="flex mt-1 p-2 w-full border-b border-gray-300">
@@ -145,6 +216,7 @@ const Signup: React.FC = () => {
                 {...register("nickname")}
                 placeholder="별명"
                 className="block w-full ml-2 font-medium text-slate-700 p-1"
+                maxLength={10}
               />
             </div>
             <div className="flex mt-1 p-2 w-full border-b border-gray-300">
@@ -156,6 +228,7 @@ const Signup: React.FC = () => {
                 {...register("name")}
                 placeholder="이름"
                 className="block w-full ml-2 font-medium text-slate-700 p-1"
+                maxLength={30}
               />
             </div>
             <div className="flex mt-1 p-2 w-full ">
@@ -167,6 +240,7 @@ const Signup: React.FC = () => {
                 {...register("email")}
                 placeholder="이메일 주소"
                 className="block w-full ml-2"
+                maxLength={50}
               />
             </div>
           </div>
@@ -197,6 +271,7 @@ const Signup: React.FC = () => {
           </button>
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 };
