@@ -32,10 +32,10 @@ export default function ReviewList({ id, props }: ReviewList_TYPE) {
       keepPreviousData: true
     });
   const [userDetail, setUserDetail] = useState<UserDetailType>({
-    loginid: "",
-    name: "",
-    email: "",
-    nickname: "",
+    loginid: "_",
+    name: "_",
+    email: "_",
+    nickname: "_",
     msg: null
   });
 
