@@ -7,7 +7,7 @@ export default function FavoritesPage() {
   const { data: session } = useSession(); // 세션 데이터를 가져옴
   if (session) {
     return (
-      <div className="flex-col">
+      <div className="flex-col min-h-screen">
         <div className="flex justify-center items-center text-4xl py-12 font-extrabold">
           찜한목록
         </div>
@@ -16,7 +16,7 @@ export default function FavoritesPage() {
     );
   } else {
     return (
-      <div className="flex-col">
+      <div className="flex-col min-h-screen">
         <div className="flex justify-center items-center text-4xl py-12 font-extrabold">
           찜한목록
         </div>

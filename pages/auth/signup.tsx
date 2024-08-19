@@ -168,14 +168,14 @@ const Signup: React.FC = () => {
     handleSubmit(onSubmit)();
   };
   return (
-    <div className="flex items-center justify-center bg-white">
-      <div className="bg-white p-8 max-w-md w-full">
-        <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">
+    <div className="flex  justify-center bg-white min-h-screen">
+      <div className="bg-white max-w-md w-full">
+        <h2 className="text-3xl font-bold m-10 mt-48 text-gray-800 text-center">
           회원가입
         </h2>
-        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+        <form className="" onSubmit={handleSubmit(onSubmit)}>
           <div className="border border-gray-300 rounded-md shadow-sm">
-            <div className="flex mt-1 p-2 w-full border-b border-gray-300">
+            <div className="flex mt-1 p-3 w-full border-b border-gray-300">
               <label className="flex items-center justify-center text-gray-700 p-1">
                 <CiUser className="w-6 h-6 text-slate-400" />
               </label>
@@ -195,7 +195,7 @@ const Signup: React.FC = () => {
               </button>
             </div>
 
-            <div className="flex mt-1 p-2 w-full border-b border-gray-300">
+            <div className="flex mt-1 p-3 w-full border-b border-gray-300">
               <label className="flex items-center justify-center text-gray-700 p-1">
                 <CiLock className="w-6 h-6 text-slate-400" />
               </label>
@@ -207,7 +207,7 @@ const Signup: React.FC = () => {
                 maxLength={16}
               />
             </div>
-            <div className="flex mt-1 p-2 w-full border-b border-gray-300">
+            <div className="flex mt-1 p-3 w-full border-b border-gray-300">
               <label className="flex items-center justify-center text-gray-700 p-1">
                 <CiUser className="w-6 h-6 text-slate-400" />
               </label>
@@ -219,7 +219,7 @@ const Signup: React.FC = () => {
                 maxLength={10}
               />
             </div>
-            <div className="flex mt-1 p-2 w-full border-b border-gray-300">
+            <div className="flex mt-1 p-3 w-full border-b border-gray-300">
               <label className="flex items-center justify-center text-gray-700 p-1">
                 <CiUser className="w-6 h-6 text-slate-400" />
               </label>
@@ -231,7 +231,7 @@ const Signup: React.FC = () => {
                 maxLength={30}
               />
             </div>
-            <div className="flex mt-1 p-2 w-full ">
+            <div className="flex mt-1 p-3 w-full ">
               <label className="flex items-center justify-center text-gray-700 p-1">
                 <CiMail className="w-6 h-6 text-slate-400" />
               </label>
@@ -244,7 +244,7 @@ const Signup: React.FC = () => {
               />
             </div>
           </div>
-          <div className="text-sm font-thin">
+          <div className="text-sm font-thin mt-4">
             {errors.userId && (
               <p className="text-red-500">{errors.userId.message}</p>
             )}
@@ -265,7 +265,7 @@ const Signup: React.FC = () => {
           <button
             type="submit"
             onClick={onSubmitButtonClick}
-            className="w-full py-3 px-4 bg-main-pink font-semibold text-white rounded-md"
+            className="w-full p-3 px-4 bg-main-pink font-semibold text-white rounded-md text-lg my-4"
           >
             승인 요청
           </button>
