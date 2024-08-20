@@ -1,8 +1,16 @@
 import clientPromise from "../utils/mongodb";
 export async function loadBest() {
   try {
+    let today = new Date();
+    let year = today.getFullYear();
+    let month = today.getMonth() + 1;
+    let day = today.getDate();
+    let lately =
+      String(year) +
+      String(month).padStart(2, "0") +
+      String(day - 2).padStart(2, "0");
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/ranks/20240812`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/ranks/${lately}`
     );
     if (!response.ok) {
       throw new Error("failed to fetch data");
