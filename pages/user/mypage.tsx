@@ -1,11 +1,13 @@
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useQuery } from "react-query";
-import { getMemberDetails, leaveMember } from "@/lib/api/mypage";
-import { useState, useEffect } from "react";
+import { useMutation, useQuery } from "react-query";
+import {
+  getMemberDetails,
+  leaveMember,
+  updateMemberInfo
+} from "@/lib/api/mypage";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { checkLogin } from "@/lib/api/userSign";
+import { useState, useRef } from "react";
 interface MemberDetails {
   name: string;
   loginid: string;
@@ -13,13 +15,14 @@ interface MemberDetails {
   nickname: string;
 }
 export default function MyPage() {
+  const clickupdate = useRef("");
   const router = useRouter();
   const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
   const { data, error, isLoading } = useQuery<MemberDetails>(
     "memberDetails",
     getMemberDetails
   );
-
+  const [nickname, setNickname] = useState<string>("");
   if (isLoading) {
     return (
       <div className="flex justify-center items-center w-full h-96">
@@ -48,6 +51,11 @@ export default function MyPage() {
       alert("회원탈퇴가 실패하였습니다. 다시 시도해 주세요.");
     }
   };
+
+  const handleInputChange = (name: string) => {
+    setNickname(name);
+  };
+
   return (
     <>
       {data && (
@@ -83,8 +91,18 @@ export default function MyPage() {
               </div>
               <div className="flex flex-row py-4 border-b-[1px] border-slate-300">
                 <div className="basis-1/4 font-semibold">닉네임</div>
-                <div className="basis-3/4 flex justify-end lg:justify-start">
-                  {data.nickname}
+                <div className="basis-2/4 flex justify-end lg:justify-start">
+                  <input
+                    type="text"
+                    onChange={(e) => handleInputChange(e.target.value)}
+                    value={nickname}
+                  />
+                  <button
+                    type="button"
+                    className="basis-1/4 flex justify-end items-center text-sm underline cursor-pointer"
+                  >
+                    변경
+                  </button>
                 </div>
               </div>
               <div className="flex justify-end py-6 text-base underline">
