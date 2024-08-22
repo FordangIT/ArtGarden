@@ -7,7 +7,7 @@ import {
 } from "@/lib/api/mypage";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 interface MemberDetails {
   name: string;
   loginid: string;
@@ -15,7 +15,6 @@ interface MemberDetails {
   nickname: string;
 }
 export default function MyPage() {
-  const clickupdate = useRef("");
   const router = useRouter();
   const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
   const { data, error, isLoading } = useQuery<MemberDetails>(
@@ -23,6 +22,13 @@ export default function MyPage() {
     getMemberDetails
   );
   const [nickname, setNickname] = useState<string>("");
+  const [readOnlyStatus, setReadOnly] = useState<boolean>(true);
+  const [buttonName, setButtonName] = useState<string>("변경");
+
+  useEffect(() => {
+    if (data) setNickname(data.nickname);
+  }, [data]);
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center w-full h-96">
@@ -38,6 +44,7 @@ export default function MyPage() {
   if (!isLoggedIn) {
     router.push(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/auth/signin`);
   }
+
   const handleClick = async (loginid: string) => {
     try {
       const res = await leaveMember(loginid);
@@ -56,6 +63,22 @@ export default function MyPage() {
     setNickname(name);
   };
 
+  const handleButton = async () => {
+    setReadOnly((state) => !state);
+    if (buttonName === "완료") {
+      setButtonName("변경");
+      if (data) {
+        let infos = {
+          loginid: data.loginid,
+          nickname: nickname
+        };
+        console.log(infos, "front infos");
+        await updateMemberInfo(infos);
+      }
+    } else {
+      setButtonName("완료");
+    }
+  };
   return (
     <>
       {data && (
@@ -96,12 +119,27 @@ export default function MyPage() {
                     type="text"
                     onChange={(e) => handleInputChange(e.target.value)}
                     value={nickname}
+                    readOnly={readOnlyStatus}
+                    minLength={2}
+                    maxLength={10}
+                    className={
+                      "text-black" +
+                      (readOnlyStatus
+                        ? " outline-none"
+                        : " outline-none border-[1px] border-slate-900")
+                    }
                   />
                   <button
                     type="button"
-                    className="basis-1/4 flex justify-end items-center text-sm underline cursor-pointer"
+                    className={
+                      "w-20 h-20 basis-1/4 flex justify-end items-center text-sm cursor-pointer reset" +
+                      (buttonName === "변경"
+                        ? "bg-slate-400 text-black"
+                        : "bg-blue-600 text-blue-600")
+                    }
+                    onClick={handleButton}
                   >
-                    변경
+                    {buttonName}
                   </button>
                 </div>
               </div>
