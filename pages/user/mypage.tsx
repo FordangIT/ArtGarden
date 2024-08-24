@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useMutation, useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import {
   getMemberDetails,
   leaveMember,
@@ -8,26 +8,56 @@ import {
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { useState, useRef, useEffect } from "react";
+import * as yup from "yup";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 interface MemberDetails {
   name: string;
   loginid: string;
   email: string;
   nickname: string;
 }
+interface UpdateUserNickname {
+  nickname: string;
+}
+
+const schema = yup.object().shape({
+  nickname: yup
+    .string()
+    .matches(
+      /^[가-힣a-zA-Z0-9]{2,10}$/,
+      "- 별명은 2~10자 이내의 한글, 영문, 숫자만 사용 가능합니다."
+    )
+    .required("- 별명은 필수입니다.")
+});
+
 export default function MyPage() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
   const { data, error, isLoading } = useQuery<MemberDetails>(
     "memberDetails",
     getMemberDetails
   );
-  const [nickname, setNickname] = useState<string>("");
   const [readOnlyStatus, setReadOnly] = useState<boolean>(true);
   const [buttonName, setButtonName] = useState<string>("변경");
 
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    setError,
+    clearErrors,
+    formState: { errors }
+  } = useForm<UpdateUserNickname>({
+    resolver: yupResolver(schema),
+    mode: "onSubmit",
+    defaultValues: { nickname: data?.nickname || "" }
+  });
+
   useEffect(() => {
-    if (data) setNickname(data.nickname);
-  }, [data]);
+    if (data) clearErrors();
+  }, [data, clearErrors]);
 
   if (isLoading) {
     return (
@@ -59,26 +89,27 @@ export default function MyPage() {
     }
   };
 
-  const handleInputChange = (name: string) => {
-    setNickname(name);
-  };
-
   const handleButton = async () => {
-    setReadOnly((state) => !state);
     if (buttonName === "완료") {
-      setButtonName("변경");
-      if (data) {
-        let infos = {
-          loginid: data.loginid,
-          nickname: nickname
-        };
-        console.log(infos, "front infos");
-        await updateMemberInfo(infos);
-      }
+      handleSubmit(async ({ nickname }) => {
+        try {
+          await updateMemberInfo({ loginid: data!.loginid, nickname });
+          queryClient.invalidateQueries("memberDetails");
+          setReadOnly(true);
+          setButtonName("변경");
+        } catch (error) {
+          setError("nickname", {
+            type: "manual",
+            message: "닉네임 변경에 실패했습니다. 다시 시도해 주세요."
+          });
+        }
+      })();
     } else {
+      setReadOnly(false);
       setButtonName("완료");
     }
   };
+
   return (
     <>
       {data && (
@@ -112,38 +143,38 @@ export default function MyPage() {
                   {data.name}
                 </div>
               </div>
-              <div className="flex flex-row py-4 border-b-[1px] border-slate-300">
+              <div className="flex flex-row justify-center items-center py-2 border-b-[1px] border-slate-300">
                 <div className="basis-1/4 font-semibold">닉네임</div>
-                <div className="basis-2/4 flex justify-end lg:justify-start">
+                <div className="basis-3/4 flex justify-end lg:justify-start items-center">
                   <input
                     type="text"
-                    onChange={(e) => handleInputChange(e.target.value)}
-                    value={nickname}
+                    {...register("nickname")}
                     readOnly={readOnlyStatus}
-                    minLength={2}
-                    maxLength={10}
-                    className={
-                      "text-black" +
-                      (readOnlyStatus
-                        ? " outline-none"
-                        : " outline-none border-[1px] border-slate-900")
-                    }
+                    className={`w-full max-w-[11rem] py-2 mr-2 ${
+                      readOnlyStatus
+                        ? "outline-none bg-white"
+                        : "border-slate-900"
+                    } text-black`}
                   />
                   <button
                     type="button"
-                    className={
-                      "w-20 h-20 basis-1/4 flex justify-end items-center text-sm cursor-pointer reset" +
-                      (buttonName === "변경"
-                        ? "bg-slate-400 text-black"
-                        : "bg-blue-600 text-blue-600")
-                    }
+                    className={`px-3 py-2 text-sm cursor-pointer h-full ${
+                      buttonName === "변경"
+                        ? "bg-slate-100 text-black"
+                        : "bg-blue-600 text-white font-medium"
+                    }`}
                     onClick={handleButton}
                   >
                     {buttonName}
                   </button>
                 </div>
               </div>
-              <div className="flex justify-end py-6 text-base underline">
+              {errors.nickname && (
+                <p className="text-red-500 text-sm pt-5">
+                  {errors.nickname.message}
+                </p>
+              )}
+              <div className="flex justify-end py-4 text-base underline">
                 <button onClick={() => handleClick(data.loginid)}>
                   회원 탈퇴
                 </button>
