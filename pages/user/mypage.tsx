@@ -1,24 +1,63 @@
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useQuery } from "react-query";
-import { getMemberDetails, leaveMember } from "@/lib/api/mypage";
-import { useState, useEffect } from "react";
+import { useQuery, useQueryClient } from "react-query";
+import {
+  getMemberDetails,
+  leaveMember,
+  updateMemberInfo
+} from "@/lib/api/mypage";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { checkLogin } from "@/lib/api/userSign";
+import { useState, useRef, useEffect } from "react";
+import * as yup from "yup";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 interface MemberDetails {
   name: string;
   loginid: string;
   email: string;
   nickname: string;
 }
+interface UpdateUserNickname {
+  nickname: string;
+}
+
+const schema = yup.object().shape({
+  nickname: yup
+    .string()
+    .matches(
+      /^[가-힣a-zA-Z0-9]{2,10}$/,
+      "- 별명은 2~10자 이내의 한글, 영문, 숫자만 사용 가능합니다."
+    )
+    .required("- 별명은 필수입니다.")
+});
+
 export default function MyPage() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
   const { data, error, isLoading } = useQuery<MemberDetails>(
     "memberDetails",
     getMemberDetails
   );
+  const [readOnlyStatus, setReadOnly] = useState<boolean>(true);
+  const [buttonName, setButtonName] = useState<string>("변경");
+
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    setError,
+    clearErrors,
+    formState: { errors }
+  } = useForm<UpdateUserNickname>({
+    resolver: yupResolver(schema),
+    mode: "onSubmit",
+    defaultValues: { nickname: data?.nickname || "" }
+  });
+
+  useEffect(() => {
+    if (data) clearErrors();
+  }, [data, clearErrors]);
 
   if (isLoading) {
     return (
@@ -35,6 +74,7 @@ export default function MyPage() {
   if (!isLoggedIn) {
     router.push(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/auth/signin`);
   }
+
   const handleClick = async (loginid: string) => {
     try {
       const res = await leaveMember(loginid);
@@ -48,6 +88,28 @@ export default function MyPage() {
       alert("회원탈퇴가 실패하였습니다. 다시 시도해 주세요.");
     }
   };
+
+  const handleButton = async () => {
+    if (buttonName === "완료") {
+      handleSubmit(async ({ nickname }) => {
+        try {
+          await updateMemberInfo({ loginid: data!.loginid, nickname });
+          queryClient.invalidateQueries("memberDetails");
+          setReadOnly(true);
+          setButtonName("변경");
+        } catch (error) {
+          setError("nickname", {
+            type: "manual",
+            message: "닉네임 변경에 실패했습니다. 다시 시도해 주세요."
+          });
+        }
+      })();
+    } else {
+      setReadOnly(false);
+      setButtonName("완료");
+    }
+  };
+
   return (
     <>
       {data && (
@@ -81,13 +143,38 @@ export default function MyPage() {
                   {data.name}
                 </div>
               </div>
-              <div className="flex flex-row py-4 border-b-[1px] border-slate-300">
+              <div className="flex flex-row justify-center items-center py-2 border-b-[1px] border-slate-300">
                 <div className="basis-1/4 font-semibold">닉네임</div>
-                <div className="basis-3/4 flex justify-end lg:justify-start">
-                  {data.nickname}
+                <div className="basis-3/4 flex justify-end lg:justify-start items-center">
+                  <input
+                    type="text"
+                    {...register("nickname")}
+                    readOnly={readOnlyStatus}
+                    className={`w-full max-w-[11rem] py-2 mr-2 ${
+                      readOnlyStatus
+                        ? "outline-none bg-white"
+                        : "border-slate-900"
+                    } text-black`}
+                  />
+                  <button
+                    type="button"
+                    className={`px-3 py-2 text-sm cursor-pointer h-full ${
+                      buttonName === "변경"
+                        ? "bg-slate-100 text-black"
+                        : "bg-blue-600 text-white font-medium"
+                    }`}
+                    onClick={handleButton}
+                  >
+                    {buttonName}
+                  </button>
                 </div>
               </div>
-              <div className="flex justify-end py-6 text-base underline">
+              {errors.nickname && (
+                <p className="text-red-500 text-sm pt-5">
+                  {errors.nickname.message}
+                </p>
+              )}
+              <div className="flex justify-end py-4 text-base underline">
                 <button onClick={() => handleClick(data.loginid)}>
                   회원 탈퇴
                 </button>

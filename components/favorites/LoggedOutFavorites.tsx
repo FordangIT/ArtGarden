@@ -4,10 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { truncateText } from "@/lib/components/TruncateText";
 import { FavoriteButton } from "@/lib/components/FavoriteButton";
-import { useSession } from "next-auth/react";
 import { PopupStore_TYPE } from "@/pages";
 import { NosaveItems } from "@/lib/components/NosaveItems";
-
+import { RootState } from "@/redux/store";
+import { useSelector } from "react-redux";
 export interface SaveItems {
   id: string;
   img: string;
@@ -45,7 +45,7 @@ const getFavorites = () => {
 };
 
 export default function LoggedOutFavorites() {
-  const { data: session } = useSession();
+  const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [performances, setPerformances] = useState<SaveItems[]>([]);
   const [exhibitions, setExhibitions] = useState<ExSaveItems[]>([]);
@@ -80,7 +80,6 @@ export default function LoggedOutFavorites() {
               .catch(() => ({ data: null }))
           )
         ]);
-
         setPerformances(peResponse.data || []);
         setPopupstores(popResponse.data || []);
 
@@ -101,7 +100,7 @@ export default function LoggedOutFavorites() {
 
     setFavorites(getFavorites());
     loadFavorites();
-  }, [session, performances, exhibitions, popupstores]);
+  }, [isLoggedIn, performances, exhibitions, popupstores]);
 
   if (isLoading)
     return (
@@ -197,7 +196,7 @@ export default function LoggedOutFavorites() {
                   팝업스토어
                 </div>
                 {popupstores.map((el: PopupStore_TYPE) => (
-                  <Link href={`/popupstores/${el._id}`} key={el._id}>
+                  <Link href={`/popupstores/${el.id}`} key={el.id}>
                     <div className="card w-[24rem] h-[30rem] bg-white shadow-xl rounded-none border-2 border-white">
                       <figure>
                         <Image
@@ -213,7 +212,7 @@ export default function LoggedOutFavorites() {
                           <h2 className="card-title">
                             {truncateText(el.name, 16)}
                           </h2>
-                          <FavoriteButton item={el._id} />
+                          <FavoriteButton item={el.id} />
                         </div>
                         팝업스토어 기간: {el.startdate}~ {el.enddate}
                         <p>지역: {truncateText(el.area, 22)}</p>

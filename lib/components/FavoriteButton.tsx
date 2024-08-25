@@ -27,7 +27,7 @@ interface FavoriteItem {
 }
 
 export const FavoriteButton: React.FC<FavoriteButtonProps> = ({ item }) => {
-  const { data: session } = useSession(); // 로그인 상태 확인
+  const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
   const dispatch = useDispatch();
   const favorites = useSelector((state: RootState) => state.favorites.list);
   const queryClient = useQueryClient();
@@ -36,25 +36,25 @@ export const FavoriteButton: React.FC<FavoriteButtonProps> = ({ item }) => {
     ["scrapsYN", item],
     () => getScrapYN(item),
     {
-      enabled: !!session // 로그인 상태에서만 데이터 가져오기
+      enabled: !!isLoggedIn // 로그인 상태에서만 데이터 가져오기
     }
   );
 
-  const isFavorite = session ? scrapYN : favorites.includes(item);
+  const isFavorite = isLoggedIn ? scrapYN : favorites.includes(item);
   useEffect(() => {
-    if (!session) {
+    if (!isLoggedIn) {
       const savedFavorites = JSON.parse(
         sessionStorage.getItem("favorites") || "[]"
       );
       dispatch(setFavorites(savedFavorites));
     }
-  }, [session, dispatch]);
+  }, [isLoggedIn, dispatch]);
 
   const handleClick = async (event: React.MouseEvent) => {
     event.preventDefault(); // 기본 동작 방지
     event.stopPropagation(); // 이벤트 전파 방지
 
-    if (session) {
+    if (isLoggedIn) {
       try {
         // 낙관적 업데이트
         queryClient.setQueryData(["scrapsYN", item], { scrapyn: !isFavorite });
