@@ -8,7 +8,7 @@ export async function loadBest() {
     let lately =
       String(year) +
       String(month).padStart(2, "0") +
-      String(day - 2).padStart(2, "0");
+      String(day - 1).padStart(2, "0");
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/ranks/${lately}`
     );
