@@ -81,7 +81,6 @@ export default function MyPage() {
       if (res.status !== 200) {
         throw new Error("회원탈퇴가 실패하였습니다.");
       }
-      console.log("회원 탈퇴 성공");
       router.push(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/signin`);
     } catch (error) {
       console.error("회원 탈퇴 실패:", error);

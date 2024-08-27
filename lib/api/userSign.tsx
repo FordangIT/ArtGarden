@@ -19,7 +19,8 @@ export const checkLogin = async () => {
     );
     return res.data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    throw new Error("로그인 상태를 확인하는 도중 오류가 발생했습니다.");
   }
 };
 
@@ -57,8 +58,6 @@ export const logoutMember = async () => {
     if (response.status !== 200) {
       throw new Error("Failed to log out member");
     }
-
-    console.log("Member logged out successfully");
   } catch (error) {
     console.error("Error logging out member:", error);
   }
@@ -75,7 +74,6 @@ export const checkLoginId = async (loginId: string) => {
       throw new Error("Failed to check login ID");
     }
 
-    console.log("Login ID check completed successfully:", response.data);
     return response.data; // 필요한 데이터를 반환
   } catch (error) {
     console.error("Error checking login ID:", error);
@@ -99,8 +97,6 @@ export const loginUser = async (loginInfo: any) => {
     if (response.status !== 200) {
       throw new Error("Failed to login");
     }
-
-    console.log("User logged in successfully:", response.data);
     return response.data; // 필요한 데이터를 반환
   } catch (error) {
     console.error("Error logging in:", error);
@@ -110,7 +106,6 @@ export const loginUser = async (loginInfo: any) => {
 // 회원 가입
 export const joinMember = async (memberInfo: any) => {
   try {
-    console.log(memberInfo, "memberInfo");
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/join`,
       memberInfo
@@ -119,7 +114,6 @@ export const joinMember = async (memberInfo: any) => {
     if (response.status !== 201) {
       throw new Error("Failed to join member");
     }
-    console.log("Member joined successfully:", response.status);
   } catch (error) {
     console.error("Error joining member:", error);
   }

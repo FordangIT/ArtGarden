@@ -45,7 +45,6 @@ const AllPerformances: React.FC = () => {
       );
       return res.data;
     } catch (error) {
-      console.log("error", error);
       throw new Error("error fetching data");
     }
   };

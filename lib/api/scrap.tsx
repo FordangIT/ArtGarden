@@ -60,24 +60,8 @@ export const postScrap = async (item: string) => {
     if (response.status !== 200) {
       throw new Error("Failed to post scrap data");
     }
-
-    console.log("Scrap data posted successfully");
   } catch (error) {
     const err = error as Error;
     console.error("Error posting scrap data:", err.message);
   }
 };
-
-// export const updateScrap = async (item: string, isFavorite: boolean) => {
-//   if (isFavorite) {
-//     // 이미 찜한 항목이라면 제거
-//     await axios.delete(`${process.env.FRONTEND_URL}/api/user/removeScrap`, {
-//       data: { id: item }
-//     });
-//   } else {
-//     // 찜 목록에 추가
-//     await axios.post(`${process.env.FRONTEND_URL}/api/user/addScrap`, {
-//       id: item
-//     });
-//   }
-// };
