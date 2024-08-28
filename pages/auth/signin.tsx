@@ -20,13 +20,7 @@ const schema = yup.object().shape({
       "- 아이디는 5~20자 이내의 영문 소문자와 숫자만 사용 가능합니다."
     )
     .required("- 아이디는 필수입니다."),
-  password: yup
-    .string()
-    .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$~!@%*#^?&()\-_=+])[A-Za-z\d$~!@%*#^?&()\-_=+]{8,16}$/,
-      "- 비밀번호는 8~16자 이내로 영문 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다."
-    )
-    .required("비밀번호는 필수입니다.")
+  password: yup.string().required("비밀번호는 필수입니다.")
 });
 
 type FormData = {
@@ -55,8 +49,6 @@ export default function SignIn() {
       };
       const result = await loginUser(loginInfo);
       if (result) {
-        //이쪽에서 사용자 로그인 상태 바꿔주기.
-        alert("로그인 성공");
         router.push("/");
       } else {
         alert("로그인 실패");
