@@ -106,10 +106,11 @@ export default function CreateReviewForm({ id }: PropsType) {
             onChange={(e) => setContent(e.target.value)}
             placeholder="다른 고객님에게 도움이 되도록 솔직한 평가를 남겨주세요."
             className="rounded-md h-28 w-full border-2 border-black custom-placeholder"
+            maxLength={200}
           />
           <button
             type="submit"
-            className="text-black text-xl border-2 md:px-4 md:py-4 ml-8 rounded-md border-black bg-white"
+            className="text-black text-md text-center border-2 md:py-4 ml-8 rounded-md border-black bg-white w-20"
           >
             등록
           </button>
