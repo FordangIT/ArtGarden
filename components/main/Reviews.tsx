@@ -63,7 +63,7 @@ const Reviews = (data: AllReview_TYPE) => {
                       ))}
                     </div>
                     <div className="text-xs sm:text-base badge badge-secondary bg-main-yellow border-none text-black font-semibold flex justify-end">
-                      <div> {el.genre}</div>
+                      <div> {truncateText(el.genre, 4)}</div>
                     </div>
                   </div>
                   <h3 className="text-xs sm:text-base">
