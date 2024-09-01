@@ -93,7 +93,7 @@ export default function CreateReviewForm({ id }: PropsType) {
     };
     memberDataUpdate();
     setContent("");
-    setRate(1);
+    setRate(5);
   };
 
   return (
