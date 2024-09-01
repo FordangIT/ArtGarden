@@ -112,15 +112,36 @@ const Signup: React.FC = () => {
       console.error("회원가입 중 에러 발생:", error);
     }
   };
+
   const handleIdCheck = async () => {
     const userId = getValues("userId");
+    const isValidUserId = /^[a-z0-9]{5,20}$/.test(userId);
     if (!userId) {
-      setError("userId", {
-        type: "manual",
-        message: "아이디를 입력하세요."
+      toast.error("아이디를 입력하세요", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light"
+      });
+      return;
+    } else if (!isValidUserId) {
+      toast.error("아이디 형식에 맞게 입력하세요", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light"
       });
       return;
     }
+
     try {
       const response = await checkLoginId(userId);
       if (response) {
