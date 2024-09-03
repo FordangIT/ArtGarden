@@ -51,7 +51,8 @@ const schema = yup.object().shape({
 });
 
 const Signup: React.FC = () => {
-  const [isIdChecked, setIsIdChecked] = useState(false);
+  const [isIdChecked, setIsIdChecked] = useState<boolean>(false);
+  const [passId, setPassId] = useState<string>("");
   const {
     register,
     handleSubmit,
@@ -65,9 +66,9 @@ const Signup: React.FC = () => {
   });
   const router = useRouter();
   const onSubmit: SubmitHandler<SignupFormValues> = async (data) => {
-    if (!isIdChecked) {
+    if (!isIdChecked || data.userId !== passId) {
       toast.error("아이디 중복 확인을 해주세요.", {
-        position: "top-right",
+        position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -80,34 +81,40 @@ const Signup: React.FC = () => {
       return;
     }
     try {
-      const response = await joinMember({
+      const res = await joinMember({
         loginid: data.userId,
         password: data.password,
         name: data.name,
         nickname: data.nickname,
         email: data.email
       });
+
       toast.success("회원가입이 완료되었습니다", {
-        position: "top-right",
-        autoClose: 3000,
+        position: "top-center",
+        autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light"
+        theme: "light",
+        onClose: () => {
+          router.push(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/auth/signin`);
+        }
       });
-      router.push(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/auth/signin`);
     } catch (error) {
       toast.error("회원가입 실패! 다시 시도해 주세요.", {
-        position: "top-right",
+        position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light"
+        theme: "light",
+        onClose: () => {
+          router.push(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/auth/signin`);
+        }
       });
       console.error("회원가입 중 에러 발생:", error);
     }
@@ -118,7 +125,7 @@ const Signup: React.FC = () => {
     const isValidUserId = /^[a-z0-9]{5,20}$/.test(userId);
     if (!userId) {
       toast.error("아이디를 입력하세요", {
-        position: "top-right",
+        position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -130,7 +137,7 @@ const Signup: React.FC = () => {
       return;
     } else if (!isValidUserId) {
       toast.error("아이디 형식에 맞게 입력하세요", {
-        position: "top-right",
+        position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -146,7 +153,7 @@ const Signup: React.FC = () => {
       const response = await checkLoginId(userId);
       if (response) {
         toast.error("이미 사용 중인 아이디입니다.", {
-          position: "top-right",
+          position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -157,7 +164,7 @@ const Signup: React.FC = () => {
         });
       } else {
         toast.success("사용 가능한 아이디입니다.", {
-          position: "top-right",
+          position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -166,12 +173,13 @@ const Signup: React.FC = () => {
           progress: undefined,
           theme: "light"
         });
+        setPassId(userId);
         setIsIdChecked(true);
         clearErrors("userId");
       }
     } catch (error) {
       toast.warn("아이디 중복 확인에 실패했습니다.", {
-        position: "top-right",
+        position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
