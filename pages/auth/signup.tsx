@@ -88,20 +88,23 @@ const Signup: React.FC = () => {
         nickname: data.nickname,
         email: data.email
       });
-
-      toast.success("회원가입이 완료되었습니다", {
-        position: "top-center",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        onClose: () => {
-          router.push(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/auth/signin`);
-        }
-      });
+      if (res.success) {
+        toast.success("회원가입이 완료되었습니다", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          onClose: () => {
+            router.push(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/auth/signin`);
+          }
+        });
+      } else {
+        throw new Error("회원가입 실패");
+      }
     } catch (error) {
       toast.error("회원가입 실패! 다시 시도해 주세요.", {
         position: "top-center",
@@ -116,7 +119,6 @@ const Signup: React.FC = () => {
           router.push(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/auth/signin`);
         }
       });
-      console.error("회원가입 중 에러 발생:", error);
     }
   };
 

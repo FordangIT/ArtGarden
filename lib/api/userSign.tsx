@@ -110,11 +110,13 @@ export const joinMember = async (memberInfo: any) => {
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/join`,
       memberInfo
     );
-
-    if (response.status !== 201) {
-      throw new Error("Failed to join member");
+    if (response.status === 200) {
+      return { success: true, data: response.data };
+    } else {
+      return { success: false, error: "Failed to join member" };
     }
   } catch (error) {
-    console.error("Error joining member:", error);
+    console.error("error joining memeber", error);
+    return { success: false, error: error };
   }
 };

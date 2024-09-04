@@ -30,9 +30,6 @@ type FormData = {
 
 export default function SignIn() {
   const router = useRouter();
-  const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
-  const dispatch = useDispatch();
-
   const {
     register,
     handleSubmit,
