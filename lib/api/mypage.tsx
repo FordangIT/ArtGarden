@@ -60,11 +60,13 @@ export const leaveMember = async (loginid: any) => {
       }
     );
 
-    if (response.status !== 200) {
-      throw new Error("Failed to leave member");
+    if (response.status === 200) {
+      return { success: true, data: response.data }; // 필요한 데이터를 반환
+    } else {
+      return { success: false, error: "Failed to leave member" }; // 필요한 데이터를
     }
-    return response.data; // 필요한 데이터를 반환
   } catch (error) {
     console.error("Error leaving member:", error);
+    return { success: false, error: error };
   }
 };

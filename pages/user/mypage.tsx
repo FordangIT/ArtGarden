@@ -5,7 +5,10 @@ import {
   leaveMember,
   updateMemberInfo
 } from "@/lib/api/mypage";
-import { useSelector } from "react-redux";
+import { logoutMember } from "@/lib/api/userSign";
+import { logOut } from "@/redux/slices/checkLoginSlice";
+import { signOut } from "next-auth/react";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
 import { useState, useRef, useEffect } from "react";
 import * as yup from "yup";
@@ -34,6 +37,7 @@ const schema = yup.object().shape({
 export default function MyPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const dispatch = useDispatch();
   const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
   const { data, error, isLoading } = useQuery<MemberDetails>(
     "memberDetails",
@@ -78,10 +82,16 @@ export default function MyPage() {
   const handleClick = async (loginid: string) => {
     try {
       const res = await leaveMember(loginid);
-      if (res.status !== 200) {
-        throw new Error("회원탈퇴가 실패하였습니다.");
+
+      if (res.success) {
+        alert("회원탈퇴 되었습니다.");
+        logoutMember();
+        signOut();
+        dispatch(logOut());
+        router.push(`${process.env.NEXT_PUBLIC_FRONTEND_URL}`);
+      } else {
+        throw new Error("회원 탈퇴 실패");
       }
-      router.push(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/signin`);
     } catch (error) {
       console.error("회원 탈퇴 실패:", error);
       alert("회원탈퇴가 실패하였습니다. 다시 시도해 주세요.");
