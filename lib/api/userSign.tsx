@@ -79,6 +79,18 @@ export const checkLoginId = async (loginId: string) => {
     console.error("Error checking login ID:", error);
   }
 };
+//닉네임 중복확인
+export const checkLoginNick = async (loginNick: string) => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/chkNickname?nickname=${loginNick}`
+    );
+
+    return response.data; // 필요한 데이터를 반환
+  } catch (error) {
+    console.error("Error checking login ID:", error);
+  }
+};
 
 //login 유저
 export const loginUser = async (loginInfo: any) => {

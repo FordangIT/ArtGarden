@@ -5,7 +5,7 @@ import * as yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CiUser, CiLock, CiMail } from "react-icons/ci";
-import { checkLoginId, joinMember } from "@/lib/api/userSign";
+import { checkLoginId, checkLoginNick, joinMember } from "@/lib/api/userSign";
 import { useRouter } from "next/router";
 interface SignupFormValues {
   userId: string;
@@ -53,6 +53,9 @@ const schema = yup.object().shape({
 const Signup: React.FC = () => {
   const [isIdChecked, setIsIdChecked] = useState<boolean>(false);
   const [passId, setPassId] = useState<string>("");
+  const [isNickChecked, setIsNickChecked] = useState<boolean>(false);
+  const [passNick, setPassNick] = useState<string>("");
+
   const {
     register,
     handleSubmit,
@@ -65,8 +68,22 @@ const Signup: React.FC = () => {
     mode: "onSubmit"
   });
   const router = useRouter();
+
   const onSubmit: SubmitHandler<SignupFormValues> = async (data) => {
     if (!isIdChecked || data.userId !== passId) {
+      toast.error("아이디 중복 확인을 해주세요.", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        className: "toast-css"
+      });
+      return;
+    } else if (!isNickChecked || data.nickname !== passNick) {
       toast.error("아이디 중복 확인을 해주세요.", {
         position: "top-center",
         autoClose: 3000,
@@ -192,6 +209,77 @@ const Signup: React.FC = () => {
       });
     }
   };
+
+  const handleNickCheck = async () => {
+    const userNick = getValues("nickname");
+    const isValidUserNick = /^[가-힣a-zA-Z0-9]{2,10}$/.test(userNick);
+    if (!userNick) {
+      toast.error("닉네임 입력하세요", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light"
+      });
+      return;
+    } else if (!isValidUserNick) {
+      toast.error("닉네임 형식에 맞게 입력하세요", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light"
+      });
+      return;
+    }
+
+    try {
+      const response = await checkLoginNick(userNick);
+      if (response) {
+        toast.error("이미 사용 중인 닉네임입니다.", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light"
+        });
+      } else {
+        toast.success("사용 가능한 닉네임입니다.", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light"
+        });
+        setPassNick(userNick);
+        setIsNickChecked(true);
+        clearErrors("nickname");
+      }
+    } catch (error) {
+      toast.warn("닉네임 중복 확인에 실패했습니다.", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light"
+      });
+    }
+  };
   const onSubmitButtonClick = async (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
@@ -249,6 +337,13 @@ const Signup: React.FC = () => {
                 className="block w-full ml-2 font-medium text-slate-700 p-1"
                 maxLength={10}
               />
+              <button
+                type="button"
+                onClick={handleNickCheck}
+                className="text-sm w-32"
+              >
+                중복 확인
+              </button>
             </div>
             <div className="flex mt-1 p-3 w-full border-b border-gray-300">
               <label className="flex items-center justify-center text-gray-700 p-1">
