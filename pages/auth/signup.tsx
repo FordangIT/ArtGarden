@@ -155,7 +155,7 @@ const Signup: React.FC = () => {
       });
       return;
     } else if (!isValidUserId) {
-      toast.error("아이디 형식에 맞게 입력하세요", {
+      toast.error("5~20자 영문 소문자와 숫자 형식", {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
@@ -226,7 +226,7 @@ const Signup: React.FC = () => {
       });
       return;
     } else if (!isValidUserNick) {
-      toast.error("닉네임 형식에 맞게 입력하세요", {
+      toast.error("2~10자 한글, 영문, 숫자 형식", {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
