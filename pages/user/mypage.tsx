@@ -14,6 +14,10 @@ import { useState, useEffect } from "react";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { doubleNickCheck } from "@/components/mypage/doublenickcheck";
+import { checkLoginNick } from "@/lib/api/userSign";
 
 interface MemberDetails {
   name: string;
@@ -42,6 +46,8 @@ export default function MyPage() {
   const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
   const [readOnlyStatus, setReadOnly] = useState<boolean>(true);
   const [buttonName, setButtonName] = useState<string>("변경");
+  const [isNickChecked, setIsNickChecked] = useState<boolean>(false);
+  const [passNick, setPassNick] = useState<string>("");
 
   const { data, error, isLoading } = useQuery<MemberDetails>(
     "memberDetails",
@@ -98,7 +104,6 @@ export default function MyPage() {
   const handleClick = async (loginid: string) => {
     try {
       const res = await leaveMember(loginid);
-
       if (res.success) {
         alert("회원탈퇴 되었습니다.");
         logoutMember();
@@ -117,8 +122,26 @@ export default function MyPage() {
   const handleButton = async () => {
     if (buttonName === "완료") {
       const newNickName = getValues("nickname");
+
+      if (!isNickChecked || newNickName !== passNick) {
+        toast.error("닉네임 중복 확인을 해주세요.", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          className: "toast-css"
+        });
+        return;
+      }
       try {
-        await updateMemberInfo({ loginid: data?.loginid, newNickName });
+        await updateMemberInfo({
+          loginid: data?.loginid,
+          nickname: newNickName
+        });
         queryClient.invalidateQueries("memberDetails");
         setReadOnly(true);
         setButtonName("변경");
@@ -133,6 +156,17 @@ export default function MyPage() {
       setReadOnly(false);
       setButtonName("완료");
     }
+  };
+
+  const handleNickCheck = () => {
+    const userNick = getValues("nickname");
+    doubleNickCheck({
+      userNick,
+      setPassNick,
+      setIsNickChecked
+    });
+    console.log(passNick, "passNick");
+    console.log(isNickChecked, "isNickChecked");
   };
 
   return (
@@ -177,7 +211,8 @@ export default function MyPage() {
                         pattern: {
                           value: /^[가-힣a-zA-Z0-9]{2,10}$/,
                           message: "2~10자 한글, 영문, 숫자 형식"
-                        }
+                        },
+                        onChange: (e) => handleChange(e.target.value)
                       })}
                       readOnly={readOnlyStatus}
                       type="text"
@@ -187,8 +222,17 @@ export default function MyPage() {
                           : "border-slate-900"
                       } text-black`}
                     />
+                    {buttonName === "완료" ? (
+                      <button
+                        type="button"
+                        className="px-3 py-2 mr-2 text-sm cursor-pointer h-full bg-slate-100 text-black"
+                        onClick={handleNickCheck}
+                      >
+                        중복체크
+                      </button>
+                    ) : null}
                     <button
-                      type="submit"
+                      type="button"
                       className={`px-3 py-2 text-sm cursor-pointer h-full ${
                         buttonName === "변경"
                           ? "bg-slate-100 text-black"
@@ -198,9 +242,6 @@ export default function MyPage() {
                     >
                       {buttonName}
                     </button>
-                    {errors?.nickname ? (
-                      <p>{errors.nickname?.message}</p>
-                    ) : null}
                   </form>
                 </div>
               </div>
@@ -218,6 +259,7 @@ export default function MyPage() {
           </div>
         </div>
       )}
+      <ToastContainer />
     </>
   );
 }
