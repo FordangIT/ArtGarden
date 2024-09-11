@@ -5,8 +5,14 @@ import * as yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CiUser, CiLock, CiMail } from "react-icons/ci";
-import { checkLoginId, joinMember } from "@/lib/api/userSign";
+import { checkLoginId, checkLoginNick, joinMember } from "@/lib/api/userSign";
 import { useRouter } from "next/router";
+import { doubleNickCheck } from "@/components/mypage/doublenickcheck";
+interface ApiResponse {
+  success: boolean;
+  data?: any;
+  error?: unknown;
+}
 interface SignupFormValues {
   userId: string;
   password: string;
@@ -51,7 +57,11 @@ const schema = yup.object().shape({
 });
 
 const Signup: React.FC = () => {
-  const [isIdChecked, setIsIdChecked] = useState(false);
+  const [isIdChecked, setIsIdChecked] = useState<boolean>(false);
+  const [passId, setPassId] = useState<string>("");
+  const [isNickChecked, setIsNickChecked] = useState<boolean>(false);
+  const [passNick, setPassNick] = useState<string>("");
+
   const {
     register,
     handleSubmit,
@@ -64,10 +74,24 @@ const Signup: React.FC = () => {
     mode: "onSubmit"
   });
   const router = useRouter();
+
   const onSubmit: SubmitHandler<SignupFormValues> = async (data) => {
-    if (!isIdChecked) {
+    if (!isIdChecked || data.userId !== passId) {
       toast.error("아이디 중복 확인을 해주세요.", {
-        position: "top-right",
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        className: "toast-css"
+      });
+      return;
+    } else if (!isNickChecked || data.nickname !== passNick) {
+      toast.error(" 닉네임 중복 확인을 해주세요.", {
+        position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -80,52 +104,84 @@ const Signup: React.FC = () => {
       return;
     }
     try {
-      const response = await joinMember({
+      const res: ApiResponse = await joinMember({
         loginid: data.userId,
         password: data.password,
         name: data.name,
         nickname: data.nickname,
         email: data.email
       });
-      toast.success("회원가입이 완료되었습니다", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light"
-      });
-      router.push(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/auth/signin`);
-    } catch (error) {
+      if (res?.success) {
+        toast.success("회원가입이 완료되었습니다", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          onClose: () => {
+            router.push(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/auth/signin`);
+          }
+        });
+      } else {
+        toast.error("회원가입에 실패했습니다.", {
+          position: "top-center",
+          autoClose: 3000
+        });
+      }
+    } catch (error: unknown) {
       toast.error("회원가입 실패! 다시 시도해 주세요.", {
-        position: "top-right",
+        position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light"
+        theme: "light",
+        onClose: () => {
+          router.push(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/auth/signin`);
+        }
       });
-      console.error("회원가입 중 에러 발생:", error);
     }
   };
+
   const handleIdCheck = async () => {
     const userId = getValues("userId");
+    const isValidUserId = /^[a-z0-9]{5,20}$/.test(userId);
     if (!userId) {
-      setError("userId", {
-        type: "manual",
-        message: "아이디를 입력하세요."
+      toast.error("아이디를 입력하세요", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light"
+      });
+      return;
+    } else if (!isValidUserId) {
+      toast.error("5~20자 영문 소문자와 숫자 형식", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light"
       });
       return;
     }
+
     try {
       const response = await checkLoginId(userId);
       if (response) {
         toast.error("이미 사용 중인 아이디입니다.", {
-          position: "top-right",
+          position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -136,7 +192,7 @@ const Signup: React.FC = () => {
         });
       } else {
         toast.success("사용 가능한 아이디입니다.", {
-          position: "top-right",
+          position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -145,12 +201,13 @@ const Signup: React.FC = () => {
           progress: undefined,
           theme: "light"
         });
+        setPassId(userId);
         setIsIdChecked(true);
         clearErrors("userId");
       }
     } catch (error) {
       toast.warn("아이디 중복 확인에 실패했습니다.", {
-        position: "top-right",
+        position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -160,6 +217,15 @@ const Signup: React.FC = () => {
         theme: "light"
       });
     }
+  };
+
+  const handleNickCheck = async () => {
+    const userNick = getValues("nickname");
+    doubleNickCheck({
+      userNick,
+      setPassNick,
+      setIsNickChecked
+    });
   };
   const onSubmitButtonClick = async (
     event: React.MouseEvent<HTMLButtonElement>
@@ -218,6 +284,13 @@ const Signup: React.FC = () => {
                 className="block w-full ml-2 font-medium text-slate-700 p-1"
                 maxLength={10}
               />
+              <button
+                type="button"
+                onClick={handleNickCheck}
+                className="text-sm w-32"
+              >
+                중복 확인
+              </button>
             </div>
             <div className="flex mt-1 p-3 w-full border-b border-gray-300">
               <label className="flex items-center justify-center text-gray-700 p-1">

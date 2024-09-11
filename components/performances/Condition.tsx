@@ -55,7 +55,6 @@ export default function Condition() {
       );
       return res.data;
     } catch (error) {
-      console.log("error", error);
       throw new Error("error fetching data");
     }
   };

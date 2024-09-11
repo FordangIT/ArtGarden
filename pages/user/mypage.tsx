@@ -5,12 +5,20 @@ import {
   leaveMember,
   updateMemberInfo
 } from "@/lib/api/mypage";
-import { useSelector } from "react-redux";
+import { logoutMember } from "@/lib/api/userSign";
+import { logOut } from "@/redux/slices/checkLoginSlice";
+import { signOut } from "next-auth/react";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import * as yup from "yup";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { doubleNickCheck } from "@/components/mypage/doublenickcheck";
+import { checkLoginNick } from "@/lib/api/userSign";
+
 interface MemberDetails {
   name: string;
   loginid: string;
@@ -34,29 +42,43 @@ const schema = yup.object().shape({
 export default function MyPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const dispatch = useDispatch();
   const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
-  const { data, error, isLoading } = useQuery<MemberDetails>(
-    "memberDetails",
-    getMemberDetails
-  );
   const [readOnlyStatus, setReadOnly] = useState<boolean>(true);
   const [buttonName, setButtonName] = useState<string>("변경");
+  const [isNickChecked, setIsNickChecked] = useState<boolean>(false);
+  const [passNick, setPassNick] = useState<string>("");
 
+  const { data, error, isLoading } = useQuery<MemberDetails>(
+    "memberDetails",
+    getMemberDetails,
+    {
+      onSuccess: (memberData) => {
+        reset(memberData);
+      }
+    }
+  );
+  const [nickname, setNickName] = useState(data?.nickname);
   const {
     register,
+    reset,
     handleSubmit,
     getValues,
     setError,
+    setFocus,
     clearErrors,
     formState: { errors }
   } = useForm<UpdateUserNickname>({
     resolver: yupResolver(schema),
-    mode: "onSubmit",
-    defaultValues: { nickname: data?.nickname || "" }
+    mode: "onChange",
+    defaultValues: { nickname }
   });
 
   useEffect(() => {
-    if (data) clearErrors();
+    if (data) {
+      clearErrors();
+      setNickName(data.nickname);
+    }
   }, [data, clearErrors]);
 
   if (isLoading) {
@@ -75,14 +97,22 @@ export default function MyPage() {
     router.push(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/auth/signin`);
   }
 
+  const handleChange = (value: string) => {
+    setNickName(value);
+  };
+
   const handleClick = async (loginid: string) => {
     try {
       const res = await leaveMember(loginid);
-      if (res.status !== 200) {
-        throw new Error("회원탈퇴가 실패하였습니다.");
+      if (res.success) {
+        alert("회원탈퇴 되었습니다.");
+        logoutMember();
+        signOut();
+        dispatch(logOut());
+        router.push(`${process.env.NEXT_PUBLIC_FRONTEND_URL}`);
+      } else {
+        throw new Error("회원 탈퇴 실패");
       }
-      console.log("회원 탈퇴 성공");
-      router.push(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/signin`);
     } catch (error) {
       console.error("회원 탈퇴 실패:", error);
       alert("회원탈퇴가 실패하였습니다. 다시 시도해 주세요.");
@@ -91,23 +121,52 @@ export default function MyPage() {
 
   const handleButton = async () => {
     if (buttonName === "완료") {
-      handleSubmit(async ({ nickname }) => {
-        try {
-          await updateMemberInfo({ loginid: data!.loginid, nickname });
-          queryClient.invalidateQueries("memberDetails");
-          setReadOnly(true);
-          setButtonName("변경");
-        } catch (error) {
-          setError("nickname", {
-            type: "manual",
-            message: "닉네임 변경에 실패했습니다. 다시 시도해 주세요."
-          });
-        }
-      })();
+      const newNickName = getValues("nickname");
+
+      if (!isNickChecked || newNickName !== passNick) {
+        toast.error("닉네임 중복 확인을 해주세요.", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          className: "toast-css"
+        });
+        return;
+      }
+      try {
+        await updateMemberInfo({
+          loginid: data?.loginid,
+          nickname: newNickName
+        });
+        queryClient.invalidateQueries("memberDetails");
+        setReadOnly(true);
+        setButtonName("변경");
+      } catch (error) {
+        setError("nickname", {
+          type: "manual",
+          message: "닉네임 변경에 실패했습니다. 다시 시도해 주세요."
+        });
+        setFocus("nickname");
+      }
     } else {
       setReadOnly(false);
       setButtonName("완료");
     }
+  };
+
+  const handleNickCheck = () => {
+    const userNick = getValues("nickname");
+    doubleNickCheck({
+      userNick,
+      setPassNick,
+      setIsNickChecked
+    });
+    console.log(passNick, "passNick");
+    console.log(isNickChecked, "isNickChecked");
   };
 
   return (
@@ -146,27 +205,44 @@ export default function MyPage() {
               <div className="flex flex-row justify-center items-center py-2 border-b-[1px] border-slate-300">
                 <div className="basis-1/4 font-semibold">닉네임</div>
                 <div className="basis-3/4 flex justify-end lg:justify-start items-center">
-                  <input
-                    type="text"
-                    {...register("nickname")}
-                    readOnly={readOnlyStatus}
-                    className={`w-full max-w-[11rem] py-2 mr-2 ${
-                      readOnlyStatus
-                        ? "outline-none bg-white"
-                        : "border-slate-900"
-                    } text-black`}
-                  />
-                  <button
-                    type="button"
-                    className={`px-3 py-2 text-sm cursor-pointer h-full ${
-                      buttonName === "변경"
-                        ? "bg-slate-100 text-black"
-                        : "bg-blue-600 text-white font-medium"
-                    }`}
-                    onClick={handleButton}
-                  >
-                    {buttonName}
-                  </button>
+                  <form onSubmit={handleSubmit(handleButton)}>
+                    <input
+                      {...register("nickname", {
+                        pattern: {
+                          value: /^[가-힣a-zA-Z0-9]{2,10}$/,
+                          message: "2~10자 한글, 영문, 숫자 형식"
+                        },
+                        onChange: (e) => handleChange(e.target.value)
+                      })}
+                      readOnly={readOnlyStatus}
+                      type="text"
+                      className={`w-full max-w-[11rem] py-2 mr-2 ${
+                        readOnlyStatus
+                          ? "outline-none bg-white"
+                          : "border-slate-900"
+                      } text-black`}
+                    />
+                    {buttonName === "완료" ? (
+                      <button
+                        type="button"
+                        className="px-3 py-2 mr-2 text-sm cursor-pointer h-full bg-slate-100 text-black"
+                        onClick={handleNickCheck}
+                      >
+                        중복체크
+                      </button>
+                    ) : null}
+                    <button
+                      type="button"
+                      className={`px-3 py-2 text-sm cursor-pointer h-full ${
+                        buttonName === "변경"
+                          ? "bg-slate-100 text-black"
+                          : "bg-blue-600 text-white font-medium"
+                      }`}
+                      onClick={handleButton}
+                    >
+                      {buttonName}
+                    </button>
+                  </form>
                 </div>
               </div>
               {errors.nickname && (
@@ -183,6 +259,7 @@ export default function MyPage() {
           </div>
         </div>
       )}
+      <ToastContainer />
     </>
   );
 }
