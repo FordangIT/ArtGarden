@@ -10,7 +10,8 @@ import { useRouter } from "next/router";
 import { doubleNickCheck } from "@/components/mypage/doublenickcheck";
 interface ApiResponse {
   success: boolean;
-  error: unknown;
+  data?: any;
+  error?: unknown;
 }
 interface SignupFormValues {
   userId: string;
@@ -103,7 +104,7 @@ const Signup: React.FC = () => {
       return;
     }
     try {
-      const res: ApiResponse | undefined = await joinMember({
+      const res: ApiResponse = await joinMember({
         loginid: data.userId,
         password: data.password,
         name: data.name,
@@ -131,7 +132,6 @@ const Signup: React.FC = () => {
         });
       }
     } catch (error: unknown) {
-      console.log(error, "회원가입 error");
       toast.error("회원가입 실패! 다시 시도해 주세요.", {
         position: "top-center",
         autoClose: 3000,
