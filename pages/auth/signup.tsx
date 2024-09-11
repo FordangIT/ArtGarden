@@ -7,6 +7,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { CiUser, CiLock, CiMail } from "react-icons/ci";
 import { checkLoginId, checkLoginNick, joinMember } from "@/lib/api/userSign";
 import { useRouter } from "next/router";
+import { doubleNickCheck } from "@/components/mypage/doublenickcheck";
+interface ApiResponse {
+  success: boolean;
+  error: unknown;
+}
 interface SignupFormValues {
   userId: string;
   password: string;
@@ -84,7 +89,7 @@ const Signup: React.FC = () => {
       });
       return;
     } else if (!isNickChecked || data.nickname !== passNick) {
-      toast.error("아이디 중복 확인을 해주세요.", {
+      toast.error(" 닉네임 중복 확인을 해주세요.", {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
@@ -98,14 +103,14 @@ const Signup: React.FC = () => {
       return;
     }
     try {
-      const res = await joinMember({
+      const res: ApiResponse | undefined = await joinMember({
         loginid: data.userId,
         password: data.password,
         name: data.name,
         nickname: data.nickname,
         email: data.email
       });
-      if (res.success) {
+      if (res?.success) {
         toast.success("회원가입이 완료되었습니다", {
           position: "top-center",
           autoClose: 1000,
@@ -120,9 +125,13 @@ const Signup: React.FC = () => {
           }
         });
       } else {
-        throw new Error("회원가입 실패");
+        toast.error("회원가입에 실패했습니다.", {
+          position: "top-center",
+          autoClose: 3000
+        });
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      console.log(error, "회원가입 error");
       toast.error("회원가입 실패! 다시 시도해 주세요.", {
         position: "top-center",
         autoClose: 3000,
@@ -212,73 +221,11 @@ const Signup: React.FC = () => {
 
   const handleNickCheck = async () => {
     const userNick = getValues("nickname");
-    const isValidUserNick = /^[가-힣a-zA-Z0-9]{2,10}$/.test(userNick);
-    if (!userNick) {
-      toast.error("닉네임 입력하세요", {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light"
-      });
-      return;
-    } else if (!isValidUserNick) {
-      toast.error("2~10자 한글, 영문, 숫자 형식", {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light"
-      });
-      return;
-    }
-
-    try {
-      const response = await checkLoginNick(userNick);
-      if (response) {
-        toast.error("이미 사용 중인 닉네임입니다.", {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light"
-        });
-      } else {
-        toast.success("사용 가능한 닉네임입니다.", {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light"
-        });
-        setPassNick(userNick);
-        setIsNickChecked(true);
-        clearErrors("nickname");
-      }
-    } catch (error) {
-      toast.warn("닉네임 중복 확인에 실패했습니다.", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light"
-      });
-    }
+    doubleNickCheck({
+      userNick,
+      setPassNick,
+      setIsNickChecked
+    });
   };
   const onSubmitButtonClick = async (
     event: React.MouseEvent<HTMLButtonElement>
