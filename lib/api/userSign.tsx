@@ -118,7 +118,6 @@ export const loginUser = async (loginInfo: any) => {
 // 회원 가입
 export const joinMember = async (memberInfo: any) => {
   try {
-    console.log(memberInfo, "memeberInfo");
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/join`,
       memberInfo
