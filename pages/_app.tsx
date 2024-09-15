@@ -6,7 +6,8 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { useMemo, useEffect } from "react";
 import Layout from "@/components/basic/Layout";
 import { Provider } from "react-redux";
-import store from "@/redux/store";
+import { PersistGate } from "redux-persist/integration/react";
+import { store, persistor } from "@/redux/store";
 import Head from "next/head";
 declare global {
   interface Window {
@@ -21,31 +22,33 @@ export default function App({
   return (
     <SessionProvider session={session}>
       <Provider store={store}>
-        <QueryClientProvider client={queryClient}>
-          <Layout>
-            <Head>
-              <title>Artgarden</title>
-              <meta
-                name="description"
-                content="공연, 전시, 팝업스토어 정보 제공 사이트입니다."
-              ></meta>
-              <meta
-                name="viewport"
-                content="initial-scale=1.0, width=device-width"
-              ></meta>
-              <meta
-                name="google-adsense-account"
-                content="ca-pub-6499853936822237"
-              ></meta>
-              <meta
-                name="viewport"
-                content="width=device-width, initial-scale=1"
-              />
-            </Head>
-            <Component {...pageProps} />
-          </Layout>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
+        <PersistGate loading={null} persistor={persistor}>
+          <QueryClientProvider client={queryClient}>
+            <Layout>
+              <Head>
+                <title>Artgarden</title>
+                <meta
+                  name="description"
+                  content="공연, 전시, 팝업스토어 정보 제공 사이트입니다."
+                ></meta>
+                <meta
+                  name="viewport"
+                  content="initial-scale=1.0, width=device-width"
+                ></meta>
+                <meta
+                  name="google-adsense-account"
+                  content="ca-pub-6499853936822237"
+                ></meta>
+                <meta
+                  name="viewport"
+                  content="width=device-width, initial-scale=1"
+                />
+              </Head>
+              <Component {...pageProps} />
+            </Layout>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </QueryClientProvider>
+        </PersistGate>
       </Provider>
     </SessionProvider>
   );
