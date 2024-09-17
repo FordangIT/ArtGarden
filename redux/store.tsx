@@ -1,5 +1,14 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { persistStore, persistReducer } from "redux-persist";
+import {
+  persistStore,
+  persistReducer,
+  REHYDRATE,
+  PERSIST,
+  REGISTER,
+  FLUSH,
+  PAUSE,
+  PURGE
+} from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { selectSlice } from "./slices/selectSlice";
 import favoriteReducer from "./slices/favoriteSlice";
@@ -24,7 +33,13 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = configureStore({
-  reducer: persistedReducer
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+      }
+    })
 });
 export const persistor = persistStore(store);
 
