@@ -13,10 +13,6 @@ import { signOut } from "next-auth/react";
 export default function Navbar() {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
-  const [selected, setSelected] = useState("");
-  const handleSelect = (menu: string) => {
-    setSelected(menu);
-  };
 
   const handleLogout = () => {
     logoutMember();
@@ -35,7 +31,6 @@ export default function Navbar() {
               width={200}
               height={40}
               className="w-full lg:w-48"
-              onClick={() => handleSelect("logo")}
             />
           </Link>
           <div className="lg:hidden">
@@ -45,34 +40,13 @@ export default function Navbar() {
             <div className="flex">
               <div className="flex items-center justify-end gap-x-4 font-semibold text-lg text-white w-72 ml-8">
                 <Link href="/performances">
-                  <div
-                    onClick={() => handleSelect("performances")}
-                    className={`hover:text-main-yellow ${
-                      selected === "performances" ? "text-main-yellow" : ""
-                    }`}
-                  >
-                    공연
-                  </div>
+                  <div className="hover:text-main-yellow ">공연</div>
                 </Link>
                 <Link href="/exhibitions">
-                  <div
-                    onClick={() => handleSelect("exhibitions")}
-                    className={`hover:text-main-yellow ${
-                      selected === "exhibitions" ? "text-main-yellow" : ""
-                    }`}
-                  >
-                    전시
-                  </div>
+                  <div className="hover:text-main-yellow ">전시</div>
                 </Link>
                 <Link href="/popupstores">
-                  <div
-                    onClick={() => handleSelect("popupstores")}
-                    className={`hover:text-main-yellow ${
-                      selected === "popupstores" ? "text-main-yellow" : ""
-                    }`}
-                  >
-                    팝업스토어
-                  </div>
+                  <div className="hover:text-main-yellow ">팝업스토어</div>
                 </Link>
               </div>
               <div className="flex justify-center items-center">
