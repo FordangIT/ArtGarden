@@ -50,7 +50,7 @@ export default function Sidebar() {
                 LOGIN
               </div>
             </Link>
-            <Link href="/user/saveitems">
+            <Link href="/user/mypage">
               <div className="flex justify-center items-center w-full h-12 border-[1px] border-[#dcdcdc]">
                 MY PAGE
               </div>
