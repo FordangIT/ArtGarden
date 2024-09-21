@@ -136,7 +136,6 @@ interface AllData_TYPE {
 
 export default function Home(props: AllData_TYPE) {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector((state: RootState) => state.login.isLoggedIn);
   const { data: session, status } = useSession();
   const [isLoading, setIsLoading] = useState(true);
   const selectedBest = useSelector(
@@ -158,8 +157,8 @@ export default function Home(props: AllData_TYPE) {
           return props.best;
         case "Best전시":
           return props.bestExhibit;
-        case "Best팝업스토어":
-          return props.bestPopup;
+        // case "Best팝업스토어":
+        //   return props.bestPopup;
         default:
           return props.best; // 기본값 설정 (필요 시 조정)
       }
@@ -170,8 +169,8 @@ export default function Home(props: AllData_TYPE) {
         return props.new;
       case "New전시":
         return props.newExhibit;
-      case "New팝업스토어":
-        return props.newPopup;
+      // case "New팝업스토어":
+      //   return props.newPopup;
       default:
         return props.new; // 기본값 설정 (필요 시 조정)
     }
@@ -237,16 +236,6 @@ export default function Home(props: AllData_TYPE) {
               >
                 전시
               </div>
-              <div
-                className={
-                  selectedBest === "Best팝업스토어"
-                    ? "text-main-pink cursor-pointer"
-                    : "text-gray-400 cursor-pointer"
-                }
-                onClick={() => handleSelectBest("Best팝업스토어")}
-              >
-                팝업스토어
-              </div>
             </div>
           </div>
           <div className="text-md sm:text-xl text-gray-500 font-medium pt-2 pb-12">
@@ -286,16 +275,6 @@ export default function Home(props: AllData_TYPE) {
               >
                 전시
               </div>
-              <div
-                className={
-                  selectedNew === "New팝업스토어"
-                    ? "text-main-pink cursor-pointer"
-                    : "text-gray-400 cursor-pointer"
-                }
-                onClick={() => handleSelectNew("New팝업스토어")}
-              >
-                팝업스토어
-              </div>
             </div>
           </div>
           <div className="flex justify-center items-center text-md sm:text-xl text-gray-500 font-medium pt-2 pb-12 w-full">
@@ -328,8 +307,8 @@ export async function getStaticProps() {
   const newData = await loadNew();
   const bestExhibit = await loadBestExhibit();
   const newExhibit = await loadNewExhibit();
-  const bestPopup = await loadBestPopup();
-  const newPopup = await loadNewPopup();
+  // const bestPopup = await loadBestPopup();
+  // const newPopup = await loadNewPopup();
   const reviewData = await loadReview();
   const mainBanner = await loadMainBannerPopup();
   return {
@@ -338,8 +317,8 @@ export async function getStaticProps() {
       new: newData.datalist,
       bestExhibit: bestExhibit.datalist,
       newExhibit: newExhibit.datalist,
-      bestPopup: bestPopup,
-      newPopup: newPopup,
+      // bestPopup: bestPopup,
+      // newPopup: newPopup,
       review: reviewData.datalist,
       mainBanner: mainBanner
     }
