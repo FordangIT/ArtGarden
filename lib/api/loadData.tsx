@@ -131,7 +131,12 @@ export async function loadAllPopupStore() {
   const client = await clientPromise;
   const db = client.db("popupstores");
   const collections = db.collection("allPopupstores");
-  const data = await collections.find({}).toArray();
+  const data = await collections
+    .find({})
+    .sort({
+      enddate: -1
+    })
+    .toArray();
   const allPopup = data.map((item) => ({
     ...item,
     _id: item._id.toString()
