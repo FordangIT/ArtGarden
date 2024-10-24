@@ -24,7 +24,7 @@ export async function loadBest() {
 export async function loadNew() {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/performances?status=all&days=30&page=1&size=9&orderby=latest`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/performances?status=all&days=30&page=1&size=12&orderby=latest`
     );
     if (!response.ok) {
       throw new Error("failed to fetch data");
@@ -40,7 +40,7 @@ export async function loadNew() {
 export async function loadBestExhibit() {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/exhibits?days=30&page=1&size=9&orderby=popular`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/exhibits?days=30&page=1&size=12&orderby=popular`
     );
     if (!response.ok) {
       throw new Error("failed to fetch data");
@@ -56,7 +56,7 @@ export async function loadBestExhibit() {
 export async function loadNewExhibit() {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/exhibits?days=30&page=1&size=9&orderby=latest`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/exhibits?days=30&page=1&size=12&orderby=latest`
     );
     if (!response.ok) {
       throw new Error("failed to fetch data");
