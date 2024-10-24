@@ -10,7 +10,7 @@ import { IoSearch } from "react-icons/io5";
 import ConditionEx from "./ConditionEx";
 import { FavoriteButton } from "@/lib/components/FavoriteButton";
 import { truncateText } from "@/lib/components/TruncateText";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 
 interface Exhibition {

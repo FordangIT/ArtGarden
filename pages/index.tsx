@@ -280,11 +280,11 @@ export default function Home(props: AllData_TYPE) {
           <div className="flex justify-center items-center text-md sm:text-xl text-gray-500 font-medium pt-2 pb-12 w-full">
             갓 공개된 따끈따끈한 {selectedNew}
           </div>
-          <div className="flex justify-center items-center w-full z-20 ">
+          <div className="flex justify-center items-center w-full z-20 py-10">
             <NewProducts selectedNew={selectedNew} data={newData} />
           </div>
         </div>
-        <div className="flex-col justify-center z-20 py-16">
+        {/* <div className="flex-col justify-center z-20 py-16">
           <div className="flex flex-col sm:flex-row justify-center items-center">
             <div className="text-black text-4xl sm:text-5xl font-extrabold sm:px-12">
               Authentic Reviews
@@ -296,7 +296,7 @@ export default function Home(props: AllData_TYPE) {
           <div>
             <Reviews data={props.review} />
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
@@ -321,6 +321,7 @@ export async function getStaticProps() {
       // newPopup: newPopup,
       review: reviewData.datalist,
       mainBanner: mainBanner
-    }
+    },
+    revalidate: 60
   };
 }

@@ -25,7 +25,7 @@ const BestProducts: React.FC<BestProducts_TYPE> = ({ selectedBest, data }) => {
 
   return (
     <div className="flex-col">
-      <div className="grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-2 md:gap-12">
+      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-12">
         {data &&
           data.map(
             (
@@ -35,7 +35,7 @@ const BestProducts: React.FC<BestProducts_TYPE> = ({ selectedBest, data }) => {
               const id = el.id || el._id || index;
               return (
                 <Link href={`${linkUrl(selectedBest)}/${id}`} key={id}>
-                  <div className="card w-48 h-80 sm:w-[24rem] sm:h-[30rem] bg-white shadow-xl rounded-none border-2 border-white transition ease-in-out delay-10 hover:-translate-y-1 hover:scale-105 duration-100">
+                  <div className="card w-40 h-80 sm:w-[20rem] sm:h-[26rem] bg-white shadow-xl rounded-none border-2 border-white transition ease-in-out delay-10 hover:-translate-y-1 hover:scale-105 duration-100">
                     <figure className="">
                       {el.posterurl ? (
                         <Image

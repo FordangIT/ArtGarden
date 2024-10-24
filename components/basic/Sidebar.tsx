@@ -2,7 +2,6 @@ import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa";
 
 export default function Sidebar() {
-  // 드로어 토글 함수
   const toggleDrawer = () => {
     const drawerCheckbox = document.getElementById(
       "my-drawer-4"
@@ -24,7 +23,6 @@ export default function Sidebar() {
         ></label>
         <div className="relative menu w-96 min-h-full bg-white z-50 text-black tracking-wide p-10">
           <div className="flex-col">
-            {/* 클릭 이벤트 핸들러 추가 */}
             <FaArrowRight
               className="w-8 h-6 mb-8 cursor-pointer text-gray-600"
               onClick={toggleDrawer}
