@@ -10,7 +10,7 @@ export async function loadBest() {
       String(month).padStart(2, "0") +
       String(day - 1).padStart(2, "0");
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/ranks/${lately}`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/ranks/${lately}?size=10`
     );
     if (!response.ok) {
       throw new Error("failed to fetch data");
