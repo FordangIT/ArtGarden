@@ -4,7 +4,6 @@ import Smallbar from "./Smallbar";
 import Sidebar from "./Sidebar";
 import { FaRegUser } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
-import { useEffect, useState } from "react";
 import { logoutMember } from "@/lib/api/userSign";
 import { RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,6 +18,7 @@ export default function Navbar() {
     signOut();
     dispatch(logOut());
   };
+
   return (
     <>
       <Sidebar />
