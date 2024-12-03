@@ -16,6 +16,7 @@ import performanceSlice from "./slices/performanceSlice";
 import exhibitionSlice from "./slices/exhibitionSlice";
 import modalSlice from "./slices/modalSlice";
 import checkLoginSlice from "./slices/checkLoginSlice";
+import snstypeReducer from "./slices/snstypeSlice";
 
 const rootReducer = combineReducers({
   login: checkLoginSlice,
@@ -23,7 +24,8 @@ const rootReducer = combineReducers({
   favorites: favoriteReducer,
   performance: performanceSlice,
   exhibition: exhibitionSlice,
-  modal: modalSlice
+  modal: modalSlice,
+  snstype: snstypeReducer
 });
 
 const persistConfig = {

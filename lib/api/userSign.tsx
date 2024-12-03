@@ -5,6 +5,7 @@ interface OauthLoginData_TYPE {
     name: string;
     email: string;
     nickname: string;
+    snstype: string;
   };
 }
 

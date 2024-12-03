@@ -2,15 +2,14 @@ import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import Image from "next/image";
 import { CiUser, CiLock } from "react-icons/ci";
 import Link from "next/link";
 import { loginUser } from "@/lib/api/userSign";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "@/redux/store";
-import { logIn, logOut } from "@/redux/slices/checkLoginSlice";
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
+import { setSnsType } from "@/redux/slices/snstypeSlice";
 // Yup을 사용한 폼 유효성 검사 스키마 정의
 const schema = yup.object().shape({
   userId: yup
@@ -29,6 +28,7 @@ type FormData = {
 };
 
 export default function SignIn() {
+  const dispatch = useDispatch();
   const router = useRouter();
   const {
     register,
@@ -135,12 +135,13 @@ export default function SignIn() {
                 <button
                   type="button"
                   className="rounded-xl w-full h-[3.1rem] bg-white border-[1px] border-gray-40"
-                  onClick={() =>
+                  onClick={() => {
                     signIn("google", {
                       redirect: true,
                       callbackUrl: "/"
-                    })
-                  }
+                    });
+                    dispatch(setSnsType("GOOGLE"));
+                  }}
                 >
                   <div className="flex justify-center items-center">
                     <Image
@@ -158,12 +159,13 @@ export default function SignIn() {
                 <button
                   type="button"
                   className="rounded-xl w-full h-[3.1rem] bg-[#FFEB00]"
-                  onClick={() =>
+                  onClick={() => {
                     signIn("kakao", {
                       redirect: true,
                       callbackUrl: "/"
-                    })
-                  }
+                    });
+                    dispatch(setSnsType("KAKAO"));
+                  }}
                 >
                   <div className="flex justify-center items-center">
                     <Image

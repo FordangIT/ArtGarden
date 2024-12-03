@@ -20,6 +20,7 @@ import {
   loadMainBannerPopup
 } from "@/lib/api/loadData";
 import { useState, useEffect } from "react";
+
 export interface Performance_TYPE {
   id: string;
   _id?: string;
@@ -138,6 +139,7 @@ export default function Home(props: AllData_TYPE) {
   const dispatch = useDispatch();
   const { data: session, status } = useSession();
   const [isLoading, setIsLoading] = useState(true);
+  const snstype = useSelector((state: RootState) => state.snstype.snstype);
   const selectedBest = useSelector(
     (state: RootState) => state.selected.best || ""
   );
@@ -183,7 +185,7 @@ export default function Home(props: AllData_TYPE) {
         const name = session.user.name as string;
         const email = session.user.email as string;
         const nickname = "";
-        await postUserId({ loginid, name, email, nickname });
+        await postUserId({ loginid, name, email, nickname, snstype });
       }
 
       let res = await checkLogin();
